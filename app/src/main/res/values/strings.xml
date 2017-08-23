@@ -4,7 +4,7 @@
     <string name="password">Password</string>
     <string name="password_confirm">Password</string>
     <string name="login">LOGIN</string>
-    <string name="forgot">Forgot Password?</string>
+    <string name="reset_password">Reset Password</string>
     <string name="skip">Skip</string>
     <string name="not_member">Not a member yet?</string>
     <string name="first_name">First Name</string>

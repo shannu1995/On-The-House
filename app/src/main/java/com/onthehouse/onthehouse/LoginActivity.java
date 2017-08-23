@@ -18,7 +18,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText password = (EditText) findViewById(R.id.password);
         final Button loginButton= (Button)findViewById(R.id.login_button);
 
-        final TextView register = (TextView) findViewById(R.id.register);
+        final TextView register = (TextView) findViewById(R.id.signup);
         final TextView skip = (TextView) findViewById(R.id.skip);
         final TextView reset = (TextView) findViewById(R.id.resetPassword);
 
