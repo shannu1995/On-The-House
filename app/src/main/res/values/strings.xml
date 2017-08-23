@@ -2,9 +2,9 @@
     <string name="app_name">OnTheHouse</string>
     <string name="email">Your Email</string>
     <string name="password">Password</string>
+    <string name="password_confirm">Password</string>
     <string name="login">LOGIN</string>
     <string name="forgot">Forgot Password?</string>
-    <string name="register">Register</string>
     <string name="skip">Skip</string>
     <string name="not_member">Not a member yet?</string>
     <string name="first_name">First Name</string>
@@ -12,4 +12,15 @@
     <string name="nick_name">Nickname</string>
     <string name="phone_number">Phone Number</string>
     <string name="state">State</string>
+    <string name="sign_up">SIGN UP</string>
+
+    <string-array name="states_array">
+        <item>VIC</item>
+        <item>QLD</item>
+        <item>TAS</item>
+        <item>NSW</item>
+        <item>WA</item>
+        <item>SA</item>
+    </string-array>
+
 </resources>
