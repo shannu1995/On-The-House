@@ -31,5 +31,12 @@ public class LoginActivity extends AppCompatActivity {
                 LoginActivity.this.startActivity(registerIntent);
             }
         });
+        skip.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent offerIntent = new Intent(LoginActivity.this, OffersList.class);
+                LoginActivity.this.startActivity(offerIntent);
+            }
+        });
     }
 }
