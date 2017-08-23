@@ -13,6 +13,15 @@
     <string name="phone_number">Phone Number</string>
     <string name="state">State</string>
     <string name="sign_up">SIGN UP</string>
+    <string name="registerFirstName">First Name *</string>
+    <string name="registerLastName">Last Name *</string>
+    <string name="registerNickName">Nick Name *</string>
+    <string name="registerEmail">Email *</string>
+    <string name="registerPassword">Password *</string>
+    <string name="registerConfirmPassword">Confirm Password *</string>
+    <string name="registerButton">REGISTER</string>
+    <string name="skipLogin">Skip</string>
+    <string name="signup">Signup</string>
 
     <string-array name="states_array">
         <item>VIC</item>
