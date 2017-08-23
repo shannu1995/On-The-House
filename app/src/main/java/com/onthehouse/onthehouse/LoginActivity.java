@@ -1,14 +1,12 @@
 package com.onthehouse.onthehouse;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -18,7 +16,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final EditText email = (EditText) findViewById(R.id.email);
         final EditText password = (EditText) findViewById(R.id.password);
-        final Button loginButton= (Button)findViewById(R.id.loginButton);
+        final Button loginButton= (Button)findViewById(R.id.login_button);
 
         final TextView register = (TextView) findViewById(R.id.register);
         final TextView skip = (TextView) findViewById(R.id.skip);

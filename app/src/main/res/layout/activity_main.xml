@@ -40,7 +40,7 @@
         android:backgroundTint="@android:color/white"/>
 
     <Button
-        android:id="@+id/register"
+        android:id="@+id/login_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -100,7 +100,7 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="112dp"
