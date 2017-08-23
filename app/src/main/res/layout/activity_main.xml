@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColorFirstHalf"
-    tools:context="com.onthehouse.onthehouse.MainActivity">
+    tools:context="com.onthehouse.onthehouse.LoginActivity">
 
 
     <ImageView

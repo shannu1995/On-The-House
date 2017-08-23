@@ -7,4 +7,9 @@
     <string name="register">Register</string>
     <string name="skip">Skip</string>
     <string name="not_member">Not a member yet?</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="nick_name">Nickname</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="state">State</string>
 </resources>
