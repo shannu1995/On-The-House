@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -33,7 +36,8 @@ public class RegisterActivity extends AppCompatActivity
     EditText regFName;
     EditText regNickName;
     ProgressButton registerBtn;
-
+    String errorText = "";
+    public ConstraintLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,6 +57,7 @@ public class RegisterActivity extends AppCompatActivity
         regFName = (EditText) findViewById(R.id.regFirstName);
         regNickName = (EditText) findViewById(R.id.regNickName);
         registerBtn = (ProgressButton) findViewById(R.id.registerBtn);
+        layout = (ConstraintLayout) findViewById(R.id.registerLayout);
 
         registerBtn.setOnClickListener(new View.OnClickListener()
         {
@@ -166,7 +171,7 @@ public class RegisterActivity extends AppCompatActivity
                     String result = obj.getString("status");
                     // JSONArray arr = obj.getJSONArray("member");
 
-                    Log.w("LOGIN RESULT", result);
+                    Log.w("REGISTRATION RESULT", result);
 
                     if (result.equals("success"))
                     {
@@ -183,6 +188,12 @@ public class RegisterActivity extends AppCompatActivity
                     {
                         //2 = wrong details;
                         status = 2;
+
+                        JSONObject jsonArray = obj.getJSONObject("error");
+                        JSONArray errorArr=  jsonArray.getJSONArray("messages");
+                        errorText = errorArr.getString(0);
+                        Log.w("Registration error", errorText);
+                        //2 = wrong details;
                     }
                 }
                 else
@@ -201,7 +212,6 @@ public class RegisterActivity extends AppCompatActivity
 
 
         protected void onProgressUpdate(Integer... progress) {
-
         }
 
         protected void onPostExecute(Integer result)
@@ -210,10 +220,31 @@ public class RegisterActivity extends AppCompatActivity
             {
                 registerBtn.animFinish();
             }
+            Log.w("Registration result", result.toString());
 
             else
             {
                 registerBtn.animError();
+            }
+            if(result == 1)
+            {
+                Snackbar.make(layout, "Registration Successful.", Snackbar.LENGTH_LONG).show();
+                //Toast.makeText(RegisterActivity.this, "Registration Successful.", Toast.LENGTH_LONG).show();
+
+                Intent registerDoneIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+                RegisterActivity.this.startActivity(registerDoneIntent);
+            }
+            else if(result == 2)
+            {
+                Snackbar.make(layout, errorText, Snackbar.LENGTH_LONG).show();
+
+                //Toast.makeText(RegisterActivity.this, errorText, Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Snackbar.make(layout, "Registration failed, technical error.", Snackbar.LENGTH_LONG).show();
+
+                //Toast.makeText(RegisterActivity.this, "Registration failed, technical error.", Toast.LENGTH_LONG).show();
             }
         }
     }
