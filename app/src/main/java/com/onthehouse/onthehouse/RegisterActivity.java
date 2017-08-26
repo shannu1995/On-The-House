@@ -17,6 +17,7 @@ import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity
     EditText regFName;
     EditText regNickName;
     Button registerBtn;
-
+    String errorText = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -157,7 +158,7 @@ public class RegisterActivity extends AppCompatActivity
                     String result = obj.getString("status");
                     // JSONArray arr = obj.getJSONArray("member");
 
-                    Log.w("LOGIN RESULT", result);
+                    Log.w("REGISTRATION RESULT", result);
 
                     if (result.equals("success"))
                     {
@@ -172,8 +173,13 @@ public class RegisterActivity extends AppCompatActivity
                     }
                     else
                     {
-                        //2 = wrong details;
                         status = 2;
+
+                        JSONObject jsonArray = obj.getJSONObject("error");
+                        JSONArray errorArr=  jsonArray.getJSONArray("messages");
+                        errorText = errorArr.getString(0);
+                        Log.w("Registration error", errorText);
+                        //2 = wrong details;
                     }
                 }
                 else
@@ -196,7 +202,23 @@ public class RegisterActivity extends AppCompatActivity
 
         protected void onPostExecute(Integer result)
         {
+            Log.w("Registration result", result.toString());
 
+            if(result == 1)
+            {
+                Toast.makeText(RegisterActivity.this, "Registration Successful.", Toast.LENGTH_LONG).show();
+
+                Intent registerDoneIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+                RegisterActivity.this.startActivity(registerDoneIntent);
+            }
+            else if(result == 2)
+            {
+                Toast.makeText(RegisterActivity.this, errorText, Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(RegisterActivity.this, "Registration failed, technical error.", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
