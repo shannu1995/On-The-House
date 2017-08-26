@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.StrictMode;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,12 +34,17 @@ public class LoginActivity extends AppCompatActivity
     public TextView register;
     public TextView skip;
     public TextView reset;
-
+    public ConstraintLayout layout;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+/*        if (android.os.Build.VERSION.SDK_INT > 9)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }*/
 
         email = (EditText) findViewById(R.id.loginEmail);
         password = (EditText) findViewById(R.id.loginPassword);
@@ -47,12 +54,15 @@ public class LoginActivity extends AppCompatActivity
         skip = (TextView) findViewById(R.id.skip);
         reset = (TextView) findViewById(R.id.resetPassword);
 
+        layout = (ConstraintLayout) findViewById(R.id.loginlayout);
+
 
         loginButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
+
                 String emailStr = email.getText().toString();
                 String passStr = password.getText().toString();
 
@@ -199,7 +209,28 @@ public class LoginActivity extends AppCompatActivity
 
         protected void onPostExecute(Integer result)
         {
+            Log.w("Login result", result.toString());
 
+            if(result == 1)
+            {
+                Snackbar.make(layout, "Login successful.", Snackbar.LENGTH_LONG).show();
+                //Toast.makeText(LoginActivity.this, "Login successful.", Toast.LENGTH_LONG).show();
+
+                //Intent loginDoneIntent = new Intent(LoginActivity.this, OffersList.class);
+                //LoginActivity.this.startActivity(loginDoneIntent);
+            }
+            else if(result == 2)
+            {
+                Snackbar.make(layout, "Login failed, please check your details", Snackbar.LENGTH_LONG).show();
+
+                //Toast.makeText(LoginActivity.this, "Login failed, please check your details", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Snackbar.make(layout, "Login failed, technical error.", Snackbar.LENGTH_LONG).show();
+
+                //Toast.makeText(LoginActivity.this, "Login failed, technical error.", Toast.LENGTH_LONG).show();
+            }
         }
     }
 

@@ -3,6 +3,8 @@ package com.onthehouse.onthehouse;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +24,7 @@ public class ResetPassword extends AppCompatActivity
 {
     EditText resetEmail;
     Button resetButton;
+    public ConstraintLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,6 +34,7 @@ public class ResetPassword extends AppCompatActivity
 
         resetButton = (Button) findViewById(R.id.resetButton);
         resetEmail = (EditText) findViewById(R.id.resetEmail);
+        layout = (ConstraintLayout) findViewById(R.id.resetLayout);
 
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,18 +114,24 @@ public class ResetPassword extends AppCompatActivity
 
             if(result == 1)
             {
-                Toast.makeText(ResetPassword.this, "Reset Password Successful.", Toast.LENGTH_LONG).show();
+                Snackbar.make(layout, "Reset Password Successful.", Snackbar.LENGTH_LONG).show();
+
+                //Toast.makeText(ResetPassword.this, "Reset Password Successful.", Toast.LENGTH_LONG).show();
 
                 Intent resetDoneIntent = new Intent(ResetPassword.this, LoginActivity.class);
                 ResetPassword.this.startActivity(resetDoneIntent);
             }
             else if(result == 2)
             {
-                Toast.makeText(ResetPassword.this, "Reset failed, please check your email.", Toast.LENGTH_LONG).show();
+                Snackbar.make(layout, "Reset failed, please check your email.", Snackbar.LENGTH_LONG).show();
+
+                //Toast.makeText(ResetPassword.this, "Reset failed, please check your email.", Toast.LENGTH_LONG).show();
             }
             else
             {
-                Toast.makeText(ResetPassword.this, "Result failed, technical error.", Toast.LENGTH_LONG).show();
+                Snackbar.make(layout, "Reset failed, technical error.", Snackbar.LENGTH_LONG).show();
+
+                //Toast.makeText(ResetPassword.this, "Result failed, technical error.", Toast.LENGTH_LONG).show();
             }
         }
     }

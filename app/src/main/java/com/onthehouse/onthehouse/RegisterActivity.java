@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +35,7 @@ public class RegisterActivity extends AppCompatActivity
     EditText regNickName;
     Button registerBtn;
     String errorText = "";
+    public ConstraintLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -52,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity
         regFName = (EditText) findViewById(R.id.regFirstName);
         regNickName = (EditText) findViewById(R.id.regNickName);
         registerBtn = (Button) findViewById(R.id.registerBtn);
+        layout = (ConstraintLayout) findViewById(R.id.registerLayout);
 
         registerBtn.setOnClickListener(new View.OnClickListener()
         {
@@ -206,18 +210,23 @@ public class RegisterActivity extends AppCompatActivity
 
             if(result == 1)
             {
-                Toast.makeText(RegisterActivity.this, "Registration Successful.", Toast.LENGTH_LONG).show();
+                Snackbar.make(layout, "Registration Successful.", Snackbar.LENGTH_LONG).show();
+                //Toast.makeText(RegisterActivity.this, "Registration Successful.", Toast.LENGTH_LONG).show();
 
                 Intent registerDoneIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                 RegisterActivity.this.startActivity(registerDoneIntent);
             }
             else if(result == 2)
             {
-                Toast.makeText(RegisterActivity.this, errorText, Toast.LENGTH_LONG).show();
+                Snackbar.make(layout, errorText, Snackbar.LENGTH_LONG).show();
+
+                //Toast.makeText(RegisterActivity.this, errorText, Toast.LENGTH_LONG).show();
             }
             else
             {
-                Toast.makeText(RegisterActivity.this, "Registration failed, technical error.", Toast.LENGTH_LONG).show();
+                Snackbar.make(layout, "Registration failed, technical error.", Snackbar.LENGTH_LONG).show();
+
+                //Toast.makeText(RegisterActivity.this, "Registration failed, technical error.", Toast.LENGTH_LONG).show();
             }
         }
     }
