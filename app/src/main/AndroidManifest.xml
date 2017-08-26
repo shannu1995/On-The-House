@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".OffersList"></activity>
+        <activity android:name=".OffersList" />
+        <activity android:name=".ResetPassword"></activity>
     </application>
 
 </manifest>

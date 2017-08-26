@@ -22,6 +22,7 @@
     <string name="registerButton">REGISTER</string>
     <string name="skipLogin">Skip</string>
     <string name="signup">Signup</string>
+    <string name="reset">Reset</string>
 
     <string-array name="states_array">
         <item>VIC</item>

@@ -54,7 +54,7 @@ public class APIConnection
 	}
 
 	// HTTP POST request
-	public StringBuffer sendPost(String urlCall, ArrayList<String> parameterList) throws Exception
+	public String sendPost(String urlCall, ArrayList<String> parameterList) throws Exception
     {
         StringBuffer response = new StringBuffer();
 
@@ -73,7 +73,7 @@ public class APIConnection
             }
             // send your parameters to your site
             //ps.print("&email=abubakar128@hotmail.com");
-            //ps.print("&password=qwerty5432");
+            //ps.print("&password=qwerty54321");
 
             // we have to get the input stream in order to actually send the request
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -98,7 +98,7 @@ public class APIConnection
                 e2.printStackTrace();
         }
 
-        return response;
+        return response.toString();
 	}
 
 }
