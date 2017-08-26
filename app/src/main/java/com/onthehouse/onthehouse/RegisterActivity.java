@@ -219,30 +219,25 @@ public class RegisterActivity extends AppCompatActivity
             if(result == 1)
             {
                 registerBtn.animFinish();
-            }
-            Log.w("Registration result", result.toString());
-
-            else
-            {
-                registerBtn.animError();
-            }
-            if(result == 1)
-            {
                 Snackbar.make(layout, "Registration Successful.", Snackbar.LENGTH_LONG).show();
                 //Toast.makeText(RegisterActivity.this, "Registration Successful.", Toast.LENGTH_LONG).show();
 
                 Intent registerDoneIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                 RegisterActivity.this.startActivity(registerDoneIntent);
+
             }
+
             else if(result == 2)
             {
                 Snackbar.make(layout, errorText, Snackbar.LENGTH_LONG).show();
+                registerBtn.animError();
 
                 //Toast.makeText(RegisterActivity.this, errorText, Toast.LENGTH_LONG).show();
             }
             else
             {
                 Snackbar.make(layout, "Registration failed, technical error.", Snackbar.LENGTH_LONG).show();
+                registerBtn.animError();
 
                 //Toast.makeText(RegisterActivity.this, "Registration failed, technical error.", Toast.LENGTH_LONG).show();
             }
