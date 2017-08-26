@@ -21,6 +21,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
+
 public class RegisterActivity extends AppCompatActivity
 {
 
@@ -30,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity
     EditText regLName;
     EditText regFName;
     EditText regNickName;
-    Button registerBtn;
+    ProgressButton registerBtn;
 
 
     @Override
@@ -50,13 +52,15 @@ public class RegisterActivity extends AppCompatActivity
         regLName = (EditText) findViewById(R.id.regLastName);
         regFName = (EditText) findViewById(R.id.regFirstName);
         regNickName = (EditText) findViewById(R.id.regNickName);
-        registerBtn = (Button) findViewById(R.id.registerBtn);
+        registerBtn = (ProgressButton) findViewById(R.id.registerBtn);
 
         registerBtn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
+                registerBtn.startRotate();
+
                 String email = regEmail.getText().toString();
                 String password = regPass.getText().toString();
                 String cPassword = regCPass.getText().toString();
@@ -143,6 +147,11 @@ public class RegisterActivity extends AppCompatActivity
             this.context = context;
         }
 
+        protected void preExecute(Integer input)
+        {
+            registerBtn.setEnabled(false);
+        }
+
         protected Integer doInBackground(ArrayList<String>... params)
         {
             int status = 0;
@@ -192,11 +201,20 @@ public class RegisterActivity extends AppCompatActivity
 
 
         protected void onProgressUpdate(Integer... progress) {
+
         }
 
         protected void onPostExecute(Integer result)
         {
+            if(result == 1)
+            {
+                registerBtn.animFinish();
+            }
 
+            else
+            {
+                registerBtn.animError();
+            }
         }
     }
 

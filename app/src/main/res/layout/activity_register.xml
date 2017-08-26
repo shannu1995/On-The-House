@@ -128,7 +128,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/regPassword" />
 
-    <Button
+    <cn.xm.weidongjian.progressbuttonlib.ProgressButton
         android:id="@+id/registerBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
-        android:background="@android:color/white"
+        android:background="@drawable/selector_button"
         android:backgroundTint="@android:color/white"
         android:text="@string/registerButton"
         android:textAlignment="center"

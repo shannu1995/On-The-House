@@ -1,56 +1,54 @@
 package com.onthehouse.onthehouse;
 
-import android.content.ContentValues;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
 
-import org.json.JSONArray;
+
 import org.json.JSONObject;
 
-import java.net.URL;
 import java.util.ArrayList;
+
+import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
 
 public class LoginActivity extends AppCompatActivity
 {
     public EditText email;
     public EditText password;
-    public Button loginButton;
+    //public Button loginButton;
     public TextView register;
     public TextView skip;
     public TextView reset;
+    private ProgressButton loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (android.os.Build.VERSION.SDK_INT > 9)
-        {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
 
         email = (EditText) findViewById(R.id.loginEmail);
         password = (EditText) findViewById(R.id.loginPassword);
-        loginButton= (Button)findViewById(R.id.loginButton);
+        loginButton= (ProgressButton) findViewById(R.id.loginButton);
 
         register = (TextView) findViewById(R.id.signup);
         skip = (TextView) findViewById(R.id.skip);
         reset = (TextView) findViewById(R.id.resetPassword);
+
 
 
         loginButton.setOnClickListener(new View.OnClickListener()
@@ -58,6 +56,7 @@ public class LoginActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
+                loginButton.startRotate();
                 String emailStr = email.getText().toString();
                 String passStr = password.getText().toString();
 
@@ -143,6 +142,9 @@ public class LoginActivity extends AppCompatActivity
 
 
 
+
+
+
     public class inputAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
 
         Context context;
@@ -150,6 +152,13 @@ public class LoginActivity extends AppCompatActivity
         public inputAsyncData(Context context) {
             this.context = context;
         }
+
+
+        protected void onPreExecute(Integer Result)
+        {
+            loginButton.setEnabled(true);
+        }
+
 
         protected Integer doInBackground(ArrayList<String>... params)
         {
@@ -200,11 +209,22 @@ public class LoginActivity extends AppCompatActivity
 
 
         protected void onProgressUpdate(Integer... progress) {
+
         }
 
         protected void onPostExecute(Integer result)
         {
+            if(result == 1)
+            {
+                loginButton.animFinish();
+            }
 
+            else
+            {
+                loginButton.animError();
+            }
+
+            loginButton.setEnabled(true);
         }
     }
 
