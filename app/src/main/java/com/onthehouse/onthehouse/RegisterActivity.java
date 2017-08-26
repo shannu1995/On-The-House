@@ -238,7 +238,7 @@ public class RegisterActivity extends AppCompatActivity
             {
                 Snackbar.make(layout, "Registration failed, technical error.", Snackbar.LENGTH_LONG).show();
                 registerBtn.animError();
-
+                // Hello world
                 //Toast.makeText(RegisterActivity.this, "Registration failed, technical error.", Toast.LENGTH_LONG).show();
             }
         }
