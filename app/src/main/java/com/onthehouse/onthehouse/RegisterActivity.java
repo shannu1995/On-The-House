@@ -28,7 +28,6 @@ import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
 
 public class RegisterActivity extends AppCompatActivity
 {
-
     EditText regEmail;
     EditText regPass;
     EditText regCPass;
