@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -222,25 +224,13 @@ public class LoginActivity extends AppCompatActivity
             if(result == 1)
             {
                 loginButton.animFinish();
-            }
-            Log.w("Login result", result.toString());
-
-            else
-            {
-                loginButton.animError();
-            }
-
-            loginButton.setEnabled(true);
-            if(result == 1)
-            {
                 Snackbar.make(layout, "Login successful.", Snackbar.LENGTH_LONG).show();
-                //Toast.makeText(LoginActivity.this, "Login successful.", Toast.LENGTH_LONG).show();
 
-                //Intent loginDoneIntent = new Intent(LoginActivity.this, OffersList.class);
-                //LoginActivity.this.startActivity(loginDoneIntent);
             }
+
             else if(result == 2)
             {
+                loginButton.animError();
                 Snackbar.make(layout, "Login failed, please check your details", Snackbar.LENGTH_LONG).show();
 
                 //Toast.makeText(LoginActivity.this, "Login failed, please check your details", Toast.LENGTH_LONG).show();
@@ -248,9 +238,12 @@ public class LoginActivity extends AppCompatActivity
             else
             {
                 Snackbar.make(layout, "Login failed, technical error.", Snackbar.LENGTH_LONG).show();
-
+                loginButton.animError();
                 //Toast.makeText(LoginActivity.this, "Login failed, technical error.", Toast.LENGTH_LONG).show();
             }
+
+            loginButton.setEnabled(true);
+
         }
     }
 
