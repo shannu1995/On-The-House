@@ -4,26 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
 
 public class RegisterActivity extends AppCompatActivity
@@ -89,12 +81,8 @@ public class RegisterActivity extends AppCompatActivity
                 inputList.add("terms=1");
 
                 new registerAsyncData(getApplicationContext()).execute(inputList);
-
             }
         });
-
-
-
         /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.states_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);*/
@@ -151,7 +139,7 @@ public class RegisterActivity extends AppCompatActivity
             this.context = context;
         }
 
-        protected void preExecute(Integer input)
+        protected void onPreExecute()
         {
             registerBtn.setEnabled(false);
         }
@@ -181,8 +169,8 @@ public class RegisterActivity extends AppCompatActivity
                         status = 1;
                         Log.w("status", String.valueOf(status));
                         Log.w("OBJECT TEST", member.getFirst_name());
-
                     }
+
                     else
                     {
                         //2 = wrong details;
@@ -209,10 +197,6 @@ public class RegisterActivity extends AppCompatActivity
             return status;
         }
 
-
-        protected void onProgressUpdate(Integer... progress) {
-        }
-
         protected void onPostExecute(Integer result)
         {
             if(result == 1)
@@ -230,15 +214,11 @@ public class RegisterActivity extends AppCompatActivity
             {
                 Snackbar.make(layout, errorText, Snackbar.LENGTH_LONG).show();
                 registerBtn.animError();
-
-                //Toast.makeText(RegisterActivity.this, errorText, Toast.LENGTH_LONG).show();
             }
             else
             {
                 Snackbar.make(layout, "Registration failed, technical error.", Snackbar.LENGTH_LONG).show();
                 registerBtn.animError();
-                // Hello world
-                //Toast.makeText(RegisterActivity.this, "Registration failed, technical error.", Toast.LENGTH_LONG).show();
             }
         }
     }

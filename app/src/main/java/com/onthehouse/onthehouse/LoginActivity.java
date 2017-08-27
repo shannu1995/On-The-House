@@ -1,32 +1,20 @@
 package com.onthehouse.onthehouse;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
-
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.net.URL;
 import java.util.ArrayList;
 
 import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
@@ -57,8 +45,6 @@ public class LoginActivity extends AppCompatActivity
         reset = (TextView) findViewById(R.id.resetPassword);
 
         layout = (ConstraintLayout) findViewById(R.id.loginlayout);
-
-
 
         loginButton.setOnClickListener(new View.OnClickListener()
         {
@@ -150,8 +136,6 @@ public class LoginActivity extends AppCompatActivity
         }
     }
 
-
-
     public class inputAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
 
         Context context;
@@ -160,12 +144,10 @@ public class LoginActivity extends AppCompatActivity
             this.context = context;
         }
 
-
-        protected void onPreExecute(Integer Result)
+        protected void onPreExecute()
         {
-            loginButton.setEnabled(true);
+            loginButton.setEnabled(false);
         }
-
 
         protected Integer doInBackground(ArrayList<String>... params)
         {
@@ -192,14 +174,15 @@ public class LoginActivity extends AppCompatActivity
                         status = 1;
                         Log.w("status", String.valueOf(status));
                         Log.w("OBJECT TEST", member.getFirst_name());
-
                     }
+
                     else
                     {
                         //2 = wrong details;
                         status = 2;
                     }
                 }
+
                 else
                 {
                     // 3 = json parse error
@@ -212,11 +195,6 @@ public class LoginActivity extends AppCompatActivity
             }
 
             return status;
-        }
-
-
-        protected void onProgressUpdate(Integer... progress) {
-
         }
 
         protected void onPostExecute(Integer result)
@@ -232,18 +210,14 @@ public class LoginActivity extends AppCompatActivity
             {
                 loginButton.animError();
                 Snackbar.make(layout, "Login failed, please check your details", Snackbar.LENGTH_LONG).show();
-
-                //Toast.makeText(LoginActivity.this, "Login failed, please check your details", Toast.LENGTH_LONG).show();
             }
+
             else
             {
-                Snackbar.make(layout, "Login failed, technical error.", Snackbar.LENGTH_LONG).show();
                 loginButton.animError();
-                //Toast.makeText(LoginActivity.this, "Login failed, technical error.", Toast.LENGTH_LONG).show();
+                Snackbar.make(layout, "Login failed, technical error.", Snackbar.LENGTH_LONG).show();
             }
-
             loginButton.setEnabled(true);
-
         }
     }
 
