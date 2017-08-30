@@ -46,7 +46,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regNickName" />
+            app:layout_constraintTop_toBottomOf="@+id/regNickName"
+            android:textCursorDrawable="@drawable/cursor_color"/>
 
         <EditText
             android:id="@+id/regLastName"
@@ -64,7 +65,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regFirstName" />
+            app:layout_constraintTop_toBottomOf="@+id/regFirstName"
+            android:textCursorDrawable="@drawable/cursor_color"/>
 
         <EditText
             android:id="@+id/regNickName"
@@ -82,7 +84,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/registerScreenImage" />
+            app:layout_constraintTop_toBottomOf="@+id/registerScreenImage"
+            android:textCursorDrawable="@drawable/cursor_color"/>
 
 
         <EditText
@@ -101,7 +104,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regLastName" />
+            app:layout_constraintTop_toBottomOf="@+id/regLastName"
+            android:textCursorDrawable="@drawable/cursor_color"/>
 
         <EditText
             android:id="@+id/regPassword"
@@ -119,7 +123,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regEmail" />
+            app:layout_constraintTop_toBottomOf="@+id/regEmail"
+            android:textCursorDrawable="@drawable/cursor_color"/>
 
         <EditText
             android:id="@+id/regConfirmPassword"
@@ -137,7 +142,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/regPassword"
+            android:textCursorDrawable="@drawable/cursor_color"/>
 
         <cn.xm.weidongjian.progressbuttonlib.ProgressButton
             android:id="@+id/registerBtn"
