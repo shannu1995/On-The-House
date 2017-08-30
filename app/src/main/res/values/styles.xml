@@ -7,5 +7,8 @@
         <item name="colorPrimaryDark">#cfbcaa</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="selectCursorColor">
+        <item name="color">#FFD700</item>
+    </style>
 
 </resources>
