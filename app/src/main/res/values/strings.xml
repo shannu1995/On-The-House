@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">On The House</string>
-    <string name="email"><i>Your Email</i></string>
-    <string name="password"><i>Password</i></string>
+    <string name="email">Your Email</string>
+    <string name="password">Password</string>
     <string name="password_confirm">Password</string>
     <string name="login">LOGIN</string>
     <string name="reset_password">Reset Password</string>
@@ -13,12 +13,12 @@
     <string name="phone_number">Phone Number</string>
     <string name="state">State</string>
     <string name="sign_up">SIGN UP</string>
-    <string name="registerFirstName"><i>First Name *</i></string>
-    <string name="registerLastName"><i>Last Name *</i></string>
-    <string name="registerNickName"><i>Nick Name *</i></string>
-    <string name="registerEmail"><i>Email *</i></string>
-    <string name="registerPassword"><i>Password *</i></string>
-    <string name="registerConfirmPassword"><i>Confirm Password *</i></string>
+    <string name="registerFirstName">First Name*</string>
+    <string name="registerLastName">Last Name*</string>
+    <string name="registerNickName">Nick Name*</string>
+    <string name="registerEmail">Email*</string>
+    <string name="registerPassword">Password*</string>
+    <string name="registerConfirmPassword">Confirm Password*</string>
     <string name="registerButton">REGISTER</string>
     <string name="skipLogin">Skip</string>
     <string name="signup">Signup</string>
