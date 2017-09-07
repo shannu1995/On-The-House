@@ -1,9 +1,7 @@
 package com.onthehouse.connection;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
@@ -12,45 +10,53 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
-import javax.net.ssl.HttpsURLConnection;
-
 public class APIConnection
 {
-
+	private static final String TAG = "APIConnection";
 	private final String USER_AGENT = "Mozilla/5.0";
 
 	// HTTP GET request
-	public void sendGet() throws Exception {
+	public String sendGet(String urlCall) throws Exception {
 
-		String url = "http://ma.on-the-house.org/api/v1/zones/13";
-
-		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-		// optional default is GET
-		con.setRequestMethod("GET");
-
-		//add request header
-		con.setRequestProperty("User-Agent", USER_AGENT);
-
-		int responseCode = con.getResponseCode();
-		System.out.println("\nSending 'GET' request to URL : " + url);
-		System.out.println("Response Code : " + responseCode);
-		
-		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(con.getInputStream()));
-		String inputLine;
 		StringBuffer response = new StringBuffer();
+		try {
+			String url = "http://ma2.on-the-house.org" + urlCall;
+			URL obj = new URL(url);
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			// optional default is GET
+			con.setRequestMethod("GET");
+			con.setDoOutput(true);
 
-		while ((inputLine = in.readLine()) != null)
-        {
-			response.append(inputLine);
+			//add request header
+			con.setRequestProperty("User-Agent", USER_AGENT);
+
+			//int responseCode = con.getResponseCode();
+			System.out.println("\nSending 'GET' request to URL : " + url);
+			//System.out.println("Response Code : " + responseCode);
+
+			PrintStream ps = new PrintStream(con.getOutputStream());
+
+			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			String inputLine;
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+
+			System.out.println(response);
+			// close the print stream
+			ps.close();
+		} catch (MalformedURLException e1)
+		{
+			e1.printStackTrace();
 		}
-		in.close();
+		catch (IOException e2)
+		{
+			e2.printStackTrace();
+		}
 
-		//print result
-		System.out.println(response.toString());
-
+		return response.toString();
 	}
 
 	// HTTP POST request

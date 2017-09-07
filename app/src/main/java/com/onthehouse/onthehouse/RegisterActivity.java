@@ -6,16 +6,27 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.juanpabloprado.countrypicker.CountryPicker;
+import com.juanpabloprado.countrypicker.CountryPickerListener;
 import com.onthehouse.connection.APIConnection;
+import com.onthehouse.details.Country;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
+
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
 
 public class RegisterActivity extends AppCompatActivity
@@ -26,9 +37,12 @@ public class RegisterActivity extends AppCompatActivity
     EditText regLName;
     EditText regFName;
     EditText regNickName;
+    EditText regCountry;
+    EditText regState;
     ProgressButton registerBtn;
     String errorText = "";
     public ConstraintLayout layout;
+    ArrayList<String> countryList = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -47,8 +61,30 @@ public class RegisterActivity extends AppCompatActivity
         regLName = (EditText) findViewById(R.id.regLastName);
         regFName = (EditText) findViewById(R.id.regFirstName);
         regNickName = (EditText) findViewById(R.id.regNickName);
+        regCountry = (EditText) findViewById(R.id.regCountry);
         registerBtn = (ProgressButton) findViewById(R.id.registerBtn);
         layout = (ConstraintLayout) findViewById(R.id.registerLayout);
+        new countryAsyncData(getApplicationContext()).execute(countryList);
+
+
+        regCountry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+
+                CountryPicker picker = CountryPicker.getInstance("Select Country", new CountryPickerListener() {
+                    @Override public void onSelectCountry(String name, String code) {
+                        Toast.makeText(RegisterActivity.this, "Name: " + name, Toast.LENGTH_SHORT).show();
+                        regCountry.setText(name);
+                        DialogFragment dialogFragment =
+                                (DialogFragment) getSupportFragmentManager().findFragmentByTag("CountryPicker");
+                        dialogFragment.dismiss();
+                    }
+                });
+                picker.show(getSupportFragmentManager(), "CountryPicker");
+            }
+        });
 
         registerBtn.setOnClickListener(new View.OnClickListener()
         {
@@ -81,6 +117,7 @@ public class RegisterActivity extends AppCompatActivity
                 inputList.add("terms=1");
 
                 new registerAsyncData(getApplicationContext()).execute(inputList);
+
             }
         });
         /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -220,6 +257,144 @@ public class RegisterActivity extends AppCompatActivity
                 Snackbar.make(layout, "Registration failed, technical error.", Snackbar.LENGTH_LONG).show();
                 registerBtn.animError();
             }
+        }
+    }
+
+
+    //setting data for countries
+    public HashMap<String, Country> setDataCountry( JSONArray jsonCountriesArray) {
+
+        HashMap<String, Country> countries = new HashMap<String, Country>();
+        Country country = Country.getInstance();
+        try {   //country = new Country();
+                for (int i = 0; i <jsonCountriesArray.length(); i++) {
+                    System.out.println("json Array length is: "+ jsonCountriesArray.length());
+                    JSONObject jObj = jsonCountriesArray.getJSONObject(i);
+                    System.out.println("json Object is: "+ jObj);
+                    country.setId(UtilMethods.tryParseInt(jObj.getString("id")));
+                    System.out.println("json Object ID is: "+ country.getId());
+                    country.setName(jObj.getString("name"));
+                    System.out.println("json Object is: "+ country.getName());
+                    country.setIso_code_2(jObj.getString("iso_code_2"));
+                    System.out.println("json Object is: "+ country.getIso_code_2());
+                    country.setIso_code_3(jObj.getString("iso_code_3"));
+                    System.out.println("json Object is: "+ country.getIso_code_3());
+                    country.setAddress_format_id(UtilMethods.tryParseInt(jObj.getString("address_format")));
+                    System.out.println("json Object is: "+ country.getAddress_format_id());
+                    System.out.println(country);
+                    countries.put(Integer.toString(country.getId()), country);
+                }
+        }
+        catch (final JSONException e) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Json Parsing Error :" +e.getMessage(), Toast.LENGTH_LONG ).show();
+                }
+            });
+
+        }
+        return countries;
+
+    }
+
+
+
+    public class countryAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
+        private static final String TAG = "inputAsyncData";
+        Context context;
+
+        public countryAsyncData(Context context) {
+            this.context = context;
+        }
+
+
+        protected void onPreExecute() {
+
+        }
+
+
+        @Override
+        protected Integer doInBackground(ArrayList<String>... params) {
+            int status = 0;
+
+            APIConnection connection = new APIConnection();
+
+            try { String url = "/api/v1/countries";
+               String output = connection.sendGet(url);
+                Log.d(TAG, "doInBackground output: "+output);
+                status = 1;
+
+                if (output.length() > 0)
+                {
+
+                    JSONObject obj = new JSONObject(output);
+
+                    String result = obj.getString("status");
+
+
+                    Log.w("RESET RESULT", result);
+
+                    if (result.equals("success"))
+                    {
+
+
+                        JSONArray countries = obj.getJSONArray("countries");
+                        Log.d(TAG, "doInBackground: setting json_countries_array "+countries );
+                        HashMap<String, Country> countryHashMap = setDataCountry(countries);
+                        //1 = success;
+                        status = 1;
+//                        for (Country countryCounter: countryList) {
+//                            Log.d(TAG, "doInBackground: country list "+ countryCounter);
+//                        }
+
+                        Log.w("status", String.valueOf(status));
+
+
+                    }
+                    else
+                    {
+                        //2 = wrong details;
+                        status = 2;
+                    }
+                }
+                else
+                {
+                    // 3 = json parse error
+                    status = 3;
+                }
+            } catch (Exception e) {
+                Log.d(TAG, "doInBackground: there is a problem with connection");
+                status = 2;
+            }
+            return status;
+        }
+
+
+        protected void onPostExecute(Integer result) {
+//            Log.w("Reset result", result.toString());
+//
+//            if(result == 1)
+//            {
+//                Log.d(TAG, "onPostExecute: ");
+////                resetButton.animFinish();
+////                Snackbar.make(layout, "Reset Password Successful.", Snackbar.LENGTH_LONG).show();
+////                Intent resetDoneIntent = new Intent(ResetPassword.this, LoginActivity.class);
+////                ResetPassword.this.startActivity(resetDoneIntent);
+//            }
+//            else if(result == 2)
+//            {
+////                resetButton.animError();
+////                Snackbar.make(layout, "Reset failed, please check your email.", Snackbar.LENGTH_LONG).show();
+//            }
+//
+//            else
+//            {
+////                resetButton.animError();
+////                Snackbar.make(layout, "Reset failed, technical error.", Snackbar.LENGTH_LONG).show();
+//            }
+////            resetButton.setEnabled(true);
+//        }
         }
     }
 }

@@ -145,6 +145,25 @@
             app:layout_constraintTop_toBottomOf="@+id/regPassword"
             android:textCursorDrawable="@drawable/cursor_color"/>
 
+        <EditText
+            android:id="@+id/regCountry"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@android:color/white"
+            android:ems="10"
+            android:hint="@string/registerButton"
+            android:inputType="text"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/regConfirmPassword"
+            android:textCursorDrawable="@drawable/cursor_color"/>
+
         <cn.xm.weidongjian.progressbuttonlib.ProgressButton
             android:id="@+id/registerBtn"
             android:layout_width="0dp"
@@ -164,7 +183,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regConfirmPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/regCountry" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

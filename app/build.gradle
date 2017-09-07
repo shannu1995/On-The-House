@@ -29,5 +29,6 @@ dependencies {
     compile 'cn.weidongjian.android:progress-button:0.2'
     compile 'com.android.support:design:26.0.0-alpha1'
     compile 'com.android.volley:volley:1.0.0'
+    compile 'com.juanpabloprado:countrypicker:1.2.0'
     testCompile 'junit:junit:4.12'
 }
