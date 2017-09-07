@@ -57,8 +57,8 @@ public class LoginActivity extends AppCompatActivity
                 String passStr = password.getText().toString();
 
                 ArrayList<String> inputList = new ArrayList<String>();
-                inputList.add("email="+emailStr);
-                inputList.add("password="+passStr);
+                inputList.add("&email="+emailStr);
+                inputList.add("&password="+passStr);
 
                 new inputAsyncData(getApplicationContext()).execute(inputList);
 
@@ -203,6 +203,9 @@ public class LoginActivity extends AppCompatActivity
             {
                 loginButton.animFinish();
                 Snackbar.make(layout, "Login successful.", Snackbar.LENGTH_LONG).show();
+
+                Intent offerIntent = new Intent(LoginActivity.this, OffersList.class);
+                LoginActivity.this.startActivity(offerIntent);
 
             }
 

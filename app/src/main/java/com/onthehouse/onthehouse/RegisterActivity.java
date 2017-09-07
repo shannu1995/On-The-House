@@ -102,19 +102,19 @@ public class RegisterActivity extends AppCompatActivity
 
                 APIConnection connection = new APIConnection();
                 ArrayList<String> inputList = new ArrayList<String>();
-                inputList.add("nickname="+nickName);
-                inputList.add("first_name="+firstName);
-                inputList.add("last_name="+lastName);
-                inputList.add("zip=3000");
-                inputList.add("zone_id=216");
-                inputList.add("country_id=13");
-                inputList.add("timezone_id=106");
-                inputList.add("question_id=");
-                inputList.add("question_text=");
-                inputList.add("email="+email);
-                inputList.add("password="+password);
-                inputList.add("password_confirm="+cPassword);
-                inputList.add("terms=1");
+                inputList.add("&nickname="+nickName);
+                inputList.add("&first_name="+firstName);
+                inputList.add("&last_name="+lastName);
+                inputList.add("&zip=3000");
+                inputList.add("&zone_id=216");
+                inputList.add("&country_id=13");
+                inputList.add("&timezone_id=106");
+                inputList.add("&question_id=");
+                inputList.add("&question_text=");
+                inputList.add("&email="+email);
+                inputList.add("&password="+password);
+                inputList.add("&password_confirm="+cPassword);
+                inputList.add("&terms=1");
 
                 new registerAsyncData(getApplicationContext()).execute(inputList);
 

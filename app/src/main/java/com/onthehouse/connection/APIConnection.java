@@ -16,10 +16,12 @@ public class APIConnection
 	private final String USER_AGENT = "Mozilla/5.0";
 
 	// HTTP GET request
-	public String sendGet(String urlCall) throws Exception {
+	public String sendGet(String urlCall) throws Exception
+    {
 
 		StringBuffer response = new StringBuffer();
-		try {
+		try
+        {
 			String url = "http://ma2.on-the-house.org" + urlCall;
 			URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -75,7 +77,7 @@ public class APIConnection
 
             for(int i=0; i<parameterList.size(); i++)
             {
-                ps.print("&"+parameterList.get(i));
+                ps.print(parameterList.get(i));
             }
             // send your parameters to your site
             //ps.print("&email=abubakar128@hotmail.com");
