@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,7 +13,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.onthehouse.Utils.OffersAdapter;
 import com.onthehouse.connection.APIConnection;
@@ -26,25 +29,29 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OffersList extends AppCompatActivity {
+public class OffersList extends Fragment {
     private RecyclerView recyclerView;
     private OffersAdapter adapter;
     private List<Offers> offersList;
     ArrayList<OfferDetail> offerDetails;
     ProgressDialog mProgressDialog;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_offers_list);
+    public OffersList() {
+
+    }
+
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.activity_offers_list, container, false);
+        Context mContext = container.getContext();
 
         offerDetails = OfferDetail.getInstance();
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
         offersList = new ArrayList<>();
-        adapter = new OffersAdapter(this, offersList);
+        adapter = new OffersAdapter(mContext, offersList);
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mContext, 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
@@ -53,11 +60,9 @@ public class OffersList extends AppCompatActivity {
         ArrayList<String> inputList = new ArrayList<String>();
         inputList.clear();
 
-        new inputAsyncData(getApplicationContext()).execute(inputList);
+        new inputAsyncData(mContext).execute(inputList);
 
-
-      //  prepareOffers();
-
+        return view;
     }
 
     /**
@@ -136,7 +141,7 @@ public class OffersList extends AppCompatActivity {
         protected void onPreExecute()
         {
             // Create a progressdialog
-            mProgressDialog = new ProgressDialog(OffersList.this);
+            mProgressDialog = new ProgressDialog(getActivity());
             // Set progressdialog title
             mProgressDialog.setTitle("Getting offers....");
             // Set progressdialog message

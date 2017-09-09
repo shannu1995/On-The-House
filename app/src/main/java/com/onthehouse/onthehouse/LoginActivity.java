@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity
         skip.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent offerIntent = new Intent(LoginActivity.this, OffersList.class);
+                Intent offerIntent = new Intent(LoginActivity.this, MainMenu.class);
                 LoginActivity.this.startActivity(offerIntent);
             }
         });

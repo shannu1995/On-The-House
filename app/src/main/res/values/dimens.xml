@@ -5,5 +5,6 @@
     <dimen name="offers_cover_height">160dp</dimen>
     <dimen name="offers_title_padding">10dp</dimen>
     <dimen name="offers_title">15dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
 </resources>
