@@ -1,5 +1,8 @@
 package com.onthehouse.onthehouse;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.onthehouse.fragments.OffersList;
 
@@ -64,8 +68,18 @@ public class MainMenu extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_logout) {
+            SharedPreferences sharedPreferences = getSharedPreferences("memberInfo", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("memberEmail",null);
+            editor.putString("memberPass",null);
+            editor.apply();
 
+            Toast.makeText(getApplicationContext(),"Logged Out Successfully"
+                    ,Toast.LENGTH_LONG).show();
+            Intent loginIntent = new Intent(MainMenu.this, LoginActivity.class);
+            MainMenu.this.startActivity(loginIntent);
+            finish();
         }
 
         if (fragment != null) {
