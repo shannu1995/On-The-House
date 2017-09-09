@@ -69,7 +69,7 @@ public class OffersList extends Fragment {
      * Adding few offers for testing
      */
 
-   private void prepareOffers() {
+/*   private void prepareOffers() {
        int[] covers = new int[]{
                R.drawable.album1,
                R.drawable.album2};
@@ -81,7 +81,7 @@ public class OffersList extends Fragment {
        offersList.add(a);
 
 
-   }
+   }*/
 
     /**
      * RecyclerView item decoration - give equal margin around grid item
@@ -245,8 +245,12 @@ public class OffersList extends Fragment {
                 Offers a;
                 for(int i=0; i<offerDetails.size(); i++) {
 
-
-                    a = new Offers(offerDetails.get(i).getName(), R.drawable.album1);
+                    String imageUrl = offerDetails.get(i).getImageURL();
+                    if(imageUrl.isEmpty())
+                    {
+                        imageUrl = "http://vollrath.com/ClientCss/images/VollrathImages/No_Image_Available.jpg";
+                    }
+                    a = new Offers(offerDetails.get(i).getName(), imageUrl);
                     offersList.add(a);
                 }
 
