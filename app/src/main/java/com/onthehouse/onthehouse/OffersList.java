@@ -52,11 +52,10 @@ public class OffersList extends AppCompatActivity {
 
         ArrayList<String> inputList = new ArrayList<String>();
         inputList.clear();
-        adapter.notifyDataSetChanged();
 
         new inputAsyncData(getApplicationContext()).execute(inputList);
 
-        adapter.notifyDataSetChanged();
+
       //  prepareOffers();
 
     }
@@ -77,7 +76,6 @@ public class OffersList extends AppCompatActivity {
        offersList.add(a);
 
 
-        adapter.notifyDataSetChanged();
    }
 
     /**
@@ -148,6 +146,7 @@ public class OffersList extends AppCompatActivity {
             mProgressDialog.show();
         }
 
+        @Override
         protected Integer doInBackground(ArrayList<String>... params)
         {
             int status = 0;
@@ -233,6 +232,7 @@ public class OffersList extends AppCompatActivity {
             return status;
         }
 
+        @Override
         protected void onPostExecute(Integer result)
         {
             if(result == 1)
@@ -261,6 +261,7 @@ public class OffersList extends AppCompatActivity {
                 //loginButton.animError();
                 //Snackbar.make(layout, "Login failed, technical error.", Snackbar.LENGTH_LONG).show();
             }
+            adapter.notifyDataSetChanged();
             mProgressDialog.dismiss();
 
             //loginButton.setEnabled(true);
