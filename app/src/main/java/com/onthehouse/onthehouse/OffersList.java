@@ -1,34 +1,129 @@
 package com.onthehouse.onthehouse;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Rect;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.View;
 
+import com.onthehouse.Utils.OffersAdapter;
 import com.onthehouse.connection.APIConnection;
-import com.onthehouse.details.Member;
 import com.onthehouse.details.OfferDetail;
+import com.onthehouse.details.Offers;
 import com.onthehouse.details.UtilMethods;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OffersList extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private OffersAdapter adapter;
+    private List<Offers> offersList;
+    ArrayList<OfferDetail> offerDetails;
+    ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offers_list);
 
+        offerDetails = OfferDetail.getInstance();
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        offersList = new ArrayList<>();
+        adapter = new OffersAdapter(this, offersList);
+
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+
+
         ArrayList<String> inputList = new ArrayList<String>();
-        inputList.add("");
+        inputList.clear();
+        adapter.notifyDataSetChanged();
 
         new inputAsyncData(getApplicationContext()).execute(inputList);
 
+        adapter.notifyDataSetChanged();
+      //  prepareOffers();
+
+    }
+
+    /**
+     * Adding few offers for testing
+     */
+
+   private void prepareOffers() {
+       int[] covers = new int[]{
+               R.drawable.album1,
+               R.drawable.album2};
+
+       Offers a = new Offers("True Romance", covers[0]);
+       offersList.add(a);
+
+       a = new Offers("Xscpae", covers[1]);
+       offersList.add(a);
+
+
+        adapter.notifyDataSetChanged();
+   }
+
+    /**
+     * RecyclerView item decoration - give equal margin around grid item
+     */
+    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int spanCount;
+        private int spacing;
+        private boolean includeEdge;
+
+        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
+            this.spanCount = spanCount;
+            this.spacing = spacing;
+            this.includeEdge = includeEdge;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view); // item position
+            int column = position % spanCount; // item column
+
+            if (includeEdge) {
+                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
+                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+
+                if (position < spanCount) { // top edge
+                    outRect.top = spacing;
+                }
+                outRect.bottom = spacing; // item bottom
+            } else {
+                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
+                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
+                if (position >= spanCount) {
+                    outRect.top = spacing; // item top
+                }
+            }
+        }
+    }
+
+    /**
+     * Converting dp to pixel
+     */
+    private int dpToPx(int dp) {
+        Resources r = getResources();
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
     public class inputAsyncData extends AsyncTask<ArrayList<String>, Void, Integer>
@@ -42,7 +137,15 @@ public class OffersList extends AppCompatActivity {
 
         protected void onPreExecute()
         {
-
+            // Create a progressdialog
+            mProgressDialog = new ProgressDialog(OffersList.this);
+            // Set progressdialog title
+            mProgressDialog.setTitle("Getting offers....");
+            // Set progressdialog message
+            mProgressDialog.setMessage("Loading...");
+            mProgressDialog.setIndeterminate(false);
+            // Show progressdialog
+            mProgressDialog.show();
         }
 
         protected Integer doInBackground(ArrayList<String>... params)
@@ -70,7 +173,7 @@ public class OffersList extends AppCompatActivity {
                             Log.w("events", jsonArray.toString());
 
                             OfferDetail.clearInstance();
-                            ArrayList<OfferDetail> offerDetails = OfferDetail.getInstance();
+
                             for (int i = 0; i < jsonArray.length(); i++)
                             {
                                 Log.w("for", String.valueOf(i));
@@ -134,6 +237,14 @@ public class OffersList extends AppCompatActivity {
         {
             if(result == 1)
             {
+                Offers a;
+                for(int i=0; i<offerDetails.size(); i++) {
+
+
+                    a = new Offers(offerDetails.get(i).getName(), R.drawable.album1);
+                    offersList.add(a);
+                }
+
                 //loginButton.animFinish();
                 //Snackbar.make(layout, "Login successful.", Snackbar.LENGTH_LONG).show();
 
@@ -150,6 +261,8 @@ public class OffersList extends AppCompatActivity {
                 //loginButton.animError();
                 //Snackbar.make(layout, "Login failed, technical error.", Snackbar.LENGTH_LONG).show();
             }
+            mProgressDialog.dismiss();
+
             //loginButton.setEnabled(true);
         }
     }

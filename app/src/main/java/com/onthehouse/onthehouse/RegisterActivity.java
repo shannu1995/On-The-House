@@ -8,9 +8,13 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.MaterialEditText;
+
 import android.widget.Toast;
 
 import com.juanpabloprado.countrypicker.CountryPicker;
@@ -31,14 +35,14 @@ import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
 
 public class RegisterActivity extends AppCompatActivity
 {
-    EditText regEmail;
-    EditText regPass;
-    EditText regCPass;
-    EditText regLName;
-    EditText regFName;
-    EditText regNickName;
+    MaterialEditText regEmail;
+    MaterialEditText regPass;
+    MaterialEditText regCPass;
+    MaterialEditText regLName;
+    MaterialEditText regFName;
+    MaterialEditText regNickName;
     EditText regCountry;
-    EditText regState;
+    MaterialEditText regState;
     ProgressButton registerBtn;
     String errorText = "";
     public ConstraintLayout layout;
@@ -55,12 +59,12 @@ public class RegisterActivity extends AppCompatActivity
             StrictMode.setThreadPolicy(policy);
         }*/
 
-        regEmail = (EditText) findViewById(R.id.regEmail);
-        regPass = (EditText) findViewById(R.id.regPassword);
-        regCPass = (EditText) findViewById(R.id.regConfirmPassword);
-        regLName = (EditText) findViewById(R.id.regLastName);
-        regFName = (EditText) findViewById(R.id.regFirstName);
-        regNickName = (EditText) findViewById(R.id.regNickName);
+        regEmail = (MaterialEditText) findViewById(R.id.regEmail);
+        regPass = (MaterialEditText) findViewById(R.id.regPassword);
+        regCPass = (MaterialEditText) findViewById(R.id.regConfirmPassword);
+        regLName = (MaterialEditText) findViewById(R.id.regLastName);
+        regFName = (MaterialEditText) findViewById(R.id.regFirstName);
+        regNickName = (MaterialEditText) findViewById(R.id.regNickName);
         regCountry = (EditText) findViewById(R.id.regCountry);
         registerBtn = (ProgressButton) findViewById(R.id.registerBtn);
         layout = (ConstraintLayout) findViewById(R.id.registerLayout);
@@ -83,6 +87,73 @@ public class RegisterActivity extends AppCompatActivity
                     }
                 });
                 picker.show(getSupportFragmentManager(), "CountryPicker");
+            }
+        });
+
+
+        regPass.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(regPass.getText().length() < 4) {
+                    regPass.setError("Min 4 chars");
+                }
+
+                else if(regPass.getText().length() >= 4) {
+                    regPass.setError("");
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(regPass.getText().length() < 4) {
+                    regPass.setError("Min 4 chars");
+                }
+
+                else if(regPass.getText().length() >= 4) {
+                    regPass.setError("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(regPass.getText().length() < 4) {
+                    regPass.setError("Min 4 chars");
+                }
+
+                else if(regPass.getText().length() >= 4) {
+                    regPass.setError("");
+                }
+            }
+        });
+
+
+        regCPass.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(!regPass.getText().toString().equals(regCPass.getText().toString())) {
+                    regCPass.setError("Password Not matched");
+                }
+
+                else {
+                    regCPass.setError("");
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                regCPass.setError("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!regPass.getText().toString().equals(regCPass.getText().toString())) {
+                    regCPass.setError("Password Not matched");
+                }
+
+                else {
+                    regCPass.setError("");
+                }
+
             }
         });
 
@@ -117,7 +188,6 @@ public class RegisterActivity extends AppCompatActivity
                 inputList.add("&terms=1");
 
                 new registerAsyncData(getApplicationContext()).execute(inputList);
-
             }
         });
         /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -257,6 +327,7 @@ public class RegisterActivity extends AppCompatActivity
                 Snackbar.make(layout, "Registration failed, technical error.", Snackbar.LENGTH_LONG).show();
                 registerBtn.animError();
             }
+            registerBtn.setEnabled(true);
         }
     }
 
