@@ -39,5 +39,7 @@
         <item>SA</item>
     </string-array>
     <string name="title_activity_main_menu">MainMenu</string>
+    <string name="full_price">Full Price :</string>
+    <string name="oth_admin_fee">On The House Admin Fee :</string>
 
 </resources>

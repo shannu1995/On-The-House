@@ -5,13 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
@@ -21,87 +17,31 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
+public class SplashScreen extends AppCompatActivity {
 
-public class LoginActivity extends AppCompatActivity
-{
-    public EditText email;
-    public EditText password;
-    //public Button loginButton;
-    public TextView register;
-    public TextView skip;
-    public TextView reset;
-    private ProgressButton loginButton;
-    private SharedPreferences.Editor editor;
-    private ArrayList<String> inputList = new ArrayList<>();
-    private String emailStr;
-    private String passStr;
-
-    public ConstraintLayout layout;
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_splash_screen);
 
-        email = (EditText) findViewById(R.id.loginEmail);
-        password = (EditText) findViewById(R.id.loginPassword);
-        loginButton= (ProgressButton) findViewById(R.id.loginButton);
+        SharedPreferences sharedPreferences = getSharedPreferences("memberInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        ArrayList<String> inputList = new ArrayList<>();
+        String savedEmailStr = sharedPreferences.getString("memberEmail",null);
+        String savedPassStr = sharedPreferences.getString("memberPass", null);
 
-        register = (TextView) findViewById(R.id.signup);
-        skip = (TextView) findViewById(R.id.skip);
-        reset = (TextView) findViewById(R.id.resetPassword);
-
-        layout = (ConstraintLayout) findViewById(R.id.loginlayout);
-        //Shared Preference
-        SharedPreferences sharedPreferences = getSharedPreferences("memberInfo",Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-
-        loginButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                loginButton.startRotate();
-
-                emailStr = email.getText().toString();
-                passStr = password.getText().toString();
-
-                inputList.add("&email="+emailStr);
-                inputList.add("&password="+passStr);
-
-                new inputAsyncData(getApplicationContext()).execute(inputList);
-
-
-            }
-        });
-
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-                LoginActivity.this.startActivity(registerIntent);
-            }
-        });
-        skip.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent offerIntent = new Intent(LoginActivity.this, MainMenu.class);
-                LoginActivity.this.startActivity(offerIntent);
-            }
-        });
-
-        reset.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent resetIntent = new Intent(LoginActivity.this, ResetPassword.class);
-                LoginActivity.this.startActivity(resetIntent);
-            }
-        });
+        if (savedEmailStr == null || savedPassStr == null){
+            Intent offerIntent = new Intent(SplashScreen.this, LoginActivity.class);
+            SplashScreen.this.startActivity(offerIntent);
+            finish();
+            System.out.println("*********IF CALLED");
+        }else {
+            inputList.add("&email="+savedEmailStr);
+            inputList.add("&password="+savedPassStr);
+            System.out.println("*********Else CALLED");
+            new splashScreenAsyncTask(getApplicationContext()).execute(inputList);
+        }
     }
-
     public void setData(Member member, JSONObject jsonArray) {
         try
         {
@@ -146,23 +86,23 @@ public class LoginActivity extends AppCompatActivity
         }
     }
 
-    public class inputAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
+    public class splashScreenAsyncTask extends AsyncTask<ArrayList<String>, Void, Integer> {
 
         Context context;
 
-        public inputAsyncData(Context context) {
-            this.context = context;
+        public splashScreenAsyncTask(Context applicationContext) {
+            this.context = applicationContext;
         }
 
-        protected void onPreExecute()
-        {
-            loginButton.setEnabled(false);
-        }
-
+        @Override
         protected Integer doInBackground(ArrayList<String>... params) {
+            APIConnection connection = new APIConnection();
+            Log.w("EXIST", "INSIDE THREAD ");
+            Member member = Member.getInstance();
             int status = 0;
-            try {
-                APIConnection connection = new APIConnection();
+            try
+            {
+                System.out.println("/api/v1/member/login" + params[0]);
                 String output = connection.sendPost("/api/v1/member/login", params[0]);
                 if (output.length() > 0)
                 {
@@ -172,7 +112,6 @@ public class LoginActivity extends AppCompatActivity
                     Log.w("LOGIN RESULT", result);
                     if (result.equals("success"))
                     {
-                        Member member = Member.getInstance();
                         JSONObject jsonArray = obj.getJSONObject("member");
                         setData(member, jsonArray);
                         //1 = success;
@@ -185,48 +124,49 @@ public class LoginActivity extends AppCompatActivity
                         //2 = wrong details;
                         status = 2;
                     }
-                } else
-                    {
-                        // 3 = json parse error
-                        status = 3;
-                    }
                 }
-                catch (Exception e)
+                else
                 {
+                    // 3 = json parse error
                     status = 3;
                 }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            System.out.println("******************" + status);
             return status;
         }
 
-        protected void onPostExecute(Integer result)
-        {
-            if(result == 1)
-            {
-                loginButton.animFinish();
-                System.out.println("***************** DETAILS SAVED ************** :\n"
-                        + Member.getInstance().getEmail() + Member.getInstance().getPassword());
-                editor.putString("memberEmail", Member.getInstance().getEmail());
-                editor.putString("memberPass",Member.getInstance().getPassword());
-                editor.apply();
-                Snackbar.make(layout, "Login successful.", Snackbar.LENGTH_LONG).show();
-                Intent mainMenuIntent = new Intent(LoginActivity.this, MainMenu.class);
-                LoginActivity.this.startActivity(mainMenuIntent);
-                finish();
-            }
+        protected void onPostExecute(Integer result) {
+            System.out.println("******************" + result);
+            String toastMessage;
+            switch (result){
+                case 1:
+                    toastMessage = "Logged in as " + Member.getInstance().getFirst_name() + " " +
+                            Member.getInstance().getLast_name();
+                    Toast.makeText(getApplicationContext(),toastMessage,Toast.LENGTH_LONG).show();
+                    Intent mainMenuIntent = new Intent(SplashScreen.this, MainMenu.class);
+                    SplashScreen.this.startActivity(mainMenuIntent);
+                    finish();
+                    break;
+                case 2:
+                    toastMessage = "Auto login failed, please check your details and sign in again";
+                    Toast.makeText(getApplicationContext(),toastMessage,Toast.LENGTH_LONG).show();
+                    Intent loginIntent = new Intent(SplashScreen.this, LoginActivity.class);
+                    SplashScreen.this.startActivity(loginIntent);
+                    finish();
+                    break;
+                default:
+                    toastMessage = "Auto login failed, Technical Error";
+                    Toast.makeText(getApplicationContext(),toastMessage,Toast.LENGTH_LONG).show();
+                    loginIntent = new Intent(SplashScreen.this, LoginActivity.class);
+                    SplashScreen.this.startActivity(loginIntent);
+                    finish();
+                    break;
 
-            else if(result == 2)
-            {
-                loginButton.animError();
-                Snackbar.make(layout, "Login failed, please check your details", Snackbar.LENGTH_LONG).show();
             }
-
-            else
-            {
-                loginButton.animError();
-                Snackbar.make(layout, "Login failed, technical error.", Snackbar.LENGTH_LONG).show();
-            }
-            loginButton.setEnabled(true);
         }
     }
-
 }
