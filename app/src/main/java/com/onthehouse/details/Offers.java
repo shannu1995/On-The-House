@@ -5,14 +5,13 @@ package com.onthehouse.details;
  */
 
 public class Offers {
+    private String name;
+    private String thumbnail;
 
-    public Offers(String name, int thumbnail) {
+    public Offers(String name, String thumbnail) {
         this.name = name;
         this.thumbnail = thumbnail;
     }
-
-    private String name;
-    private int thumbnail;
 
     public String getName() {
         return name;
@@ -22,11 +21,12 @@ public class Offers {
         this.name = name;
     }
 
-    public int getThumbnail() {
+    public String getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(int thumbnail) {
+    public void setThumbnail(String thumbnail)
+    {
         this.thumbnail = thumbnail;
     }
 }
