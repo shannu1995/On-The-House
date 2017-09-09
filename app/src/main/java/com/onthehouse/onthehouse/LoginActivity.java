@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
@@ -203,12 +204,12 @@ public class LoginActivity extends AppCompatActivity
             if(result == 1)
             {
                 loginButton.animFinish();
-                System.out.println("***************** DETAILS SAVED ************** :\n"
-                        + Member.getInstance().getEmail() + Member.getInstance().getPassword());
                 editor.putString("memberEmail", Member.getInstance().getEmail());
                 editor.putString("memberPass",Member.getInstance().getPassword());
                 editor.apply();
-                Snackbar.make(layout, "Login successful.", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Login Successful, loggded in as: " +
+                        Member.getInstance().getFirst_name() + " " + Member.getInstance().getLast_name()
+                        ,Toast.LENGTH_LONG).show();
                 Intent mainMenuIntent = new Intent(LoginActivity.this, MainMenu.class);
                 LoginActivity.this.startActivity(mainMenuIntent);
                 finish();
