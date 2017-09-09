@@ -28,7 +28,9 @@
                     android:paddingLeft="@dimen/offers_title_padding"
                     android:paddingRight="@dimen/offers_title_padding"
                     android:paddingTop="@dimen/offers_title_padding"
-                    android:textSize="@dimen/offers_title" />
+                    android:textSize="@dimen/offers_title"
+                    android:text="Anas"
+                    android:textStyle="bold"/>
 
 
 
@@ -52,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="30dp">
+                    android:layout_marginRight="20dp">
 
                     <ImageView
                         android:id="@+id/offers_info"
@@ -75,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginLeft="40dp"
-                    android:layout_marginRight="20dp">
+                    android:layout_marginRight="30dp">
 
                     <ImageView
                         android:id="@+id/offers_upgrade"

@@ -1,7 +1,5 @@
 package com.onthehouse.details;
 
-import com.onthehouse.onthehouse.OffersList;
-
 import java.util.ArrayList;
 
 /**

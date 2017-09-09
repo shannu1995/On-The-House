@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
+import com.onthehouse.fragments.OffersList;
+
 import org.json.JSONObject;
 import java.util.ArrayList;
 

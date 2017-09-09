@@ -2,9 +2,9 @@
 <resources>
     <dimen name="card_margin">5dp</dimen>
     <dimen name="card_offers_radius">0dp</dimen>
-    <dimen name="offers_cover_height">160dp</dimen>
+    <dimen name="offers_cover_height">180dp</dimen>
     <dimen name="offers_title_padding">10dp</dimen>
-    <dimen name="offers_title">15dp</dimen>
+    <dimen name="offers_title">22dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
 </resources>

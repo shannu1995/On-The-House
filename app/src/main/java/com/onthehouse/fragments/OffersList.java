@@ -1,4 +1,4 @@
-package com.onthehouse.onthehouse;
+package com.onthehouse.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -22,6 +22,7 @@ import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.OfferDetail;
 import com.onthehouse.details.Offers;
 import com.onthehouse.details.UtilMethods;
+import com.onthehouse.onthehouse.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
