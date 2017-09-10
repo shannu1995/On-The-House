@@ -1,5 +1,7 @@
 package com.onthehouse.connection;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,43 +14,38 @@ import java.util.ArrayList;
 
 public class APIConnection
 {
-	private static final String TAG = "APIConnection";
+
 	private final String USER_AGENT = "Mozilla/5.0";
+	private static final String TAG = "APIConnection";
 
 	// HTTP GET request
-	public String sendGet(String urlCall) throws Exception
-    {
+	public String sendGet(String urlCall) throws Exception {
 
 		StringBuffer response = new StringBuffer();
-		try
-        {
-			String url = "http://ma2.on-the-house.org" + urlCall;
-			URL obj = new URL(url);
-			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		String url = "http://ma2.on-the-house.org" + urlCall;
+		URL obj = new URL(url);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		try {
 			// optional default is GET
 			con.setRequestMethod("GET");
-			con.setDoOutput(true);
-
+			//con.setDoOutput(true);
 			//add request header
 			con.setRequestProperty("User-Agent", USER_AGENT);
-
+			Log.d(TAG, "sendGet: sending http request: "+obj);
 			//int responseCode = con.getResponseCode();
-			System.out.println("\nSending 'GET' request to URL : " + url);
-			//System.out.println("Response Code : " + responseCode);
-
-			PrintStream ps = new PrintStream(con.getOutputStream());
-
+			//Log.d(TAG, "sendGet: response code is: "+responseCode);
 			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			Log.d(TAG, "sendGet: buffer reader is reading: "+in);
 			String inputLine;
 
 			while ((inputLine = in.readLine()) != null) {
+				System.out.println("readline data for output is: "+inputLine);
 				response.append(inputLine);
 			}
 			in.close();
 
 			System.out.println(response);
-			// close the print stream
-			ps.close();
+
 		} catch (MalformedURLException e1)
 		{
 			e1.printStackTrace();
@@ -57,7 +54,11 @@ public class APIConnection
 		{
 			e2.printStackTrace();
 		}
-
+		finally {
+			Log.d(TAG, "sendGet: in a finally block");
+			con.disconnect();
+		}
+		System.out.println("\nGetting  : " + response);
 		return response.toString();
 	}
 

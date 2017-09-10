@@ -27,6 +27,8 @@
     <string name="offers_upgrade">Upgrade to Gold</string>
     <string name="offers_share">Share</string>
     <string name="regCountry">Add Country</string>
+    <string name="registerCountry">Select Country</string>
+    <string name="registerSelectState">Select State</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 

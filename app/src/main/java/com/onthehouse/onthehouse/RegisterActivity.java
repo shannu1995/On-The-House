@@ -12,9 +12,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
 import android.widget.MaterialEditText;
-
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.juanpabloprado.countrypicker.CountryPicker;
@@ -23,13 +23,13 @@ import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Country;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
+import com.onthehouse.details.Zone;
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
 
@@ -41,12 +41,16 @@ public class RegisterActivity extends AppCompatActivity
     MaterialEditText regLName;
     MaterialEditText regFName;
     MaterialEditText regNickName;
-    EditText regCountry;
-    MaterialEditText regState;
+    TextView regCountry;
+    MaterialBetterSpinner regState;
     ProgressButton registerBtn;
+    Country selectedCountry = new Country();
     String errorText = "";
     public ConstraintLayout layout;
-    ArrayList<String> countryList = new ArrayList<String>();
+    ArrayList<Country> countryList = new ArrayList<>();
+    ArrayList<Zone> zoneList = new ArrayList<>();
+    ArrayList<String> zoneNames = new ArrayList<>();
+    private static final String TAG = "RegisterActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -65,10 +69,15 @@ public class RegisterActivity extends AppCompatActivity
         regLName = (MaterialEditText) findViewById(R.id.regLastName);
         regFName = (MaterialEditText) findViewById(R.id.regFirstName);
         regNickName = (MaterialEditText) findViewById(R.id.regNickName);
-        regCountry = (EditText) findViewById(R.id.regCountry);
+        regCountry = (TextView) findViewById(R.id.regCountry);
+        regState = (MaterialBetterSpinner) findViewById(R.id.regSpinnerState);
         registerBtn = (ProgressButton) findViewById(R.id.registerBtn);
         layout = (ConstraintLayout) findViewById(R.id.registerLayout);
-        new countryAsyncData(getApplicationContext()).execute(countryList);
+       // regCountry.set
+        new countryAsyncData(getApplicationContext()).execute();
+        regState.setVisibility(View.GONE);
+
+
 
 
         regCountry.setOnClickListener(new View.OnClickListener() {
@@ -79,11 +88,34 @@ public class RegisterActivity extends AppCompatActivity
 
                 CountryPicker picker = CountryPicker.getInstance("Select Country", new CountryPickerListener() {
                     @Override public void onSelectCountry(String name, String code) {
+                        int country_id = 0;
+                        zoneList = new ArrayList<Zone>();
                         Toast.makeText(RegisterActivity.this, "Name: " + name, Toast.LENGTH_SHORT).show();
-                        regCountry.setText(name);
+                        for (Country counter: countryList) {
+                            if (counter.getName().equals(name))
+                            {
+                                country_id = counter.getId();
+                                System.out.println("Country name matched "+country_id);
+                                //zoneList = setDataStates(country_id);
+                                System.out.println("ZoneList extracted "+zoneList);
+                                regCountry.setText(name);
+                                selectedCountry = counter;
+                                new Thread(new StateThread()).start();
+                               // BaseAdapter stateAdapter = new ArrayAdapter(getApplicationContext(), R.layout.state_item, R.id.regStateItem, zoneNames);
+                                ArrayAdapter<String> stateAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, zoneNames);
+
+
+                                zoneNames.clear();
+                                regState.setId(0);
+                                regState.setAdapter(stateAdapter);
+                                regState.setVisibility(View.VISIBLE);
+                                break;
+                            }
+                        }
                         DialogFragment dialogFragment =
                                 (DialogFragment) getSupportFragmentManager().findFragmentByTag("CountryPicker");
                         dialogFragment.dismiss();
+
                     }
                 });
                 picker.show(getSupportFragmentManager(), "CountryPicker");
@@ -170,24 +202,39 @@ public class RegisterActivity extends AppCompatActivity
                 String lastName = regLName.getText().toString();
                 String firstName = regFName.getText().toString();
                 String nickName = regNickName.getText().toString();
+                String countryId = null;
+                String zone_id = null;
+                for (Zone zoneCounter: zoneList) {
+                    if (zoneCounter.getName().equals(regState.getText().toString())) {
+                        zone_id = Integer.toString(zoneCounter.getId());
+                    }
+
+                }
+
+                for (Country countryCounter: countryList) {
+                    if (countryCounter.getName().equals(regCountry.getText()))
+
+                    countryId = Integer.toString(countryCounter.getId());
+                }
 
                 APIConnection connection = new APIConnection();
                 ArrayList<String> inputList = new ArrayList<String>();
-                inputList.add("&nickname="+nickName);
-                inputList.add("&first_name="+firstName);
-                inputList.add("&last_name="+lastName);
-                inputList.add("&zip=3000");
-                inputList.add("&zone_id=216");
-                inputList.add("&country_id=13");
-                inputList.add("&timezone_id=106");
-                inputList.add("&question_id=");
-                inputList.add("&question_text=");
-                inputList.add("&email="+email);
-                inputList.add("&password="+password);
-                inputList.add("&password_confirm="+cPassword);
-                inputList.add("&terms=1");
+                inputList.add("nickname="+nickName);
+                inputList.add("first_name="+firstName);
+                inputList.add("last_name="+lastName);
+                inputList.add("zip=3000");
+                inputList.add("zone_id="+zone_id);
+                inputList.add("country_id="+countryId);
+                inputList.add("timezone_id=106");
+                inputList.add("question_id=");
+                inputList.add("question_text=");
+                inputList.add("email="+email);
+                inputList.add("password="+password);
+                inputList.add("password_confirm="+cPassword);
+                inputList.add("terms=1");
 
                 new registerAsyncData(getApplicationContext()).execute(inputList);
+
             }
         });
         /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -195,6 +242,81 @@ public class RegisterActivity extends AppCompatActivity
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);*/
 
     }
+
+    class StateThread implements Runnable
+    {
+        @Override
+        public void run()
+        {
+
+            int status = 0;
+            ArrayList<Zone> zoneArrayList = new ArrayList<>();
+            APIConnection connection = new APIConnection();
+            try
+            {
+                int country_id = selectedCountry.getId();
+                String url = "/api/v1/zones/"+country_id;
+                String output = connection.sendGet(url);
+                Log.w( "setDataStates", output );
+                status = 1;
+                if (output.length() > 0)
+                {
+                    JSONObject obj = new JSONObject(output);
+                    String result = obj.getString("status");
+                    System.out.println("result of the states is "+result);
+                    Log.w("RESET RESULT", result);
+
+                    if (result.equals("success"))
+                    {
+                        JSONArray zones = obj.getJSONArray("zones");
+                        for (int i = 0; i <zones.length(); i++) {
+                            Zone zone = new Zone();
+                            System.out.println("json Array length is: "+ zones.length());
+                            JSONObject jObj = zones.getJSONObject(i);
+                            System.out.println("json Object is: "+ jObj);
+                            zone.setId(UtilMethods.tryParseInt(jObj.getString("id")));
+                            System.out.println("json Object ID is: "+ zone.getId());
+                            zone.setCountry_id(UtilMethods.tryParseInt(jObj.getString("country_id")));
+                            System.out.println("json Object is: "+ zone.getCountry_id());
+                            zone.setCode(jObj.getString("code"));
+                            System.out.println("json Object is: "+ zone.getCode());
+                            zone.setName(jObj.getString("name"));
+                            System.out.println("json Object is: "+ zone.getName());
+                            System.out.println(zone);
+                            zoneList.add(zone);
+                            zoneNames.add(zone.getName());
+                        }
+                        //1 = success;
+                        status = 1;
+                        for (Zone zoneCounter: zoneArrayList) {
+                            Log.d(TAG, "doInBackground: country list "+ zoneCounter);
+                        }
+                        Log.w("status", String.valueOf(status));
+                    }
+                    else
+                    {
+                        status = 2;
+                        JSONObject jsonArray = obj.getJSONObject("error");
+                        JSONArray errorArr=  jsonArray.getJSONArray("messages");
+                        errorText = errorArr.getString(0);
+                        Log.w("Registration error", errorText);
+                    }
+                }
+                else
+                {
+                    // 3 = json parse error
+                    status = 3;
+                    Log.d(TAG, "setDataStates: error status 3");
+                }
+            } catch (final Exception e) {
+                status = 2;
+                String err = (e.getMessage()==null)?"Exception occured in main setDataStates block ":e.getMessage();
+                Log.d(TAG, "setDataStates: "+err);
+            }
+
+        }
+    }
+
 
     public void setData(Member member, JSONObject jsonArray) {
         try {
@@ -332,14 +454,80 @@ public class RegisterActivity extends AppCompatActivity
     }
 
 
-    //setting data for countries
-    public HashMap<String, Country> setDataCountry( JSONArray jsonCountriesArray) {
+    public ArrayList<Zone>  setDataStates(int country_id) {
 
-        HashMap<String, Country> countries = new HashMap<String, Country>();
-        Country country = Country.getInstance();
+        int status = 0;
+        ArrayList<Zone> zoneArrayList = new ArrayList<>();
+        APIConnection connection = new APIConnection();
+        try {
+            String url = "/api/v1/zones/"+country_id;
+            String output = connection.sendGet(url);
+            Log.w( "setDataStates", output );
+            status = 1;
+            if (output.length() > 0)
+            {
+                JSONObject obj = new JSONObject(output);
+                String result = obj.getString("status");
+                System.out.println("result of the states is "+result);
+                Log.w("RESET RESULT", result);
+
+                if (result.equals("success")) {
+                    JSONArray zones = obj.getJSONArray("zones");
+                    for (int i = 0; i <zones.length(); i++) {
+                            Zone zone = new Zone();
+                            System.out.println("json Array length is: "+ zones.length());
+                            JSONObject jObj = zones.getJSONObject(i);
+                            System.out.println("json Object is: "+ jObj);
+                            zone.setId(UtilMethods.tryParseInt(jObj.getString("id")));
+                            System.out.println("json Object ID is: "+ zone.getId());
+                            zone.setCountry_id(UtilMethods.tryParseInt(jObj.getString("country_id")));
+                            System.out.println("json Object is: "+ zone.getCountry_id());
+                            zone.setCode(jObj.getString("code"));
+                            System.out.println("json Object is: "+ zone.getCode());
+                            zone.setName(jObj.getString("name"));
+                            System.out.println("json Object is: "+ zone.getName());
+                            System.out.println(zone);
+                            zoneArrayList.add(zone);
+                        }
+                    //1 = success;
+                    status = 1;
+                        for (Zone zoneCounter: zoneArrayList) {
+                            Log.d(TAG, "doInBackground: country list "+ zoneCounter);
+                        }
+                    Log.w("status", String.valueOf(status));
+                }
+                else
+                {
+                    status = 2;
+                    JSONObject jsonArray = obj.getJSONObject("error");
+                    JSONArray errorArr=  jsonArray.getJSONArray("messages");
+                    errorText = errorArr.getString(0);
+                    Log.w("Registration error", errorText);
+                }
+            }
+            else
+            {
+                // 3 = json parse error
+                status = 3;
+                Log.d(TAG, "setDataStates: error status 3");
+            }
+        } catch (final Exception e) {
+            status = 2;
+            String err = (e.getMessage()==null)?"Exception occured in main setDataStates block ":e.getMessage();
+            Log.d(TAG, "setDataStates: "+err);
+        }
+        return zoneArrayList;
+    }
+
+
+    //setting data for countries
+    public void setDataCountry( JSONArray jsonCountriesArray) {
+
+        ArrayList<Country> countryArrayList = new ArrayList<>();
+
         try {   //country = new Country();
                 for (int i = 0; i <jsonCountriesArray.length(); i++) {
-                    System.out.println("json Array length is: "+ jsonCountriesArray.length());
+                    Country country = new Country();
                     JSONObject jObj = jsonCountriesArray.getJSONObject(i);
                     System.out.println("json Object is: "+ jObj);
                     country.setId(UtilMethods.tryParseInt(jObj.getString("id")));
@@ -349,23 +537,24 @@ public class RegisterActivity extends AppCompatActivity
                     country.setIso_code_2(jObj.getString("iso_code_2"));
                     System.out.println("json Object is: "+ country.getIso_code_2());
                     country.setIso_code_3(jObj.getString("iso_code_3"));
-                    System.out.println("json Object is: "+ country.getIso_code_3());
-                    country.setAddress_format_id(UtilMethods.tryParseInt(jObj.getString("address_format")));
-                    System.out.println("json Object is: "+ country.getAddress_format_id());
-                    System.out.println(country);
-                    countries.put(Integer.toString(country.getId()), country);
+                    countryList.add(country);
                 }
+            for (int i = 0; i < countryArrayList.size(); i++){
+            System.out.println("Country id and name is "+countryArrayList.get(i).getId()+" "+countryArrayList.get(i).getName()+ " ");
+
+            }
         }
-        catch (final JSONException e) {
+        catch (final Exception e) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Json Parsing Error :" +e.getMessage(), Toast.LENGTH_LONG ).show();
+                    Log.w("Country array", e.getMessage());
+                    Toast.makeText(getApplicationContext(), "Country Json Parsing Error :" +e.getMessage(), Toast.LENGTH_LONG ).show();
                 }
             });
 
         }
-        return countries;
+
 
     }
 
@@ -390,10 +579,10 @@ public class RegisterActivity extends AppCompatActivity
             int status = 0;
 
             APIConnection connection = new APIConnection();
-
-            try { String url = "/api/v1/countries";
-               String output = connection.sendGet(url);
-                Log.d(TAG, "doInBackground output: "+output);
+            try
+            {
+                String url = "/api/v1/countries";
+                String output = connection.sendGet(url);
                 status = 1;
 
                 if (output.length() > 0)
@@ -402,17 +591,9 @@ public class RegisterActivity extends AppCompatActivity
                     JSONObject obj = new JSONObject(output);
 
                     String result = obj.getString("status");
-
-
-                    Log.w("RESET RESULT", result);
-
-                    if (result.equals("success"))
-                    {
-
-
+                    if (result.equals("success")) {
                         JSONArray countries = obj.getJSONArray("countries");
-                        Log.d(TAG, "doInBackground: setting json_countries_array "+countries );
-                        HashMap<String, Country> countryHashMap = setDataCountry(countries);
+                        setDataCountry(countries);
                         //1 = success;
                         status = 1;
 //                        for (Country countryCounter: countryList) {
@@ -420,17 +601,10 @@ public class RegisterActivity extends AppCompatActivity
 //                        }
 
                         Log.w("status", String.valueOf(status));
-
-
-                    }
-                    else
-                    {
+                    } else {
                         //2 = wrong details;
-                        status = 2;
-                    }
-                }
-                else
-                {
+                        status = 2;}
+                } else {
                     // 3 = json parse error
                     status = 3;
                 }

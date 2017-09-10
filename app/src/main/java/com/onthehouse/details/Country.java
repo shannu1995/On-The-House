@@ -13,7 +13,7 @@ public class Country {
     private String iso_code_3;
     private int address_format_id;
 
-    protected Country (){
+    public Country (){
 
     }
 
@@ -59,11 +59,11 @@ public class Country {
         this.address_format_id = address_format_id;
     }
 
-    public static Country getInstance() {
-        if (instance == null) {
-            instance = new Country();
-        }
-        return instance;
-
-    }
+//    public static Country getInstance() {
+//        if (instance == null) {
+//            instance = new Country();
+//        }
+//        return instance;
+//
+//    }
 }
