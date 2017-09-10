@@ -207,7 +207,7 @@ public class LoginActivity extends AppCompatActivity
                 editor.putString("memberEmail", Member.getInstance().getEmail());
                 editor.putString("memberPass",Member.getInstance().getPassword());
                 editor.apply();
-                Toast.makeText(getApplicationContext(),"Login Successful, loggded in as: " +
+                Toast.makeText(getApplicationContext(),"Login Successful\nLoggded in as: " +
                         Member.getInstance().getFirst_name() + " " + Member.getInstance().getLast_name()
                         ,Toast.LENGTH_LONG).show();
                 Intent mainMenuIntent = new Intent(LoginActivity.this, MainMenu.class);
