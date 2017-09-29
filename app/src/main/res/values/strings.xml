@@ -40,8 +40,45 @@
         <item>WA</item>
         <item>SA</item>
     </string-array>
+
     <string name="title_activity_main_menu">MainMenu</string>
     <string name="full_price">Full Price :</string>
     <string name="oth_admin_fee">On The House Admin Fee :</string>
+    <string name="shows">Shows</string>
+    <string name="venue">Venue</string>
+    <string name="first_heard_show">* Where have you first heard about this show?</string>
+    <string name="answer">Answer</string>
+    <string name="street">Street</string>
+    <string name="city">City</string>
+    <string name="postcode">Postcode</string>
+    <string name="test">Delivery Booking page</string>
 
+    <string-array name="show_source_array">
+        <item>Please select option</item>
+        <item>Ticketek/TicketMaster/Moshtix</item>
+        <item>Flyer</item>
+        <item>Cafe</item>
+        <item>Word of Mouth</item>
+        <item>If Google search, what did you search for?</item>
+        <item>Which website?</item>
+        <item>Twitter</item>
+        <item>Facebook</item>
+        <item>Please provide details of how you heard of this show?</item>
+        <item>www.itsonthehouse.com</item>
+        <item>ON THE HOUSE Newsletter</item>
+        <item>Another Newsletter</item>
+    </string-array>
+    <string name="facebook_friends">Tell your friends on Facebook!</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm_1">Next</string>
+    <string name="title_activity_booking_page_delivery_purchase">BookingPageDeliveryPurchase
+    </string>
+    <string name="delivery_instructions">Please read below for instructions on how to receive your tickets
+    </string>
+    <string name="sending">We will be sending your tickets to your delivery \n address.
+    </string>
+    <string name="retrieve">We have retrieved the following mailing address for you. Please confirm this is the correct mailing address or update your mailing details here so we can post your tickets
+    </string>
+    <string name="payment_portal">Payment Portal</string>
+    <string name="competition_page">Competition</string>
 </resources>

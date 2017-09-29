@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,6 +18,7 @@ import android.view.ViewGroup;
 
 import com.onthehouse.Utils.OffersAdapter;
 import com.onthehouse.connection.APIConnection;
+import com.onthehouse.details.Member;
 import com.onthehouse.details.OfferDetail;
 import com.onthehouse.details.Offers;
 import com.onthehouse.details.UtilMethods;
@@ -27,7 +27,11 @@ import com.onthehouse.onthehouse.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class OffersList extends Fragment {
@@ -185,6 +189,11 @@ public class OffersList extends Fragment {
                                 OfferDetail detail = new OfferDetail();
                                 JSONObject event = jsonArray.getJSONObject(i);
                                 detail.setOfferId(UtilMethods.tryParseInt(event.getString("id")));
+                                Log.w("Offer Id is: ", event.getString("id"));
+                                //String indEvent = connection.sendPost("/api/v1/event/13232", params[0]);
+                                String indEvent = connection.sendPost("/api/v1/event/"+detail.getOfferId(), params[0]);
+                                JSONObject indEventObj = new JSONObject(indEvent).getJSONObject("event");
+
                                 detail.setType(event.getString("type"));
                                 detail.setName(event.getString("name"));
                                 detail.setPageTitle(event.getString("page_title"));
@@ -200,8 +209,65 @@ public class OffersList extends Fragment {
                                 detail.setSoldOut(event.getBoolean("sold_out"));
                                 detail.setComingSoon(event.getBoolean("coming_soon"));
                                 detail.setCompt(event.getBoolean("is_competition"));
-                                offerDetails.add(detail);
+                                if(detail.isCompt()){
+                                    JSONObject competitionDetails = indEventObj.getJSONObject("competition");
+                                    detail.setQuestion(competitionDetails.getString("question"));
+                                }
+                                JSONArray showsArray = indEventObj.getJSONArray("show_data");
+                                Log.w("Show Details: ",showsArray.toString());
 
+                                JSONObject showsObject = showsArray.getJSONObject(0);
+                                JSONObject venueObject = showsObject.getJSONObject("venue");
+                                String showsHeadingObject = showsObject.getString("shows_heading");
+                                JSONArray shows = showsObject.getJSONArray("shows");
+                                JSONObject showsDetailsObject = shows.getJSONObject(0);
+
+                                String venueName = venueObject.getString("name");
+                                String streetName = venueObject.getString("address1");
+                                String cityName = venueObject.getString("city");
+                                String stateName = venueObject.getString("zone_name");
+                                String zipName = venueObject.getString("zip");
+                                String countryName = venueObject.getString("country_name");
+
+                                String venueAddress = venueName + "\n" + streetName + "\n"
+                                        + cityName + ", " + stateName + "\n" + zipName + "\n"
+                                        + countryName;
+                                if(showsDetailsObject.getString("shipping").equals("0")){
+                                    detail.setDelivery(false);
+                                }
+                                else
+                                    detail.setDelivery(true);
+                                ArrayList<Integer> quantities = new ArrayList<Integer>();
+                                JSONArray quantitiesArray = showsDetailsObject.getJSONArray("quantities");
+                                if(quantitiesArray != null){
+                                    for(int j = 0; j < quantitiesArray.length(); j++){
+                                        quantities.add(quantitiesArray.getInt(j));
+                                        Log.w("qty: ",Integer.toString(quantitiesArray.getInt(j)));
+                                    }
+                                    detail.setQuantities(quantities);
+                                }
+                                Log.w("Venue Details: ",venueAddress);
+                                detail.setVenueDetails(venueAddress);
+                                detail.setShowsHeading(showsHeadingObject);
+                                Date currentTime = Calendar.getInstance().getTime();
+                                Log.w("FUCK!!!!: ",currentTime.toString());
+
+                                DateFormat dates = new SimpleDateFormat("dd/mm/yyyy hh:mm");
+                                //Date date1 = new Date(Long.parseLong(showsDetailsObject.getString("show_date")) * 1000);
+                                //String date2 = dates.format(showsDetailsObject.getString("show_date2"));
+                                ArrayList<String> showDates = new ArrayList<>();
+                                String date1 = dates.format(new Date(Long.parseLong(showsDetailsObject.getString("show_date"))* 1000));
+                                String date2 = dates.format(new Date(Long.parseLong(showsDetailsObject.getString("show_date2"))* 1000));
+                                showDates.add(date1);
+                                showDates.add(date2);
+                                Log.w("From: ",showsDetailsObject.getString("show_date") + "\n");
+                                Log.w("To: ",date1 + "\n");
+
+                                Log.w("From: ",showsDetailsObject.getString("show_date") + "\n");
+                                Log.w("To: ",date2 + "\n");
+                                //Log.w("to: ",date1);
+                                detail.setDates(showDates);
+                                offerDetails.add(detail);
                             }
                             //Log.w("eventtt", offerDetails.get(0).getDescription());
                             //Log.w("eventtt", offerDetails.get(1).getDescription());

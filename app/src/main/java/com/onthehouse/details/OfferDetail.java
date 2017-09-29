@@ -26,6 +26,12 @@ public class OfferDetail
     private boolean soldOut;
     private boolean comingSoon;
     private boolean isCompt;
+    private String venueDetails;
+    private String showsHeading;
+    private ArrayList<String> dates;
+    private boolean delivery;
+    private String question;
+    private ArrayList<Integer> quantities;
 
     public OfferDetail()
     {
@@ -175,4 +181,22 @@ public class OfferDetail
     public void setPriceTo(double priceTo) {
         this.priceTo = priceTo;
     }
+
+    public void setVenueDetails(String venueDetails){this.venueDetails = venueDetails;}
+    public String getVenueDetails(){return this.venueDetails;}
+
+    public void setShowsHeading(String showsHeading){this.showsHeading = showsHeading;}
+    public String getShowsHeading(){return this.showsHeading;}
+
+    public void setDates(ArrayList<String> dates){this.dates = dates;}
+    public ArrayList<String> getDates(){return this.dates;}
+
+    public void setDelivery(boolean delivery){this.delivery = delivery;}
+    public boolean isDelivery(){return this.delivery;}
+
+    public void setQuestion(String question){this.question = question;}
+    public String getQuestion(){return this.question;}
+
+    public void setQuantities(ArrayList<Integer> quantities){this.quantities = quantities;}
+    public ArrayList<Integer> getQuantities(){return this.quantities;}
 }

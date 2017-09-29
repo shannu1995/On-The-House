@@ -13,7 +13,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.MaterialEditText;
+import com.rengwuxian.materialedittext.MaterialEditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
