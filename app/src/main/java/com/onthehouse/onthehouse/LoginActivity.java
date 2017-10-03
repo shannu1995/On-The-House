@@ -150,6 +150,7 @@ public class LoginActivity extends AppCompatActivity
     public class inputAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
 
         Context context;
+        String output = new String("");
 
         public inputAsyncData(Context context) {
             this.context = context;
@@ -164,7 +165,7 @@ public class LoginActivity extends AppCompatActivity
             int status = 0;
             try {
                 APIConnection connection = new APIConnection();
-                String output = connection.sendPost("/api/v1/member/login", params[0]);
+                output = connection.sendPost("/api/v1/member/login", params[0]);
                 if (output.length() > 0)
                 {
                     JSONObject obj = new JSONObject(output);
@@ -225,6 +226,7 @@ public class LoginActivity extends AppCompatActivity
             {
                 loginButton.animError();
                 Snackbar.make(layout, "Login failed, technical error.", Snackbar.LENGTH_LONG).show();
+                Log.w("LOGINFUCKINGERROR!", output);
             }
             loginButton.setEnabled(true);
         }

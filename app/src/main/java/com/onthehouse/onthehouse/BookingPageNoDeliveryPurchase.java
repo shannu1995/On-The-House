@@ -1,5 +1,6 @@
 package com.onthehouse.onthehouse;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -19,6 +20,7 @@ import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -127,8 +129,12 @@ public class BookingPageNoDeliveryPurchase extends AppCompatActivity {
 
     public class pickUpAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
         Context context;
+        Intent paymentActivity;
+        APIConnection connection = new APIConnection();
+        JSONObject object = new JSONObject();
 
-        public pickUpAsyncData(Context context){this.context = context;}
+        public pickUpAsyncData(Context context){this.context = context;
+         paymentActivity = new Intent(context, PaymentPortal.class);}
 
         protected void onPreExecute()
         {
@@ -137,17 +143,16 @@ public class BookingPageNoDeliveryPurchase extends AppCompatActivity {
 
         protected Integer doInBackground(ArrayList<String>... params){
             int status = 0;
-            APIConnection connection = new APIConnection();
+
             try{
                 String output = connection.sendPost("/api/v1/reserve", params[0]);
                 if (output.length() > 0){
-                    JSONObject object = new JSONObject(output);
+                    object = new JSONObject(output);
                     String result = object.getString("status");
                     Log.w("Full details: ",output.toString());
 
                     if(result.equals("success")){
                         status = 1;
-
                     }else{
                         status = 2;
                         JSONObject jsonArray = object.getJSONObject("error");
@@ -170,6 +175,24 @@ public class BookingPageNoDeliveryPurchase extends AppCompatActivity {
             {
                 confirmButton.animFinish();
                 Snackbar.make(layout, "Submitted Answer", Snackbar.LENGTH_LONG).show();
+                try{
+                    if(object.getString("paypal").equals("1")){
+                        Bundle extras = new Bundle();
+                        extras.putString("item_name",object.getString("item_name"));
+                        extras.putString("item_sku",object.getString("item_sku"));
+                        extras.putString("item_quantity",getTickets());
+                        extras.putString("item_price", object.getString("item_price"));
+                        extras.putString("reservation_id", object.getString("reservation_id"));
+                        extras.putString("show_id", getShow_id());
+                        extras.putString("tickets", getTickets());
+                        paymentActivity.putExtras(extras);
+                        context.startActivity(paymentActivity);
+                    }
+                    else{
+                    }
+                }catch(JSONException e){
+                    Log.w("Error: JSON Exception", e);
+                }
             }
 
             else if(result == 2)
