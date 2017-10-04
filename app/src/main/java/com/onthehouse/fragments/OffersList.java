@@ -258,11 +258,13 @@ public class OffersList extends Fragment {
                                 ArrayList<String> showDates = new ArrayList<>();
                                 String date1 = dates.format(new Date(Long.parseLong(showsDetailsObject.getString("show_date"))* 1000));
                                 String date2 = dates.format(new Date(Long.parseLong(showsDetailsObject.getString("show_date2"))* 1000));
+
+                                String show_id = showsDetailsObject.getString("id");
+                                detail.setShow_id(show_id);
                                 showDates.add(date1);
                                 showDates.add(date2);
                                 Log.w("From: ",showsDetailsObject.getString("show_date") + "\n");
                                 Log.w("To: ",date1 + "\n");
-
                                 Log.w("From: ",showsDetailsObject.getString("show_date") + "\n");
                                 Log.w("To: ",date2 + "\n");
                                 //Log.w("to: ",date1);

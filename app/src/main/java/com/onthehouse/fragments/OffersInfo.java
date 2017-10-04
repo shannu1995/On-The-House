@@ -115,7 +115,7 @@ public class OffersInfo extends Fragment {
                     int tickets = (int)spinner.getSelectedItem();
                     Bundle purchase_details = new Bundle();
                     purchase_details.putString("tickets", Integer.toString(tickets));
-                    purchase_details.putString("show_id", Integer.toString(offerDet.getOfferId()));
+                    purchase_details.putString("show_id", offerDet.getShow_id());
                     Intent buyIntent;
                     Log.w("Printing Show ID:", Integer.toString(tickets));
                     if(offerDet.isDelivery()){
@@ -136,7 +136,7 @@ public class OffersInfo extends Fragment {
                 Intent buyIntent;
                 Bundle purchase_details = new Bundle();
                 purchase_details.putString("tickets", Integer.toString(tickets));
-                purchase_details.putString("show_id", Integer.toString(offerDet.getOfferId()));
+                purchase_details.putString("show_id", offerDet.getShow_id());
                     if(offerDet.isDelivery()){
                         buyIntent = new Intent(getActivity(), BookingPageDeliveryPurchase.class);
                     }

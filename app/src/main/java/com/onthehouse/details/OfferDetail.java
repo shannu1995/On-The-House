@@ -32,6 +32,7 @@ public class OfferDetail
     private boolean delivery;
     private String question;
     private ArrayList<Integer> quantities;
+    private String show_id;
 
     public OfferDetail()
     {
@@ -199,4 +200,7 @@ public class OfferDetail
 
     public void setQuantities(ArrayList<Integer> quantities){this.quantities = quantities;}
     public ArrayList<Integer> getQuantities(){return this.quantities;}
+
+    public void setShow_id(String show_id){this.show_id = show_id;}
+    public String getShow_id(){return this.show_id;}
 }
