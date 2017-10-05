@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.onthehouse.onthehouse.com.onthehouse.fragments.OffersList"
+    tools:context="com.onthehouse.fragments.OffersList"
     android:orientation="horizontal"
     tools:showIn="@layout/activity_offers_list">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:clipToPadding="false"
         android:scrollbars="vertical" />
 

@@ -37,7 +37,7 @@
             android:background="@color/white"
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/textView"
-            android:layout_marginStart="8dp">
+            android:layout_marginStart="8dp"
             app:layout_constraintRight_toRightOf="parent"></Spinner>
 
         <com.rengwuxian.materialedittext.MaterialEditText
@@ -48,19 +48,16 @@
             android:ems="10"
             android:hint="@string/answer"
             android:inputType="textPersonName"
-            material:floatingLabel="true"
             android:visibility="gone"
             android:layout_marginLeft="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/spinner"
             android:layout_marginStart="16dp"
-
-            app:met_floatingLabel="normal"
             app:met_textColor="@color/white"
             app:met_textColorHint="@color/white"
             app:met_primaryColor="@color/colorAccent"
-            app:met_floatingLabelTextColor="@color/red"/>
+            />
 
         <CheckBox
             android:id="@+id/checkBox"

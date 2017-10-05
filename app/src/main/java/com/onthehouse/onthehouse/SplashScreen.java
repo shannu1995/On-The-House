@@ -29,16 +29,15 @@ public class SplashScreen extends AppCompatActivity {
         ArrayList<String> inputList = new ArrayList<>();
         String savedEmailStr = sharedPreferences.getString("memberEmail",null);
         String savedPassStr = sharedPreferences.getString("memberPass", null);
+        boolean savedLogin = sharedPreferences.getBoolean("RememberMe", false);
 
-        if (savedEmailStr == null || savedPassStr == null){
-            Intent offerIntent = new Intent(SplashScreen.this, LoginActivity.class);
+        if (savedEmailStr == null || savedPassStr == null || !savedLogin){
+            Intent offerIntent = new Intent(SplashScreen.this, OnTheMain.class);
             SplashScreen.this.startActivity(offerIntent);
             finish();
-            System.out.println("*********IF CALLED");
         }else {
             inputList.add("&email="+savedEmailStr);
             inputList.add("&password="+savedPassStr);
-            System.out.println("*********Else CALLED");
             new splashScreenAsyncTask(getApplicationContext()).execute(inputList);
         }
     }
@@ -154,14 +153,14 @@ public class SplashScreen extends AppCompatActivity {
                 case 2:
                     toastMessage = "Auto login failed, please check your details and sign in again";
                     Toast.makeText(getApplicationContext(),toastMessage,Toast.LENGTH_LONG).show();
-                    Intent loginIntent = new Intent(SplashScreen.this, LoginActivity.class);
+                    Intent loginIntent = new Intent(SplashScreen.this, OnTheMain.class);
                     SplashScreen.this.startActivity(loginIntent);
                     finish();
                     break;
                 default:
                     toastMessage = "Auto login failed, Technical Error";
                     Toast.makeText(getApplicationContext(),toastMessage,Toast.LENGTH_LONG).show();
-                    loginIntent = new Intent(SplashScreen.this, LoginActivity.class);
+                    loginIntent = new Intent(SplashScreen.this, OnTheMain.class);
                     SplashScreen.this.startActivity(loginIntent);
                     finish();
                     break;

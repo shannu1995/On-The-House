@@ -1,5 +1,6 @@
-package com.onthehouse.onthehouse;
+package com.onthehouse.fragments;
 
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -7,16 +8,15 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import com.rengwuxian.materialedittext.MaterialEditText;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
-
 import com.juanpabloprado.countrypicker.CountryPicker;
 import com.juanpabloprado.countrypicker.CountryPickerListener;
 import com.onthehouse.connection.APIConnection;
@@ -24,73 +24,60 @@ import com.onthehouse.details.Country;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
 import com.onthehouse.details.Zone;
+import com.onthehouse.onthehouse.R;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
+import java.util.HashMap;
 import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
 
-public class RegisterActivity extends AppCompatActivity
+public class RegisterActivity extends Fragment
 {
-    MaterialEditText regEmail;
-    MaterialEditText regPass;
-    MaterialEditText regCPass;
-    MaterialEditText regLName;
-    MaterialEditText regFName;
-    MaterialEditText regNickName;
-    TextView regCountry;
-    MaterialBetterSpinner regState;
+    EditText regEmail;
+    EditText regPass;
+    EditText regCPass;
+    EditText regLName;
+    EditText regFName;
+    EditText regNickName;
+    EditText regCountry;
+    ArrayList<Zone> zoneList;
     ProgressButton registerBtn;
+    MaterialBetterSpinner regState;
     Country selectedCountry = new Country();
     String errorText = "";
     public ConstraintLayout layout;
-    ArrayList<Country> countryList = new ArrayList<>();
-    ArrayList<Zone> zoneList = new ArrayList<>();
-    ArrayList<String> zoneNames = new ArrayList<>();
-    private static final String TAG = "RegisterActivity";
+    ArrayList<Country> countryList = new ArrayList<Country>();
+    ArrayList<String> zoneNames = new ArrayList<String>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-       /* if (android.os.Build.VERSION.SDK_INT > 9)
-        {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }*/
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.activity_register, container, false);
+        final Context mContext = container.getContext();
 
-        regEmail = (MaterialEditText) findViewById(R.id.regEmail);
-        regPass = (MaterialEditText) findViewById(R.id.regPassword);
-        regCPass = (MaterialEditText) findViewById(R.id.regConfirmPassword);
-        regLName = (MaterialEditText) findViewById(R.id.regLastName);
-        regFName = (MaterialEditText) findViewById(R.id.regFirstName);
-        regNickName = (MaterialEditText) findViewById(R.id.regNickName);
-        regCountry = (TextView) findViewById(R.id.regCountry);
-        regState = (MaterialBetterSpinner) findViewById(R.id.regSpinnerState);
-        registerBtn = (ProgressButton) findViewById(R.id.registerBtn);
-        layout = (ConstraintLayout) findViewById(R.id.registerLayout);
-       // regCountry.set
-        new countryAsyncData(getApplicationContext()).execute();
-        regState.setVisibility(View.GONE);
-
-
-
+        regEmail = (EditText) view.findViewById(R.id.regEmail);
+        regPass = (EditText) view.findViewById(R.id.regPassword);
+        regCPass = (EditText) view.findViewById(R.id.regConfirmPassword);
+        regLName = (EditText) view.findViewById(R.id.regLastName);
+        regFName = (EditText) view.findViewById(R.id.regFirstName);
+        regNickName = (EditText) view.findViewById(R.id.regNickName);
+        regCountry = (EditText) view.findViewById(R.id.regCountry);
+        registerBtn = (ProgressButton) view.findViewById(R.id.registerBtn);
+        layout = (ConstraintLayout) view.findViewById(R.id.registerLayout);
+        new countryAsyncData(mContext).execute(countryList);
 
         regCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-
                 CountryPicker picker = CountryPicker.getInstance("Select Country", new CountryPickerListener() {
                     @Override public void onSelectCountry(String name, String code) {
+                        Toast.makeText(mContext, "Name: " + name, Toast.LENGTH_SHORT).show();
                         int country_id = 0;
                         zoneList = new ArrayList<Zone>();
-                        Toast.makeText(RegisterActivity.this, "Name: " + name, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "Name: " + name, Toast.LENGTH_SHORT).show();
                         for (Country counter: countryList) {
                             if (counter.getName().equals(name))
                             {
@@ -102,7 +89,7 @@ public class RegisterActivity extends AppCompatActivity
                                 selectedCountry = counter;
                                 new Thread(new StateThread()).start();
                                // BaseAdapter stateAdapter = new ArrayAdapter(getApplicationContext(), R.layout.state_item, R.id.regStateItem, zoneNames);
-                                ArrayAdapter<String> stateAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, zoneNames);
+                                ArrayAdapter<String> stateAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_dropdown_item_1line, zoneNames);
 
 
                                 zoneNames.clear();
@@ -112,13 +99,16 @@ public class RegisterActivity extends AppCompatActivity
                                 break;
                             }
                         }
+
+                        Toast.makeText(mContext, "Name: " + name, Toast.LENGTH_SHORT).show();
+                        regCountry.setText(name);
                         DialogFragment dialogFragment =
-                                (DialogFragment) getSupportFragmentManager().findFragmentByTag("CountryPicker");
+                                (DialogFragment) getActivity().getSupportFragmentManager().findFragmentByTag("CountryPicker");
                         dialogFragment.dismiss();
 
                     }
                 });
-                picker.show(getSupportFragmentManager(), "CountryPicker");
+                picker.show(getActivity().getSupportFragmentManager(), "CountryPicker");
             }
         });
 
@@ -126,34 +116,34 @@ public class RegisterActivity extends AppCompatActivity
         regPass.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(regPass.getText().length() < 4) {
+                if(charSequence.length() < 4) {
                     regPass.setError("Min 4 chars");
                 }
 
-                else if(regPass.getText().length() >= 4) {
-                    regPass.setError("");
+                else if(charSequence.length() >= 4) {
+                    regPass.setError(null);
                 }
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(regPass.getText().length() < 4) {
+                if(charSequence.length() < 4) {
                     regPass.setError("Min 4 chars");
                 }
 
-                else if(regPass.getText().length() >= 4) {
-                    regPass.setError("");
+                else if(charSequence.length() >= 4) {
+                    regPass.setError(null);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(regPass.getText().length() < 4) {
+                if(editable.toString().length() < 4) {
                     regPass.setError("Min 4 chars");
                 }
 
-                else if(regPass.getText().length() >= 4) {
-                    regPass.setError("");
+                else if(editable.toString().length() >= 4) {
+                    regPass.setError(null);
                 }
             }
         });
@@ -162,7 +152,7 @@ public class RegisterActivity extends AppCompatActivity
         regCPass.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!regPass.getText().toString().equals(regCPass.getText().toString())) {
+                if(!regPass.getText().toString().equals(charSequence.toString())) {
                     regCPass.setError("Password Not matched");
                 }
 
@@ -178,7 +168,7 @@ public class RegisterActivity extends AppCompatActivity
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!regPass.getText().toString().equals(regCPass.getText().toString())) {
+                if(!regPass.getText().toString().equals(editable.toString())) {
                     regCPass.setError("Password Not matched");
                 }
 
@@ -233,14 +223,14 @@ public class RegisterActivity extends AppCompatActivity
                 inputList.add("&password_confirm="+cPassword);
                 inputList.add("&terms=1");
 
-                new registerAsyncData(getApplicationContext()).execute(inputList);
-
+                new registerAsyncData(mContext).execute(inputList);
             }
         });
         /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.states_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);*/
 
+        return view;
     }
 
     class StateThread implements Runnable
@@ -284,12 +274,12 @@ public class RegisterActivity extends AppCompatActivity
                             System.out.println("json Object is: "+ zone.getName());
                             System.out.println(zone);
                             zoneList.add(zone);
+
                             zoneNames.add(zone.getName());
                         }
                         //1 = success;
                         status = 1;
                         for (Zone zoneCounter: zoneArrayList) {
-                            Log.d(TAG, "doInBackground: country list "+ zoneCounter);
                         }
                         Log.w("status", String.valueOf(status));
                     }
@@ -306,12 +296,10 @@ public class RegisterActivity extends AppCompatActivity
                 {
                     // 3 = json parse error
                     status = 3;
-                    Log.d(TAG, "setDataStates: error status 3");
                 }
             } catch (final Exception e) {
                 status = 2;
                 String err = (e.getMessage()==null)?"Exception occured in main setDataStates block ":e.getMessage();
-                Log.d(TAG, "setDataStates: "+err);
             }
 
         }
@@ -434,7 +422,7 @@ public class RegisterActivity extends AppCompatActivity
                 Snackbar.make(layout, "Registration Successful.", Snackbar.LENGTH_LONG).show();
                 //Toast.makeText(RegisterActivity.this, "Registration Successful.", Toast.LENGTH_LONG).show();
 
-                Intent registerDoneIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+                Intent registerDoneIntent = new Intent(context, LoginActivity.class);
                 RegisterActivity.this.startActivity(registerDoneIntent);
 
             }
@@ -492,7 +480,6 @@ public class RegisterActivity extends AppCompatActivity
                     //1 = success;
                     status = 1;
                         for (Zone zoneCounter: zoneArrayList) {
-                            Log.d(TAG, "doInBackground: country list "+ zoneCounter);
                         }
                     Log.w("status", String.valueOf(status));
                 }
@@ -509,25 +496,22 @@ public class RegisterActivity extends AppCompatActivity
             {
                 // 3 = json parse error
                 status = 3;
-                Log.d(TAG, "setDataStates: error status 3");
             }
         } catch (final Exception e) {
             status = 2;
             String err = (e.getMessage()==null)?"Exception occured in main setDataStates block ":e.getMessage();
-            Log.d(TAG, "setDataStates: "+err);
         }
         return zoneArrayList;
     }
 
 
     //setting data for countries
-    public void setDataCountry( JSONArray jsonCountriesArray) {
-
-        ArrayList<Country> countryArrayList = new ArrayList<>();
+    public HashMap<String, Country> setDataCountry(final Context mContext, JSONArray jsonCountriesArray) {
+        HashMap<String, Country> countries = new HashMap<String, Country>();
+        Country country = new Country();
 
         try {   //country = new Country();
                 for (int i = 0; i <jsonCountriesArray.length(); i++) {
-                    Country country = new Country();
                     JSONObject jObj = jsonCountriesArray.getJSONObject(i);
                     System.out.println("json Object is: "+ jObj);
                     country.setId(UtilMethods.tryParseInt(jObj.getString("id")));
@@ -539,28 +523,23 @@ public class RegisterActivity extends AppCompatActivity
                     country.setIso_code_3(jObj.getString("iso_code_3"));
                     countryList.add(country);
                 }
-            for (int i = 0; i < countryArrayList.size(); i++){
-            System.out.println("Country id and name is "+countryArrayList.get(i).getId()+" "+countryArrayList.get(i).getName()+ " ");
-
-            }
         }
-        catch (final Exception e) {
-            runOnUiThread(new Runnable() {
+        catch (final JSONException e) {
+            getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.w("Country array", e.getMessage());
-                    Toast.makeText(getApplicationContext(), "Country Json Parsing Error :" +e.getMessage(), Toast.LENGTH_LONG ).show();
+                    Toast.makeText(mContext, "Json Parsing Error :" +e.getMessage(), Toast.LENGTH_LONG ).show();
                 }
             });
 
         }
 
-
+        return countries;
     }
 
 
 
-    public class countryAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
+    public class countryAsyncData extends AsyncTask<ArrayList<Country>, Void, Integer> {
         private static final String TAG = "inputAsyncData";
         Context context;
 
@@ -575,7 +554,7 @@ public class RegisterActivity extends AppCompatActivity
 
 
         @Override
-        protected Integer doInBackground(ArrayList<String>... params) {
+        protected Integer doInBackground(ArrayList<Country>... params) {
             int status = 0;
 
             APIConnection connection = new APIConnection();
@@ -593,7 +572,9 @@ public class RegisterActivity extends AppCompatActivity
                     String result = obj.getString("status");
                     if (result.equals("success")) {
                         JSONArray countries = obj.getJSONArray("countries");
-                        setDataCountry(countries);
+                        setDataCountry(context, countries);
+                        Log.d(TAG, "doInBackground: setting json_countries_array "+countries );
+                        HashMap<String, Country> countryHashMap = setDataCountry(context, countries);
                         //1 = success;
                         status = 1;
 //                        for (Country countryCounter: countryList) {
