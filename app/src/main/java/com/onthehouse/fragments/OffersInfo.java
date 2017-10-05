@@ -52,6 +52,8 @@ public class OffersInfo extends Fragment {
         final View view = inflater.inflate(R.layout.activity_offer_detail, container, false);
         Context mContext = container.getContext();
 
+
+
         int pos = getArguments().getInt("position");
         Toast.makeText(mContext, Integer.toString(pos), Toast.LENGTH_LONG).show();
 
@@ -151,4 +153,6 @@ public class OffersInfo extends Fragment {
 
         return view;
     }
+
+
 }

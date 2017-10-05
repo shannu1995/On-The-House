@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.onthehouse.connection.APIConnection;
+import com.onthehouse.fragments.LoginActivity;
 
 import org.json.JSONObject;
 

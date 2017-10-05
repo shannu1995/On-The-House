@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,9 +25,9 @@ public class MainMenu extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -35,6 +36,11 @@ public class MainMenu extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+        tx.replace(R.id.frame_container, new OffersList());
+        tx.commit();
+
     }
 
 
@@ -49,6 +55,10 @@ public class MainMenu extends AppCompatActivity
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -57,7 +67,7 @@ public class MainMenu extends AppCompatActivity
         Fragment fragment = null;
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.offers) {
             fragment = new OffersList();
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
@@ -77,18 +87,19 @@ public class MainMenu extends AppCompatActivity
 
             Toast.makeText(getApplicationContext(),"Logged Out Successfully"
                     ,Toast.LENGTH_LONG).show();
-            Intent loginIntent = new Intent(MainMenu.this, LoginActivity.class);
+            Intent loginIntent = new Intent(MainMenu.this, OnTheMain.class);
             MainMenu.this.startActivity(loginIntent);
             finish();
         }
 
+        else {
+            fragment = new OffersList();
+        }
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.frame_container, fragment).commit();
-
+                    .replace(R.id.frame_container, fragment).addToBackStack("On the House").commit();
         }
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
