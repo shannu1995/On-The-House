@@ -122,63 +122,56 @@
             app:layout_constraintTop_toBottomOf="@+id/lPassword"
             app:layout_constraintHorizontal_bias="0.942" />
 
-    <RelativeLayout
-        android:id="@+id/orLogin"
+
+
+
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="1841dp"
+        android:orientation="horizontal"
         tools:layout_editor_absoluteY="8dp"
         tools:layout_editor_absoluteX="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginButton"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:weightSum="2">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            android:layout_weight="1"/>
 
         <TextView
-            android:id="@+id/tvText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="@string/OR"
-            android:textColor="@color/textColor"/>
+            android:text="OR"/>
 
         <View
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_toLeftOf="@id/tvText"
-            android:background="@color/textColor"
-            />
+            android:background="@android:color/black"
+            android:layout_weight="2"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_centerVertical="true"
+
+        <TextView
+            android:id="@+id/skip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:layout_marginRight="16dp"
-            android:layout_toRightOf="@id/tvText"
-            android:background="@color/textColor" />
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/skip"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:text="@string/skipLogin"
-        android:textColor="@color/textColor"
-        android:textStyle="bold"
-        android:textSize="16dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orLogin"
-        android:gravity="center"/>
+            android:text="@string/skipLogin"
+            android:textColor="@color/textColor"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:gravity="center"/>
+    </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

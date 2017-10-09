@@ -34,11 +34,11 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:id="@+id/regFirstName"
-                android:backgroundTint="@android:color/white"
+                android:backgroundTint="@color/colorAccent"
                 android:hint="@string/registerFirstName"
                 android:inputType="textPersonName"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white"
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/colorAccent"
                 android:singleLine="true"
                 />
         </android.support.design.widget.TextInputLayout>
@@ -65,11 +65,11 @@
                     android:id="@+id/regLastName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@android:color/white"
+                    android:backgroundTint="@color/colorAccent"
                     android:hint="@string/registerLastName"
                     android:inputType="textPersonName"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/white"/>
+                    android:textColor="@color/textColor"
+                    android:textColorHint="@color/colorAccent"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -91,11 +91,11 @@
                 android:id="@+id/regNickName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/white"
+                android:backgroundTint="@color/colorAccent"
                 android:hint="@string/registerNickName"
                 android:inputType="textPersonName"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white"/>
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/colorAccent"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -118,11 +118,11 @@
                 android:id="@+id/regEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/white"
+                android:backgroundTint="@color/colorAccent"
                 android:hint="@string/registerEmail"
                 android:inputType="textEmailAddress"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white"/>
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/colorAccent"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -145,11 +145,11 @@
                 android:id="@+id/regPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/white"
+                android:backgroundTint="@color/colorAccent"
                 android:hint="@string/registerPassword"
                 android:inputType="textPassword"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white"/>
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/colorAccent"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -173,11 +173,11 @@
                 android:id="@+id/regConfirmPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/white"
+                android:backgroundTint="@color/colorAccent"
                 android:hint="@string/registerConfirmPassword"
                 android:inputType="textPassword"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white"/>
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/colorAccent"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -200,11 +200,11 @@
                 android:id="@+id/regCountry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/white"
+                android:backgroundTint="@color/colorAccent"
                 android:hint="@string/registerButton"
                 android:inputType="text"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white"/>
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/colorAccent"/>
         </android.support.design.widget.TextInputLayout>
 
         <cn.xm.weidongjian.progressbuttonlib.ProgressButton
