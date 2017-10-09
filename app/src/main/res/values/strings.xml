@@ -20,7 +20,7 @@
     <string name="registerPassword">Password</string>
     <string name="registerConfirmPassword">Confirm Password</string>
     <string name="registerButton">REGISTER</string>
-    <string name="skipLogin"><u>Explore as Guest</u></string>
+    <string name="skipLogin">Continue as Guest</string>
     <string name="signup">Signup</string>
     <string name="reset">Reset</string>
     <string name="offers_info">More info</string>
@@ -31,6 +31,7 @@
     <string name="registerSelectState">Select State</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="OR">OR</string>
 
     <string-array name="states_array">
         <item>VIC</item>
