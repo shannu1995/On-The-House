@@ -5,24 +5,53 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.WindowDecorActionBar;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
+import com.viksaa.sssplash.lib.activity.AwesomeSplash;
+import com.viksaa.sssplash.lib.cnst.Flags;
+import com.viksaa.sssplash.lib.model.ConfigSplash;
+
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class SplashScreen extends AppCompatActivity {
-
+public class SplashScreen extends AwesomeSplash {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_screen);
+    public void initSplash(ConfigSplash configSplash) {
+        configSplash.setBackgroundColor(R.color.backgroundColorFirstHalf); //any color you want form colors.xml
+        configSplash.setAnimCircularRevealDuration(2000); //int ms
+        configSplash.setRevealFlagX(Flags.REVEAL_RIGHT);  //or Flags.REVEAL_LEFT
+        configSplash.setRevealFlagY(Flags.REVEAL_BOTTOM); //or Flags.REVEAL_TOP
+
+        //Choose LOGO OR PATH; if you don't provide String value for path it's logo by default
+
+        //Customize Logo
+        configSplash.setLogoSplash(R.drawable.oth_logo_lightbkgd_lowres); //or any other drawable
+        configSplash.setAnimLogoSplashDuration(2000); //int ms
+
+        configSplash.setAnimLogoSplashTechnique(Techniques.Bounce); //choose one form Techniques (ref: https://github.com/daimajia/AndroidViewAnimations)
+
+
+        //Customize Path
+        //configSplash.setPathSplash(Constants.DROID_LOGO); //set path String
+        configSplash.setOriginalHeight(400); //in relation to your svg (path) resource
+        configSplash.setOriginalWidth(400); //in relation to your svg (path) resource
+        configSplash.setAnimPathStrokeDrawingDuration(3000);
+        configSplash.setPathSplashStrokeSize(3); //I advise value be <5
+        configSplash.setPathSplashStrokeColor(R.color.colorPrimary); //any color you want form colors.xml
+        configSplash.setAnimPathFillingDuration(3000);
+        configSplash.setPathSplashFillColor(R.color.backgroundColorFirstHalf); //path object filling color
+
+
 
         SharedPreferences sharedPreferences = getSharedPreferences("memberInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -32,15 +61,29 @@ public class SplashScreen extends AppCompatActivity {
         boolean savedLogin = sharedPreferences.getBoolean("RememberMe", false);
 
         if (savedEmailStr == null || savedPassStr == null || !savedLogin){
-            Intent offerIntent = new Intent(SplashScreen.this, OnTheMain.class);
-            SplashScreen.this.startActivity(offerIntent);
-            finish();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent offerIntent = new Intent(SplashScreen.this, OnTheMain.class);
+                    SplashScreen.this.startActivity(offerIntent);
+                    finish();
+                }
+            }, 5000);
+
         }else {
             inputList.add("&email="+savedEmailStr);
             inputList.add("&password="+savedPassStr);
+
             new splashScreenAsyncTask(getApplicationContext()).execute(inputList);
         }
     }
+
+    @Override
+    public void animationsFinished() {
+
+    }
+
     public void setData(Member member, JSONObject jsonArray) {
         try
         {
@@ -139,7 +182,6 @@ public class SplashScreen extends AppCompatActivity {
         }
 
         protected void onPostExecute(Integer result) {
-            System.out.println("******************" + result);
             String toastMessage;
             switch (result){
                 case 1:
@@ -149,20 +191,33 @@ public class SplashScreen extends AppCompatActivity {
                     Intent mainMenuIntent = new Intent(SplashScreen.this, MainMenu.class);
                     SplashScreen.this.startActivity(mainMenuIntent);
                     finish();
+
                     break;
                 case 2:
                     toastMessage = "Auto login failed, please check your details and sign in again";
                     Toast.makeText(getApplicationContext(),toastMessage,Toast.LENGTH_LONG).show();
-                    Intent loginIntent = new Intent(SplashScreen.this, OnTheMain.class);
-                    SplashScreen.this.startActivity(loginIntent);
-                    finish();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent loginIntent = new Intent(SplashScreen.this, OnTheMain.class);
+                            SplashScreen.this.startActivity(loginIntent);
+                            finish();
+                        }
+                    }, 5000);
                     break;
                 default:
                     toastMessage = "Auto login failed, Technical Error";
                     Toast.makeText(getApplicationContext(),toastMessage,Toast.LENGTH_LONG).show();
-                    loginIntent = new Intent(SplashScreen.this, OnTheMain.class);
-                    SplashScreen.this.startActivity(loginIntent);
-                    finish();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent loginIntent = new Intent(SplashScreen.this, OnTheMain.class);
+                            SplashScreen.this.startActivity(loginIntent);
+                            finish();
+                        }
+                    }, 5000);
+
+
                     break;
 
             }
