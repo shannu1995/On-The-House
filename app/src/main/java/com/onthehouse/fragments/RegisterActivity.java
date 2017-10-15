@@ -226,18 +226,18 @@ public class RegisterActivity extends Fragment
                 String nickName = regNickName.getText().toString();
                 String countryId = null;
                 String zone_id = null;
-                for (Zone zoneCounter: zoneList) {
-                    if (zoneCounter.getName().equals(regState.getSelectedItem().toString())) {
+
+                for (Zone zoneCounter: zoneList)
+                {
+                    if (zoneCounter.getName().equals(regState.getSelectedItem().toString()))
+                    {
                         zone_id = Integer.toString(zoneCounter.getId());
+                        break;
                     }
 
                 }
 
-                for (Country countryCounter: countryList) {
-                    if (countryCounter.getName().equals(regCountry.getText()))
-
-                    countryId = Integer.toString(countryCounter.getId());
-                }
+                countryId = String.valueOf(selectedCountry.getId());
 
                 APIConnection connection = new APIConnection();
                 ArrayList<String> inputList = new ArrayList<String>();
