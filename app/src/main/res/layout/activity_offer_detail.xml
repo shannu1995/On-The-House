@@ -157,11 +157,9 @@
             android:id="@+id/quantity_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toRightOf="@+id/show_details"
-            android:layout_marginLeft="16dp"
             android:background="@color/white"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/shows" />
+            tools:layout_editor_absoluteY="437dp"
+            tools:layout_editor_absoluteX="89dp" />
 
         <Button
             android:id="@+id/book_button"
