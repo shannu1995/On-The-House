@@ -85,4 +85,6 @@
     </string>
     <string name="payment_portal">Payment Portal</string>
     <string name="competition_page">Competition</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="change_password">Change Password</string>
 </resources>
