@@ -55,6 +55,7 @@ public class OffersInfo extends Fragment {
 
 
         int pos = getArguments().getInt("position");
+        //Toast.makeText(mContext, Integer.toString(pos), Toast.LENGTH_LONG).show();
 
         offerTitle = view.findViewById(R.id.offer_title);
         offerFullPrice = view.findViewById(R.id.offer_fullPriceText);
@@ -75,6 +76,7 @@ public class OffersInfo extends Fragment {
         adapter = new ArrayAdapter<Integer>(view.getContext(),
                 android.R.layout.simple_expandable_list_item_1,
                 offerDet.getQuantities());
+
         spinner.setAdapter(adapter);
         spinner.setSelection(0);
 
