@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity
         password = (EditText) findViewById(R.id.loginPassword);
         loginButton= (ProgressButton) findViewById(R.id.loginButton);
 
-        register = (TextView) findViewById(R.id.signup);
+        //register = (TextView) findViewById(R.id.signup);
         skip = (TextView) findViewById(R.id.skip);
         reset = (TextView) findViewById(R.id.resetPassword);
 
@@ -77,6 +77,7 @@ public class LoginActivity extends AppCompatActivity
             }
         });
 
+        /*
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -84,6 +85,7 @@ public class LoginActivity extends AppCompatActivity
                 LoginActivity.this.startActivity(registerIntent);
             }
         });
+        */
         skip.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
