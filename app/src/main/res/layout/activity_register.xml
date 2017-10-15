@@ -46,7 +46,7 @@
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/LastName"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             app:layout_constraintHorizontal_bias="0.0"
@@ -74,18 +74,18 @@
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/NickName"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
             android:ems="10"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:textCursorDrawable="@drawable/cursor_color"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp">
+            android:layout_marginEnd="16dp"
+            tools:layout_editor_absoluteY="81dp">
 
             <EditText
                 android:id="@+id/regNickName"
@@ -100,7 +100,7 @@
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/Email"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
@@ -127,7 +127,7 @@
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/Password"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
@@ -154,7 +154,7 @@
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/ConfirmPassword"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
@@ -182,7 +182,7 @@
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/Country"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
@@ -207,6 +207,24 @@
                 android:textColorHint="@color/colorAccent"/>
         </android.support.design.widget.TextInputLayout>
 
+        <Spinner
+            android:id="@+id/stateSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:textColor="@android:color/black"
+            android:textSize="14dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Country"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+
         <cn.xm.weidongjian.progressbuttonlib.ProgressButton
             android:id="@+id/registerBtn"
             android:layout_width="0dp"
@@ -214,7 +232,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="66dp"
             android:text="@string/registerButton"
             android:textAlignment="center"
             android:textColor="@color/text"
@@ -225,9 +243,9 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Country"
+            app:layout_constraintTop_toBottomOf="@+id/stateSpinner"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp" />
-
+            android:layout_marginEnd="16dp"
+            app:layout_constraintVertical_bias="1.0" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

@@ -32,6 +32,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="OR">OR</string>
+    <string name="state_prompt">State</string>
+
 
     <string-array name="states_array">
         <item>VIC</item>
