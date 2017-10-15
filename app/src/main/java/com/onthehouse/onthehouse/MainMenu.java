@@ -17,9 +17,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.onthehouse.fragments.OffersList;
+import com.onthehouse.fragments.PastOffersList;
 
 public class MainMenu extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,31 +69,36 @@ public class MainMenu extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.offers) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
+                fragmentManager.popBackStack();
+            }
             fragment = new OffersList();
-            // Handle the camera action
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_past_offers) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            fragment = new PastOffersList();
 
         } else if (id == R.id.nav_logout) {
             SharedPreferences sharedPreferences = getSharedPreferences("memberInfo", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("memberEmail",null);
-            editor.putString("memberPass",null);
+            editor.putString("memberEmail", null);
+            editor.putString("memberPass", null);
             editor.apply();
 
-            Toast.makeText(getApplicationContext(),"Logged Out Successfully"
-                    ,Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Logged Out Successfully"
+                    , Toast.LENGTH_LONG).show();
             Intent loginIntent = new Intent(MainMenu.this, OnTheMain.class);
             MainMenu.this.startActivity(loginIntent);
             finish();
-        }
-
-        else {
+        } else {
             fragment = new OffersList();
         }
         if (fragment != null) {

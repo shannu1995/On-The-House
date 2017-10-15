@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
+import com.onthehouse.fragments.RegisterActivity;
 
 import org.json.JSONObject;
 
@@ -49,7 +50,7 @@ public class LoginActivity extends AppCompatActivity
         password = (EditText) findViewById(R.id.loginPassword);
         loginButton= (ProgressButton) findViewById(R.id.loginButton);
 
-        register = (TextView) findViewById(R.id.signup);
+//        register = (TextView) findViewById(R.id.signup);
         skip = (TextView) findViewById(R.id.skip);
         reset = (TextView) findViewById(R.id.resetPassword);
 
