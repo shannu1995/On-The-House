@@ -250,7 +250,6 @@ public class OffersList extends Fragment {
                                 detail.setVenueDetails(venueAddress);
                                 detail.setShowsHeading(showsHeadingObject);
                                 Date currentTime = Calendar.getInstance().getTime();
-                                Log.w("FUCK!!!!: ",currentTime.toString());
 
                                 DateFormat dates = new SimpleDateFormat("dd/mm/yyyy hh:mm");
                                 //Date date1 = new Date(Long.parseLong(showsDetailsObject.getString("show_date")) * 1000);

@@ -158,7 +158,7 @@ public class LoginActivity extends Fragment
             member.setZip_code(UtilMethods.tryParseInt(jsonArray.getString("zip")));
             member.setCountry_id(UtilMethods.tryParseInt(jsonArray.getString("country_id")));
             member.setAge(UtilMethods.tryParseInt(jsonArray.getString("age")));
-            member.setLanguage_id(UtilMethods.tryParseInt(jsonArray.getString("language_id")));
+            member.setLanguage_id(jsonArray.getString("language_id"));
             member.setTimezone_id(UtilMethods.tryParseInt(jsonArray.getString("timezone_id")));
             member.setMembership_level_id(UtilMethods.tryParseInt(jsonArray.getString("membership_level_id")));
             member.setMembership_expiry(UtilMethods.tryParseInt(jsonArray.getString("membership_expiry")));
