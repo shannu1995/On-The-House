@@ -199,9 +199,10 @@
             <EditText
                 android:id="@+id/regCountry"
                 android:layout_width="match_parent"
+                android:focusable="false"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
-                android:hint="@string/registerButton"
+                android:hint="@string/registerCountry"
                 android:inputType="text"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/colorAccent"/>
@@ -210,6 +211,8 @@
         <Spinner
             android:id="@+id/stateSpinner"
             android:layout_width="0dp"
+            android:popupBackground="@drawable/backgroud_spinner"
+            android:background="@drawable/gradient_spinner"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
