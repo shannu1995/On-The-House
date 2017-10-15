@@ -55,7 +55,6 @@ public class OffersInfo extends Fragment {
 
 
         int pos = getArguments().getInt("position");
-        Toast.makeText(mContext, Integer.toString(pos), Toast.LENGTH_LONG).show();
 
         offerTitle = view.findViewById(R.id.offer_title);
         offerFullPrice = view.findViewById(R.id.offer_fullPriceText);

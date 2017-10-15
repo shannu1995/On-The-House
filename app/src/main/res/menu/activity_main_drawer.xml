@@ -1,31 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/offers"
-            android:title="Offers"
-            android:icon="@drawable/offers"/>
-        <item
-            android:id="@+id/nav_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:title="Tools" />
-    </group>
-
-    <item android:title="Communicate">
+    <item android:title="Offers">
         <menu>
             <item
-                android:id="@+id/nav_past_offers"
-                android:title="Past Offers" />
+                android:id="@+id/offers"
+                android:title="Current Offers"
+                android:icon="@drawable/offers"/>
+
             <item
-                android:id="@+id/nav_logout"
-                android:title="Logout" />
+                android:id="@+id/nav_past_offers"
+                android:icon="@drawable/offers_main"
+                android:title="Past Offers" />
         </menu>
     </item>
+
+    <item android:title="Member">
+        <menu>
+            <item
+                android:id="@+id/past_offerings"
+                android:icon="@drawable/offering_main"
+                android:title="Past Offerings" />
+
+
+            <item
+                android:id="@+id/edit_details"
+                android:title="Edit Details"
+                android:icon="@drawable/edit_main"/>
+        </menu>
+    </item>
+
+    <group android:checkableBehavior="single">
+           <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/logout_main"
+                android:title="Logout" />
+    </group>
 
 </menu>
