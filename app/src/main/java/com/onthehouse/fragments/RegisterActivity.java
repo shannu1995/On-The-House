@@ -180,13 +180,13 @@ public class RegisterActivity extends Fragment
                 }
 
                 else {
-                    regCPass.setError("");
+                    regCPass.setError(null);
                 }
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                regCPass.setError("");
+                regCPass.setError(null);
             }
 
             @Override
@@ -196,7 +196,7 @@ public class RegisterActivity extends Fragment
                 }
 
                 else {
-                    regCPass.setError("");
+                    regCPass.setError(null);
                 }
 
             }
