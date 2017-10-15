@@ -22,6 +22,10 @@
             <item
                 android:id="@+id/nav_past_offers"
                 android:title="Past Offers" />
+
+            <item
+                android:id="@+id/nav_update"
+                android:title="Update Profile" />
             <item
                 android:id="@+id/nav_logout"
                 android:title="Logout" />
