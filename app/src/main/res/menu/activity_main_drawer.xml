@@ -27,6 +27,11 @@
                 android:id="@+id/edit_details"
                 android:title="Edit Details"
                 android:icon="@drawable/edit_main"/>
+
+            <item
+                android:id="@+id/change_password"
+                android:title="Change Password"
+                android:icon="@drawable/password" />
         </menu>
     </item>
 
