@@ -25,6 +25,7 @@ import com.onthehouse.details.Country;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
 import com.onthehouse.details.Zone;
+import com.onthehouse.onthehouse.MainMenu;
 import com.onthehouse.onthehouse.R;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
@@ -72,7 +73,7 @@ public class RegisterActivity extends Fragment
         registerBtn = (ProgressButton) view.findViewById(R.id.registerBtn);
         regState = (Spinner) view.findViewById(R.id.stateSpinner);
         layout = (ConstraintLayout) view.findViewById(R.id.registerLayout);
-        
+
         new countryAsyncData(mContext).execute(countryList);
 
 
@@ -81,11 +82,11 @@ public class RegisterActivity extends Fragment
             public void onClick(View view) {
                 CountryPicker picker = CountryPicker.getInstance("Select Country", new CountryPickerListener() {
                     @Override public void onSelectCountry(String name, String code) {
-                        Toast.makeText(mContext, "Name: " + name, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(mContext, "Name: " + name, Toast.LENGTH_SHORT).show();
                         int country_id = 0;
                         zoneNames.clear();
                         zoneList = new ArrayList<Zone>();
-                        Toast.makeText(mContext, "Name: " + name, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(mContext, "Name: " + name, Toast.LENGTH_SHORT).show();
                         regCountry.setText(name);
                         DialogFragment dialogFragment =
                                 (DialogFragment) getActivity().getSupportFragmentManager().findFragmentByTag("CountryPicker");
@@ -106,9 +107,10 @@ public class RegisterActivity extends Fragment
                                 new Thread(new StateThread()).start();
 
                                 boolean flag = true;
-
-                                while(flag)
+                                int recoverCounter = 0;
+                                while(flag && recoverCounter < 400)
                                 {
+                                    Log.w("recover", String.valueOf(recoverCounter));
                                     if (zoneNames.size() > 0)
                                     {
                                         stateAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, zoneNames);
@@ -124,6 +126,13 @@ public class RegisterActivity extends Fragment
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
+
+                                    recoverCounter++;
+                                }
+
+                                if(recoverCounter >= 399)
+                                {
+                                    regState.setSelection(-1);
                                 }
 
                                 break;
@@ -217,22 +226,22 @@ public class RegisterActivity extends Fragment
                 String nickName = regNickName.getText().toString();
                 String countryId = null;
                 String zone_id = null;
-                for (Zone zoneCounter: zoneList) {
-                    if (zoneCounter.getName().equals(regState.getSelectedItem().toString())) {
+
+                for (Zone zoneCounter: zoneList)
+                {
+                    if (zoneCounter.getName().equals(regState.getSelectedItem().toString()))
+                    {
                         zone_id = Integer.toString(zoneCounter.getId());
+                        break;
                     }
 
                 }
 
-                for (Country countryCounter: countryList) {
-                    if (countryCounter.getName().equals(regCountry.getText()))
-
-                    countryId = Integer.toString(countryCounter.getId());
-                }
+                countryId = String.valueOf(selectedCountry.getId());
 
                 APIConnection connection = new APIConnection();
                 ArrayList<String> inputList = new ArrayList<String>();
-                inputList.add("nickname="+nickName);
+                inputList.add("&nickname="+nickName);
                 inputList.add("&first_name="+firstName);
                 inputList.add("&last_name="+lastName);
                 inputList.add("&zip=3000");
@@ -444,11 +453,11 @@ public class RegisterActivity extends Fragment
             if(result == 1)
             {
                 registerBtn.animFinish();
-                Snackbar.make(layout, "Registration Successful.", Snackbar.LENGTH_LONG).show();
-                //Toast.makeText(RegisterActivity.this, "Registration Successful.", Toast.LENGTH_LONG).show();
+                //Snackbar.make(layout, "Registration Successful.", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Registration Successful.", Toast.LENGTH_LONG).show();
 
-                Intent registerDoneIntent = new Intent(context, LoginActivity.class);
-                RegisterActivity.this.startActivity(registerDoneIntent);
+                Intent registerDoneIntent = new Intent(context, MainMenu.class);
+                getActivity().startActivity(registerDoneIntent);
 
             }
 
