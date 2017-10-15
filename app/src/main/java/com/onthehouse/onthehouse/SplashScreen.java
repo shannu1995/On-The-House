@@ -69,7 +69,7 @@ public class SplashScreen extends AwesomeSplash {
                     SplashScreen.this.startActivity(offerIntent);
                     finish();
                 }
-            }, 5000);
+            }, 3000);
 
         }else {
             inputList.add("&email="+savedEmailStr);
@@ -104,7 +104,7 @@ public class SplashScreen extends AwesomeSplash {
             member.setZip_code(UtilMethods.tryParseInt(jsonArray.getString("zip")));
             member.setCountry_id(UtilMethods.tryParseInt(jsonArray.getString("country_id")));
             member.setAge(UtilMethods.tryParseInt(jsonArray.getString("age")));
-            member.setLanguage_id(UtilMethods.tryParseInt(jsonArray.getString("language_id")));
+            // member.setLanguage_id(UtilMethods.tryParseInt(jsonArray.getString("language_id")));
             member.setTimezone_id(UtilMethods.tryParseInt(jsonArray.getString("timezone_id")));
             member.setMembership_level_id(UtilMethods.tryParseInt(jsonArray.getString("membership_level_id")));
             member.setMembership_expiry(UtilMethods.tryParseInt(jsonArray.getString("membership_expiry")));
@@ -202,6 +202,7 @@ public class SplashScreen extends AwesomeSplash {
                             Intent loginIntent = new Intent(SplashScreen.this, OnTheMain.class);
                             SplashScreen.this.startActivity(loginIntent);
                             finish();
+
                         }
                     }, 5000);
                     break;
@@ -214,6 +215,7 @@ public class SplashScreen extends AwesomeSplash {
                             Intent loginIntent = new Intent(SplashScreen.this, OnTheMain.class);
                             SplashScreen.this.startActivity(loginIntent);
                             finish();
+
                         }
                     }, 5000);
 

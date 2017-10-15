@@ -3,9 +3,10 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColorFirstHalf"
+    android:background="@color/text"
     android:fitsSystemWindows="true"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:layout_marginLeft="2dp">
 
   <include layout="@layout/contents_offers" />
 
