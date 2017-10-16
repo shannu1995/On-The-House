@@ -1,27 +1,19 @@
 package com.onthehouse.fragments;
 
-import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Country;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.Zone;
-import com.onthehouse.onthehouse.MainMenu;
-import com.onthehouse.onthehouse.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,7 +26,7 @@ import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
  * Created by ammar on 15/10/2017.
  */
 
-public class UpdateProfile extends Fragment {
+public class UpdateProfile {
 
 
     EditText regEmail;
@@ -55,48 +47,47 @@ public class UpdateProfile extends Fragment {
     ArrayAdapter<String> stateAdapter = null;
 
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.activity_past_offers, container, false);
-        Context context = container.getContext();
-
-        regEmail = (EditText) view.findViewById(R.id.regEmail);
-        regPass = (EditText) view.findViewById(R.id.regPassword);
-        regCPass = (EditText) view.findViewById(R.id.regConfirmPassword);
-        regLName = (EditText) view.findViewById(R.id.regLastName);
-        regFName = (EditText) view.findViewById(R.id.regFirstName);
-        regNickName = (EditText) view.findViewById(R.id.regNickName);
-        regCountry = (EditText) view.findViewById(R.id.regCountry);
-        registerBtn = (ProgressButton) view.findViewById(R.id.registerBtn);
-        regState = (Spinner) view.findViewById(R.id.stateSpinner);
-        layout = (ConstraintLayout) view.findViewById(R.id.registerLayout);
-
-        //SETTING DATA
-        setData();
-
-        //SETTING INPUT LIST
-
-        APIConnection connection = new APIConnection();
-        ArrayList<String> inputList = new ArrayList<String>();
-        inputList.add("&nickname="+"");
-        inputList.add("&first_name="+"");
-        inputList.add("&last_name="+"");
-        inputList.add("&zip=3000");
-        inputList.add("&zone_id="+"");
-        inputList.add("&country_id="+"");
-        inputList.add("&timezone_id=106");
-        inputList.add("&question_id=");
-        inputList.add("&question_text=");
-        inputList.add("&email="+"");
-        inputList.add("&password="+"");
-        inputList.add("&password_confirm="+"");
-        inputList.add("&terms=1");
-
-      //  new editAsyncData(mContext).execute(inputList);
-
-
-
-        return view;
-    }
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//
+////
+////        regEmail = (EditText) view.findViewById(R.id.regEmail);
+////        regPass = (EditText) view.findViewById(R.id.regPassword);
+////        regCPass = (EditText) view.findViewById(R.id.regConfirmPassword);
+////        regLName = (EditText) view.findViewById(R.id.regLastName);
+////        regFName = (EditText) view.findViewById(R.id.regFirstName);
+////        regNickName = (EditText) view.findViewById(R.id.regNickName);
+////        regCountry = (EditText) view.findViewById(R.id.regCountry);
+////        registerBtn = (ProgressButton) view.findViewById(R.id.registerBtn);
+////        regState = (Spinner) view.findViewById(R.id.stateSpinner);
+////        layout = (ConstraintLayout) view.findViewById(R.id.registerLayout);
+//
+//        //SETTING DATA
+//        setData();
+//
+//        //SETTING INPUT LIST
+//
+//        APIConnection connection = new APIConnection();
+//        ArrayList<String> inputList = new ArrayList<String>();
+//        inputList.add("&nickname="+"");
+//        inputList.add("&first_name="+"");
+//        inputList.add("&last_name="+"");
+//        inputList.add("&zip=3000");
+//        inputList.add("&zone_id="+"");
+//        inputList.add("&country_id="+"");
+//        inputList.add("&timezone_id=106");
+//        inputList.add("&question_id=");
+//        inputList.add("&question_text=");
+//        inputList.add("&email="+"");
+//        inputList.add("&password="+"");
+//        inputList.add("&password_confirm="+"");
+//        inputList.add("&terms=1");
+//
+//      //  new editAsyncData(mContext).execute(inputList);
+//
+//
+//
+//       // return view;
+//    }
 
 
     private void setData() {
@@ -186,11 +177,11 @@ public class UpdateProfile extends Fragment {
             if(result == 1)
             {
                 registerBtn.animFinish();
-                //Snackbar.make(layout, "Registration Successful.", Snackbar.LENGTH_LONG).show();
-                Toast.makeText(getActivity(), "Registration Successful.", Toast.LENGTH_LONG).show();
-
-                Intent registerDoneIntent = new Intent(context, MainMenu.class);
-                getActivity().startActivity(registerDoneIntent);
+//                //Snackbar.make(layout, "Registration Successful.", Snackbar.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), "Registration Successful.", Toast.LENGTH_LONG).show();
+//
+//                Intent registerDoneIntent = new Intent(context, MainMenu.class);
+//                getActivity().startActivity(registerDoneIntent);
 
             }
 

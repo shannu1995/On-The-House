@@ -34,7 +34,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Title"
-                android:textColorHint="#@color/colorAccent"
                 app:met_floatingLabel="normal"/>
 
 
@@ -149,7 +148,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Age"
-                android:textColorHint="#@color/colorAccent"
                 app:met_floatingLabel="normal"/>
 
 
@@ -205,7 +203,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
-                android:hint="Phone Number"
+                android:hint="@string/regPhoneNumber"
                 android:inputType="phone"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/colorAccent"/>
@@ -232,7 +230,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Select Country"
-                android:textColorHint="#@color/colorAccent"
                 app:met_floatingLabel="normal"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -258,7 +255,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
-                android:hint="Street"
+                android:hint="@string/regStreet"
                 android:inputType="textPostalAddress"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/colorAccent"/>
@@ -285,7 +282,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
-                android:hint="City"
+                android:hint="@string/regCity"
                 android:inputType="textPostalAddress"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/colorAccent"/>
@@ -313,7 +310,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Select State"
-                android:textColorHint="#@color/colorAccent"
                 app:met_floatingLabel="normal"/>
         </android.support.design.widget.TextInputLayout>
 
@@ -338,7 +334,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
-                android:hint="Post Code"
+                android:hint="@string/regPostCode"
                 android:inputType="number"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/colorAccent"/>
@@ -365,7 +361,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Select Time Zone"
-                android:textColorHint="#@color/colorAccent"
                 app:met_floatingLabel="normal"/>
         </android.support.design.widget.TextInputLayout>
 
