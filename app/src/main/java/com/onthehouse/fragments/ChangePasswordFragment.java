@@ -28,7 +28,7 @@ public class ChangePasswordFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_change_password, container, false);
         Context context = container.getContext();
 
-        Button cancelBtn = (Button) view.findViewById(R.id.btn_cancel_changePassword);
+        Button cancelBtn = view.findViewById(R.id.btn_cancel_changePassword);
 
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
