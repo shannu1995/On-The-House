@@ -75,18 +75,14 @@ public class PastOffersList extends Fragment {
                     JSONObject obj = new JSONObject(output);
                     String result = obj.getString("status");
 
-                    Log.d(TAG, "doInBackground: LOG IN RESULT" + result);
                     if (result.equals("success")) {
                         try {
                             JSONArray jsonArray = obj.getJSONArray("events");
-                            Log.w("events", jsonArray.toString());
 
                             for (int i = 0; i < jsonArray.length(); i++) {
-                                Log.w("for", String.valueOf(i));
                                 PastOffers pastOffer = new PastOffers();
                                 JSONObject event = jsonArray.getJSONObject(i);
                                 pastOffer.setId(UtilMethods.tryParseInt(event.getString("id")));
-                                Log.w("Offer Id is: ", event.getString("id"));
 
                                 pastOffer.setName(event.getString("name"));
                                 pastOffer.setDescription(event.getString("description"));
@@ -110,7 +106,7 @@ public class PastOffersList extends Fragment {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.d(TAG, "doInBackground: Phat Gya");
+                Log.d(TAG, "doInBackground: " + e.getMessage());
                 status = 3;
             }
 
