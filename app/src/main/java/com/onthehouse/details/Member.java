@@ -27,7 +27,7 @@ public class Member
     private int zip_code;
     private int country_id;
     private int age;
-    private int language_id;
+    private String language_id;
     private int timezone_id;
     private int membership_level_id;
     private int membership_expiry;
@@ -179,11 +179,11 @@ public class Member
         this.age = age;
     }
 
-    public int getLanguage_id() {
+    public String getLanguage_id() {
         return language_id;
     }
 
-    public void setLanguage_id(int language_id) {
+    public void setLanguage_id(String language_id) {
         this.language_id = language_id;
     }
 

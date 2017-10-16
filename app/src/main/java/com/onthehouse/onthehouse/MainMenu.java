@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.onthehouse.fragments.ChangePasswordFragment;
 import com.onthehouse.fragments.OffersList;
 import com.onthehouse.fragments.PastOffersList;
 
@@ -69,38 +70,20 @@ public class MainMenu extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.offers) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
-                fragmentManager.popBackStack();
-            }
             fragment = new OffersList();
 
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_update) {
-
-
         } else if (id == R.id.nav_past_offers) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             fragment = new PastOffersList();
-        }
-//        } else if (id == R.id.nav_update) {
-//            class updateThread implements Runnable {
-//
-//                @Override
-//                public void run() {
-//
-//
-//                }
-//            }
 
- //       }
-        else if (id == R.id.nav_logout) {
+        } else if(id == R.id.edit_details) {
+
+
+        } else if(id == R.id.past_offerings) {
+
+        } else if (id == R.id.change_password) {
+            fragment = new ChangePasswordFragment();
+
+        } else if (id == R.id.nav_logout) {
             SharedPreferences sharedPreferences = getSharedPreferences("memberInfo", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("memberEmail", null);
