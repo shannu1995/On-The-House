@@ -24,7 +24,6 @@ import java.util.ArrayList;
 
 public class PastOffersList extends Fragment {
 
-    private ListView offerViewList;
     private PastOffersAdapter adapter;
     private ArrayList<PastOffers> pastOffersArrayList;
 
@@ -35,25 +34,25 @@ public class PastOffersList extends Fragment {
         final View view = inflater.inflate(R.layout.activity_past_offers, container, false);
         Context context = container.getContext();
 
-        offerViewList = (ListView) view.findViewById(R.id.past_offers_list_view);
+        ListView offerViewList = view.findViewById(R.id.past_offers_list_view);
         pastOffersArrayList = new ArrayList<>();
         adapter = new PastOffersAdapter(context, pastOffersArrayList);
         offerViewList.setAdapter(adapter);
 
-        ArrayList<String> inputList = new ArrayList<String>();
+        ArrayList<String> inputList = new ArrayList<>();
         inputList.clear();
         new inputAsyncData(context).execute(inputList);
 
         return view;
     }
 
-    public class inputAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
+    private class inputAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
 
         Context context;
         ProgressDialog progressDialog;
         private static final String TAG = "inputAsyncData";
 
-        public inputAsyncData(Context context) {
+        private inputAsyncData(Context context) {
             this.context = context;
         }
 
