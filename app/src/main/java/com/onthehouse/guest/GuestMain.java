@@ -1,6 +1,7 @@
 package com.onthehouse.guest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 
 import com.onthehouse.fragments.OffersList;
 import com.onthehouse.fragments.PastOffersList;
+import com.onthehouse.onthehouse.OnTheMain;
 import com.onthehouse.onthehouse.R;
 
 public class GuestMain extends AppCompatActivity {
@@ -36,7 +38,7 @@ public class GuestMain extends AppCompatActivity {
             if (fragment != null) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.guest_content, fragment).addToBackStack("Guest House").commit();
+                        .replace(R.id.guest_content, fragment).commit();
             }
 
             return true;
@@ -69,6 +71,30 @@ public class GuestMain extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            Intent intent = new Intent(this, OnTheMain.class);
+            startActivity(intent);
+            this.finish();
+        }
+
         super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                Intent intent = new Intent(this, OnTheMain.class);
+                startActivity(intent);
+                this.finish();
+            } else {
+                getSupportFragmentManager().popBackStack();
+            }
+        }
+
+
+        return super.onOptionsItemSelected(item);
     }
 }
