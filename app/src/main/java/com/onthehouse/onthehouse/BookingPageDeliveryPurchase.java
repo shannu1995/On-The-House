@@ -212,6 +212,7 @@ public class BookingPageDeliveryPurchase extends AppCompatActivity {
                         extras.putString("show_id", getShowId());
                         extras.putString("tickets", getTickets());
                         paymentActivity.putExtras(extras);
+                        paymentActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(paymentActivity);
                     }
                     else{
