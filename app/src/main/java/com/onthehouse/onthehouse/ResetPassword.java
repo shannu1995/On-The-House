@@ -16,6 +16,8 @@ import com.onthehouse.connection.APIConnection;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
 
@@ -31,9 +33,25 @@ public class ResetPassword extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
         resetButton = (ProgressButton) findViewById(R.id.resetButton);
         resetEmail = (EditText) findViewById(R.id.resetEmail);
         layout = (ConstraintLayout) findViewById(R.id.resetLayout);
+
+        resetEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (resetEmail.getText().length() <= 0) {
+                    resetEmail.setError(null);
+                } else if (!isValidEmail(resetEmail.getText().toString())) {
+                    resetEmail.setError("Invalid Email Address");
+                } else {
+                    resetEmail.setError(null);
+                }
+            }
+        });
 
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +66,11 @@ public class ResetPassword extends AppCompatActivity
                 new inputAsyncData(getApplicationContext()).execute(inputList);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     public class inputAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
@@ -138,6 +161,16 @@ public class ResetPassword extends AppCompatActivity
             }
             resetButton.setEnabled(true);
         }
+    }
+
+    // validating email id
+    private boolean isValidEmail(String email) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
 }
