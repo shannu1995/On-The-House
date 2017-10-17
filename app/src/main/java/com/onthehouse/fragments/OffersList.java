@@ -109,24 +109,6 @@ public class OffersList extends Fragment
     }
 
     /**
-     * Adding few offers for testing
-     */
-
-/*   private void prepareOffers() {
-       int[] covers = new int[]{
-               R.drawable.album1,
-               R.drawable.album2};
-
-       Offers a = new Offers("True Romance", covers[0]);
-       offersList.add(a);
-
-       a = new Offers("Xscpae", covers[1]);
-       offersList.add(a);
-
-
-   }*/
-
-    /**
      * RecyclerView item decoration - give equal margin around grid item
      */
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
