@@ -77,6 +77,9 @@ public class MainMenu extends AppCompatActivity
 
         } else if(id == R.id.edit_details) {
 
+            Intent intent = new Intent(this, EditMemberActivity.class);
+            startActivity(intent);
+
 
         } else if(id == R.id.past_offerings) {
 
