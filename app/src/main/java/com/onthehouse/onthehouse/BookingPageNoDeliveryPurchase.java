@@ -29,7 +29,6 @@ import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
 
 
 public class BookingPageNoDeliveryPurchase extends AppCompatActivity {
-    public TextView anotherView;
     public PaymentPortal portal;
     public ProgressButton confirmButton;
     public TextView paymentView;
@@ -42,17 +41,14 @@ public class BookingPageNoDeliveryPurchase extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final EditText editText = (EditText) findViewById(R.id.editText2);
-        confirmButton = (ProgressButton) findViewById(R.id.confirm_delivery);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_page_no_delivery_purchase);
 
-        anotherView = (TextView) findViewById(R.id.textView5);
-        paymentView = (TextView) findViewById(R.id.textView7);
-        confirmButton = (ProgressButton) findViewById(R.id.confirm_delivery);
 
         layout = (ConstraintLayout) findViewById(R.id.pickUpLayout);
+        final EditText editText = (EditText) findViewById(R.id.editText2);
+        confirmButton = (ProgressButton) findViewById(R.id.confirm_delivery);
 
         Bundle extras = getIntent().getExtras();
         this.setShow_id(extras.getString("show_id"));
@@ -63,22 +59,7 @@ public class BookingPageNoDeliveryPurchase extends AppCompatActivity {
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinner.setAdapter(adapter);
-        anotherView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent addressIntent = new Intent(BookingPageNoDeliveryPurchase.this,
-                        BookingPageDeliveryPurchase.class);
-                BookingPageNoDeliveryPurchase.this.startActivity(addressIntent);
-            }
-        });
-        paymentView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent paymentIntent = new Intent(BookingPageNoDeliveryPurchase.this,
-                        PaymentPortal.class);
-                BookingPageNoDeliveryPurchase.this.startActivity(paymentIntent);
-            }
-        });
+
         confirmButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
