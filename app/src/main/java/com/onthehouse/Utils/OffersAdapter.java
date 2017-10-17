@@ -2,6 +2,7 @@ package com.onthehouse.Utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.onthehouse.details.Offers;
 import com.onthehouse.fragments.OffersInfo;
+import com.onthehouse.onthehouse.OnTheMain;
 import com.onthehouse.onthehouse.R;
 
 import java.util.List;
@@ -33,8 +35,10 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
         public ImageView thumbnail;
         public ImageView offersInfo;
         public ImageView offersShare;
+        public ImageView offersUpgrade;
         public TextView offersInfoText;
         public TextView offersShareText;
+        public TextView offersUpgradeText;
 
         public MyViewHolder(View view) {
             super(view);
@@ -42,8 +46,10 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
             offersInfo = (ImageView) view.findViewById(R.id.offers_info);
             offersShare = (ImageView) view.findViewById(R.id.offers_share);
+            offersUpgrade = (ImageView) view.findViewById(R.id.offers_upgrade);
             offersInfoText = (TextView) view.findViewById(R.id.offers_info_text);
             offersShareText = (TextView) view.findViewById(R.id.offers_share_text);
+            offersUpgradeText = (TextView) view.findViewById(R.id.offers_upgrade_text);
         }
     }
 
@@ -65,6 +71,31 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
         final Offers offers = offersList.get(position);
         holder.title.setText(offers.getName());
 
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("GuestMember", Context.MODE_PRIVATE);
+
+        if (!sharedPreferences.getBoolean("GuestCheck", false)) {
+            holder.offersUpgradeText.setText("Upgrade to Gold");
+            holder.offersUpgrade.setBackgroundResource(android.R.drawable.ic_menu_manage);
+        } else {
+            holder.offersUpgradeText.setText("Login - Register");
+            holder.offersUpgrade.setBackgroundResource(android.R.drawable.ic_menu_edit);
+
+            holder.offersUpgrade.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, OnTheMain.class);
+                    mContext.startActivity(intent);
+                }
+            });
+
+            holder.offersUpgradeText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, OnTheMain.class);
+                    mContext.startActivity(intent);
+                }
+            });
+        }
 
         // loading album cover using Glide library
         Glide.with(mContext).load(offers.getThumbnail()).into(holder.thumbnail);
