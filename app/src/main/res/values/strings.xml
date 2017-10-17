@@ -116,4 +116,6 @@
     <string name="title_guestOffering">Past Offering</string>
     <string name="title_guestsignup">Login/Register</string>
     <string name="my_past_offerings">My Past Offerings</string>
+    <string name="editMemberTitle">Title</string>
+    <string name="editMemberAge">Age</string>
 </resources>
