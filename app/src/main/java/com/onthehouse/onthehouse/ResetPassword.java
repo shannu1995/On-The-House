@@ -116,11 +116,13 @@ public class ResetPassword extends AppCompatActivity
                 resetButton.animFinish();
                 Toast.makeText(getApplicationContext(), "Reset Successful" +
                         "\nPlease, check your inbox", Toast.LENGTH_LONG).show();
+                //Close KeyBoard
                 View view = getWindow().getDecorView().getRootView();
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
+                //Go back to previous screen
                 finish();
             }
             else if(result == 2)
