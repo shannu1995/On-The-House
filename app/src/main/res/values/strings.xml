@@ -92,4 +92,7 @@
     <string name="regStreet">Street</string>
     <string name="regCity">City</string>
     <string name="regPostCode">Post Code</string>
+    <string name="editMemberAddress">Address</string>
+    <string name="editMemberPhone">Phone</string>
+    <string name="editMemberCity">City</string>
 </resources>

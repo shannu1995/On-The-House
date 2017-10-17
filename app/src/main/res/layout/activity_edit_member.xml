@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/backgroundColorFirstHalf"
+            tools:context="com.onthehouse.fragments.RegisterActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/edit_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="81dp">
+
+        <Spinner
+            android:id="@+id/editMemberTitleSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:textColor="@android:color/black"
+            android:textSize="14dp"
+            android:hint="Select Title"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/NickName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:ems="10"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editMemberTitleSpinner"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            tools:layout_editor_absoluteY="81dp">
+
+            <EditText
+                android:id="@+id/EditMemberNickName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccent"
+                android:hint="@string/registerNickName"
+                android:inputType="textPersonName"
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/colorAccent"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/FirstName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/NickName"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+            <EditText
+
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/editMemberFirstName"
+                android:backgroundTint="@color/colorAccent"
+                android:hint="@string/registerFirstName"
+                android:inputType="textPersonName"
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/colorAccent"
+                android:singleLine="true"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/LastName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/FirstName"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+            <EditText
+                android:id="@+id/editMemberLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccent"
+                android:hint="@string/registerLastName"
+                android:inputType="textPersonName"
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/colorAccent"/>
+        </android.support.design.widget.TextInputLayout>
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/Email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/LastName"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+            <EditText
+                android:id="@+id/editMemberEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccent"
+                android:hint="@string/registerEmail"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/colorAccent"/>
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/Phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:singleLine="true"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Email"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+            <EditText
+                android:id="@+id/editMemberPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccent"
+                android:hint="@string/editMemberPhone"
+                android:inputType="textPassword"
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/colorAccent"/>
+        </android.support.design.widget.TextInputLayout>
+
+
+        <Spinner
+            android:id="@+id/editMemberAgeSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:textColor="@android:color/black"
+            android:textSize="14dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Phone"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/Street"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:singleLine="true"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editMemberAgeSpinner"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+            <EditText
+                android:id="@+id/EditMemberStreet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccent"
+                android:hint="@string/editMemberAddress"
+                android:inputType="textPassword"
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/colorAccent"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/City"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:singleLine="true"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Street"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+            <EditText
+                android:id="@+id/editMemberCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccent"
+                android:hint="@string/editMemberCity"
+                android:inputType="textPassword"
+                android:textColor="@color/textColor"
+                android:textColorHint="@color/colorAccent"/>
+        </android.support.design.widget.TextInputLayout>
+
+
+
+
+        <cn.xm.weidongjian.progressbuttonlib.ProgressButton
+            android:id="@+id/editUpdateBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="66dp"
+            android:text="Update"
+            android:textAlignment="center"
+            android:textColor="@color/text"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:background="@drawable/selector_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/City"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintVertical_bias="1.0" />
+
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
