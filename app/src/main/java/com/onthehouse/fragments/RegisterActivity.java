@@ -350,7 +350,7 @@ public class RegisterActivity extends Fragment
             member.setZone_id(UtilMethods.tryParseInt(jsonArray.getString("zone_id")));
             member.setZip_code(UtilMethods.tryParseInt(jsonArray.getString("zip")));
             member.setCountry_id(UtilMethods.tryParseInt(jsonArray.getString("country_id")));
-            member.setAge(UtilMethods.tryParseInt(jsonArray.getString("age")));
+            member.setAge(jsonArray.getString("age"));
             member.setLanguage_id(jsonArray.getString("language_id"));
             member.setTimezone_id(UtilMethods.tryParseInt(jsonArray.getString("timezone_id")));
             member.setMembership_level_id(UtilMethods.tryParseInt(jsonArray.getString("membership_level_id")));
