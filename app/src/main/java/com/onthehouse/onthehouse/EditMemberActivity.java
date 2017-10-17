@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -49,6 +50,9 @@ public class EditMemberActivity extends Fragment
     ProgressButton updateBtn;
     ConstraintLayout layout;
     String errorText = "";
+    CheckBox editMemberisUnsubEmail;
+    CheckBox editMemberisFocusGroup;
+    CheckBox editMemberisPaidMarketing;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -67,6 +71,9 @@ public class EditMemberActivity extends Fragment
         editCity = (EditText) view.findViewById(R.id.editMemberCity);
         updateBtn = (ProgressButton) view.findViewById(R.id.editUpdateBtn);
         layout = (ConstraintLayout) view.findViewById(R.id.edit_Layout);
+        editMemberisUnsubEmail = (CheckBox) view.findViewById(R.id.editMemberisUnsubEmail);
+        editMemberisFocusGroup = (CheckBox) view.findViewById(R.id.editMemberisFocusGroup);
+        editMemberisPaidMarketing = (CheckBox) view.findViewById(R.id.editMemberisPaidMarketing);
 
         editNick.setText(Member.getInstance().getNickname());
         editFName.setText(Member.getInstance().getFirst_name());
@@ -75,6 +82,20 @@ public class EditMemberActivity extends Fragment
         editPhone.setText(Member.getInstance().getPhone_number());
         editAddress.setText(Member.getInstance().getAddress1() + " "+Member.getInstance().getAddress2());
         editCity.setText(Member.getInstance().getCity());
+        if(Member.getInstance().getPaid_marketing() == 1)
+            editMemberisPaidMarketing.setChecked(true);
+        else
+            editMemberisPaidMarketing.setChecked(false);
+
+        if(Member.getInstance().getNewsletters() == 1)
+            editMemberisUnsubEmail.setChecked(false);
+        else
+            editMemberisUnsubEmail.setChecked(true);
+
+        if(Member.getInstance().getFocus_groups() == 1)
+            editMemberisFocusGroup.setChecked(true);
+        else
+            editMemberisFocusGroup.setChecked(false);
 
         if(!Member.getInstance().getAge().isEmpty())
         {
@@ -128,9 +149,9 @@ public class EditMemberActivity extends Fragment
                 int zone_id = Member.getInstance().getZone_id();
                 int zip = Member.getInstance().getZip_code();
                 int timezone = Member.getInstance().getTimezone_id();
-                int newsLetter = 1;
-                int focusGroup = 0;
-                int paidMarket = 0;
+                int newsLetter = editMemberisUnsubEmail.isChecked()? 0:1;
+                int focusGroup = editMemberisFocusGroup.isChecked()? 1:0;
+                int paidMarket = editMemberisPaidMarketing.isChecked()? 1:0;
 
                 String title = titleSpinner.getSelectedItem().toString();
                 if(title.startsWith("Select"))
