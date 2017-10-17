@@ -112,4 +112,5 @@
     <string name="editMemberPhone">Phone</string>
     <string name="editMemberCity">City</string>
     <string name="title_activity_guest_main">GuestMain</string>
+    <string name="my_past_offerings">My Past Offerings</string>
 </resources>
