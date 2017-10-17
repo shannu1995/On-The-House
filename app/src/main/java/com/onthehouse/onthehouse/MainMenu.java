@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.onthehouse.fragments.ChangePasswordFragment;
+import com.onthehouse.fragments.MyPastOfferings;
 import com.onthehouse.fragments.OffersList;
 import com.onthehouse.fragments.PastOffersList;
 
@@ -84,6 +85,7 @@ public class MainMenu extends AppCompatActivity
             fragment = new EditMemberActivity();
 
         } else if(id == R.id.past_offerings) {
+            fragment = new MyPastOfferings();
 
         } else if (id == R.id.change_password) {
             fragment = new ChangePasswordFragment();

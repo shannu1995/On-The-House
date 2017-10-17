@@ -20,7 +20,7 @@
             <item
                 android:id="@+id/past_offerings"
                 android:icon="@drawable/offering_main"
-                android:title="Past Offerings" />
+                android:title="My Past Offerings" />
 
 
             <item
