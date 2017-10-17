@@ -216,7 +216,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="8dp"
             android:ems="10"
-            android:background="@drawable/gradient_spinner"            
+            android:background="@drawable/gradient_spinner"
             android:popupBackground="@drawable/backgroud_spinner"
             android:textColor="@android:color/black"
             android:textSize="14dp"
