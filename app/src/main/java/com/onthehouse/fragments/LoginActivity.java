@@ -16,15 +16,18 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.onthehouse.Utils.CheckConnection;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
+import com.onthehouse.guest.GuestMain;
 import com.onthehouse.onthehouse.MainMenu;
 import com.onthehouse.onthehouse.R;
 import com.onthehouse.onthehouse.ResetPassword;
 
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -140,7 +143,7 @@ public class LoginActivity extends Fragment
             @Override
             public void onClick(View v)
             {
-                Intent resetIntent = new Intent(mContext, MainMenu.class);
+                Intent resetIntent = new Intent(mContext, GuestMain.class);
                 LoginActivity.this.startActivity(resetIntent);
             }
         });

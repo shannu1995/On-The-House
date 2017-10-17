@@ -34,6 +34,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="OR">OR</string>
     <string name="state_prompt">State</string>
+    <string name="facebook_app_id">1971933133081390</string>
 
 
     <string-array name="age_array">
@@ -110,4 +111,5 @@
     <string name="editMemberAddress">Address</string>
     <string name="editMemberPhone">Phone</string>
     <string name="editMemberCity">City</string>
+    <string name="title_activity_guest_main">GuestMain</string>
 </resources>
