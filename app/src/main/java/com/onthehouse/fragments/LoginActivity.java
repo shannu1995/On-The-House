@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +21,9 @@ import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
 import com.onthehouse.onthehouse.MainMenu;
-import com.onthehouse.onthehouse.OnTheMain;
 import com.onthehouse.onthehouse.R;
+import com.onthehouse.onthehouse.ResetPassword;
+
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -36,7 +36,7 @@ public class LoginActivity extends Fragment
     public EditText email;
     public EditText password;
     public TextView skip;
-    public TextView reset;
+    public TextView forgotPassword;
     private ProgressButton loginButton;
     private SharedPreferences.Editor editor;
     private ArrayList<String> inputList = new ArrayList<>();
@@ -60,7 +60,7 @@ public class LoginActivity extends Fragment
 
 
         skip = (TextView) view.findViewById(R.id.skip);
-        reset = (TextView) view.findViewById(R.id.resetPassword);
+        forgotPassword = (TextView) view.findViewById(R.id.forgot_Password);
 
         layout = (ConstraintLayout) view.findViewById(R.id.loginlayout);
         checkConnection = new CheckConnection(this.getActivity());
@@ -125,6 +125,13 @@ public class LoginActivity extends Fragment
                 new inputAsyncData(mContext).execute(inputList);
 
 
+            }
+        });
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent forgotPass = new Intent(getActivity(), ResetPassword.class);
+                startActivity(forgotPass);
             }
         });
 
