@@ -16,6 +16,8 @@
 
         <Spinner
             android:id="@+id/editMemberTitleSpinner"
+            android:background="@drawable/gradient_spinner"
+            android:popupBackground="@drawable/backgroud_spinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -25,6 +27,7 @@
             android:textColor="@android:color/black"
             android:textSize="14dp"
             android:hint="Select Title"
+            android:entries="@array/title_array"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -171,7 +174,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
                 android:hint="@string/editMemberPhone"
-                android:inputType="textPassword"
+                android:inputType="number"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/colorAccent"/>
         </android.support.design.widget.TextInputLayout>
@@ -185,6 +188,9 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="8dp"
             android:ems="10"
+            android:background="@drawable/gradient_spinner"
+            android:popupBackground="@drawable/backgroud_spinner"
+            android:entries="@array/age_array"
             android:textColor="@android:color/black"
             android:textSize="14dp"
             app:layout_constraintHorizontal_bias="0.0"
@@ -217,7 +223,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
                 android:hint="@string/editMemberAddress"
-                android:inputType="textPassword"
+                android:inputType="textAutoCorrect"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/colorAccent"/>
         </android.support.design.widget.TextInputLayout>
@@ -245,7 +251,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
                 android:hint="@string/editMemberCity"
-                android:inputType="textPassword"
+                android:inputType="textAutoCorrect"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/colorAccent"/>
         </android.support.design.widget.TextInputLayout>
