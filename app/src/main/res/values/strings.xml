@@ -20,6 +20,7 @@
     <string name="registerPassword">Password</string>
     <string name="registerConfirmPassword">Confirm Password</string>
     <string name="registerButton">REGISTER</string>
+    <string name="selectCountry">Select Country</string>
     <string name="skipLogin">Continue as Guest</string>
     <string name="signup">Signup</string>
     <string name="reset">Reset</string>
@@ -86,4 +87,9 @@
     <string name="competition_page">Competition</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="change_password">Change Password</string>
+    <string name="updateButton">Update</string>
+    <string name="regPhoneNumber">Phone Number</string>
+    <string name="regStreet">Street</string>
+    <string name="regCity">City</string>
+    <string name="regPostCode">Post Code</string>
 </resources>
