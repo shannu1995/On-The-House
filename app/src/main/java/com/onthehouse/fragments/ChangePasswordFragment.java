@@ -2,7 +2,6 @@ package com.onthehouse.fragments;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -17,11 +16,9 @@ import android.widget.EditText;
 
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
-import com.onthehouse.onthehouse.PaymentPortal;
 import com.onthehouse.onthehouse.R;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -52,6 +49,8 @@ public class ChangePasswordFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_change_password, container, false);
         final Context mContext = container.getContext();
 
+
+        Button cancelBtn = view.findViewById(R.id.btn_cancel_changePassword);
         cancelBtn = view.findViewById(R.id.btn_cancel_changePassword);
         confirmBtn = view.findViewById(R.id.btn_changePassword);
 
