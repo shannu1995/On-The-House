@@ -28,8 +28,6 @@ import java.util.ArrayList;
 import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
 
 public class BookingPageDeliveryPurchase extends AppCompatActivity {
-    public TextView paymentView;
-    public TextView competeView;
     public MaterialEditText firstName;
     public MaterialEditText lastName;
     public MaterialEditText street;
@@ -55,8 +53,6 @@ public class BookingPageDeliveryPurchase extends AppCompatActivity {
 
         final EditText editText = (EditText) findViewById(R.id.editText2);
         layout = (ConstraintLayout) findViewById(R.id.deliveryLayout);
-        paymentView = (TextView) findViewById(R.id.textView8);
-        competeView = (TextView) findViewById(R.id.textView9);
         firstName = (MaterialEditText) findViewById(R.id.first_name);
         lastName = (MaterialEditText) findViewById(R.id.last_name);
         street = (MaterialEditText) findViewById(R.id.street);
@@ -89,23 +85,6 @@ public class BookingPageDeliveryPurchase extends AppCompatActivity {
         phone.setText(Member.getInstance().getPhone_number());
 
 
-        paymentView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent paymentIntent = new Intent(BookingPageDeliveryPurchase.this,
-                        PaymentPortal.class);
-                BookingPageDeliveryPurchase.this.startActivity(paymentIntent);
-            }
-        });
-
-        competeView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent paymentIntent = new Intent(BookingPageDeliveryPurchase.this,
-                        BookingPageCompetition.class);
-                BookingPageDeliveryPurchase.this.startActivity(paymentIntent);
-            }
-        });
         submit_reservation.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){

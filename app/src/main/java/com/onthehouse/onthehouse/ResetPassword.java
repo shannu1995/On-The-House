@@ -1,18 +1,17 @@
 package com.onthehouse.onthehouse;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.onthehouse.connection.APIConnection;
-import com.onthehouse.fragments.LoginActivity;
 
 import org.json.JSONObject;
 
@@ -44,7 +43,7 @@ public class ResetPassword extends AppCompatActivity
                 String email = resetEmail.getText().toString();
 
                 ArrayList<String> inputList = new ArrayList<String>();
-                inputList.add("email="+email);
+                inputList.add("&email=" + email);
 
                 new inputAsyncData(getApplicationContext()).execute(inputList);
             }
@@ -115,20 +114,25 @@ public class ResetPassword extends AppCompatActivity
             if(result == 1)
             {
                 resetButton.animFinish();
-                Snackbar.make(layout, "Reset Password Successful.", Snackbar.LENGTH_LONG).show();
-                Intent resetDoneIntent = new Intent(ResetPassword.this, LoginActivity.class);
-                ResetPassword.this.startActivity(resetDoneIntent);
+                Toast.makeText(getApplicationContext(), "Reset Successful" +
+                        "\nPlease, check your inbox", Toast.LENGTH_LONG).show();
+                View view = getWindow().getDecorView().getRootView();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+                finish();
             }
             else if(result == 2)
             {
                 resetButton.animError();
-                Snackbar.make(layout, "Reset failed, please check your email.", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Reset failed, please check your email", Toast.LENGTH_LONG).show();
             }
 
             else
             {
                 resetButton.animError();
-                Snackbar.make(layout, "Reset failed, technical error.", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Reset failed, technical error", Toast.LENGTH_LONG).show();
             }
             resetButton.setEnabled(true);
         }
