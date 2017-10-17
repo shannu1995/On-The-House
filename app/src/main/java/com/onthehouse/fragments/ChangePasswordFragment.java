@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.onthehouse.connection.APIConnection;
@@ -30,7 +29,6 @@ import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
  */
 public class ChangePasswordFragment extends Fragment {
 
-    public ProgressButton cancelBtn;
     public ProgressButton confirmBtn;
     public EditText newPassword;
     public EditText confirmPassword;
@@ -49,21 +47,12 @@ public class ChangePasswordFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_change_password, container, false);
         final Context mContext = container.getContext();
 
-
-        Button cancelBtn = view.findViewById(R.id.btn_cancel_changePassword);
-        cancelBtn = view.findViewById(R.id.btn_cancel_changePassword);
         confirmBtn = view.findViewById(R.id.btn_changePassword);
 
         newPassword = view.findViewById(R.id.editText);
         confirmPassword = view.findViewById(R.id.editText3);
         layout = view.findViewById(R.id.passwordChangeFragment);
 
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().getFragmentManager().popBackStackImmediate();
-            }
-        });
 
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
