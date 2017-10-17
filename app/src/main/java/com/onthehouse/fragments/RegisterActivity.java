@@ -73,7 +73,10 @@ public class RegisterActivity extends Fragment
         regState = (Spinner) view.findViewById(R.id.stateSpinner);
         layout = (ConstraintLayout) view.findViewById(R.id.registerLayout);
 
+        regState.setVisibility(View.INVISIBLE);
+
         new countryAsyncData(mContext).execute(countryList);
+
 
 
         regCountry.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +143,18 @@ public class RegisterActivity extends Fragment
                     }
                 });
                 picker.show(getActivity().getSupportFragmentManager(), "CountryPicker");
+
+            }
+        });
+
+        regCountry.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (regCountry.getText().length() <= 0) {
+                    regState.setVisibility(View.INVISIBLE);
+                } else {
+                    regState.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -154,7 +169,6 @@ public class RegisterActivity extends Fragment
                 } else {
                     regEmail.setError(null);
                 }
-
             }
         });
 
@@ -627,29 +641,7 @@ public class RegisterActivity extends Fragment
 
 
         protected void onPostExecute(Integer result) {
-//            Log.w("Reset result", result.toString());
-//
-//            if(result == 1)
-//            {
-//                Log.d(TAG, "onPostExecute: ");
-////                resetButton.animFinish();
-////                Snackbar.make(layout, "Reset Password Successful.", Snackbar.LENGTH_LONG).show();
-////                Intent resetDoneIntent = new Intent(ResetPassword.this, LoginActivity.class);
-////                ResetPassword.this.startActivity(resetDoneIntent);
-//            }
-//            else if(result == 2)
-//            {
-////                resetButton.animError();
-////                Snackbar.make(layout, "Reset failed, please check your email.", Snackbar.LENGTH_LONG).show();
-//            }
-//
-//            else
-//            {
-////                resetButton.animError();
-////                Snackbar.make(layout, "Reset failed, technical error.", Snackbar.LENGTH_LONG).show();
-//            }
-////            resetButton.setEnabled(true);
-//        }
+
         }
     }
 }
