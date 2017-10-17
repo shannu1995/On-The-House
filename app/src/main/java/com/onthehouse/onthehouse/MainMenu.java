@@ -81,10 +81,7 @@ public class MainMenu extends AppCompatActivity
             fragment = new PastOffersList();
 
         } else if(id == R.id.edit_details) {
-
-            Intent intent = new Intent(this, EditMemberActivity.class);
-            startActivity(intent);
-
+            fragment = new EditMemberActivity();
 
         } else if(id == R.id.past_offerings) {
 
