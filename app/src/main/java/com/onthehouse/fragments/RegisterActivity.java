@@ -1,6 +1,5 @@
 package com.onthehouse.fragments;
 
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -8,6 +7,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import com.juanpabloprado.countrypicker.CountryPicker;
 import com.juanpabloprado.countrypicker.CountryPickerListener;
 import com.onthehouse.connection.APIConnection;
@@ -27,15 +28,13 @@ import com.onthehouse.details.UtilMethods;
 import com.onthehouse.details.Zone;
 import com.onthehouse.onthehouse.MainMenu;
 import com.onthehouse.onthehouse.R;
-import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
 
@@ -227,15 +226,19 @@ public class RegisterActivity extends Fragment
                 String countryId = null;
                 String zone_id = null;
 
-                for (Zone zoneCounter: zoneList)
-                {
-                    if (zoneCounter.getName().equals(regState.getSelectedItem().toString()))
+                try {
+                    for (Zone zoneCounter : zoneList)
                     {
-                        zone_id = Integer.toString(zoneCounter.getId());
-                        break;
-                    }
+                        if (zoneCounter.getName().equals(regState.getSelectedItem().toString())) {
+                            zone_id = Integer.toString(zoneCounter.getId());
+                            break;
+                        }
 
+                    }
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
+
 
                 countryId = String.valueOf(selectedCountry.getId());
 
