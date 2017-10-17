@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.onthehouse.Utils.CheckConnection;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
@@ -45,6 +46,7 @@ public class LoginActivity extends Fragment
     public ConstraintLayout layout;
     public CheckBox checkLogin;
     public boolean checkLognText;
+    public CheckConnection checkConnection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,7 +63,8 @@ public class LoginActivity extends Fragment
         reset = (TextView) view.findViewById(R.id.resetPassword);
 
         layout = (ConstraintLayout) view.findViewById(R.id.loginlayout);
-
+        checkConnection = new CheckConnection(this.getActivity());
+        checkConnection.check();
         checkLogin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

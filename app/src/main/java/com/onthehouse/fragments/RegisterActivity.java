@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 import com.juanpabloprado.countrypicker.CountryPicker;
 import com.juanpabloprado.countrypicker.CountryPickerListener;
@@ -25,7 +24,6 @@ import com.onthehouse.details.Country;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
 import com.onthehouse.details.Zone;
-import com.onthehouse.onthehouse.MainMenu;
 import com.onthehouse.onthehouse.R;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
@@ -35,8 +33,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import java.util.HashMap;
-import java.util.List;
-
 import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
 
 public class RegisterActivity extends Fragment
@@ -50,13 +46,12 @@ public class RegisterActivity extends Fragment
     EditText regCountry;
     ArrayList<Zone> zoneList;
     ProgressButton registerBtn;
-    Spinner regState;
+    MaterialBetterSpinner regState;
     Country selectedCountry = new Country();
     String errorText = "";
     public ConstraintLayout layout;
     ArrayList<Country> countryList = new ArrayList<Country>();
     ArrayList<String> zoneNames = new ArrayList<String>();
-    ArrayAdapter<String> stateAdapter = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,31 +66,19 @@ public class RegisterActivity extends Fragment
         regNickName = (EditText) view.findViewById(R.id.regNickName);
         regCountry = (EditText) view.findViewById(R.id.regCountry);
         registerBtn = (ProgressButton) view.findViewById(R.id.registerBtn);
-        regState = (Spinner) view.findViewById(R.id.stateSpinner);
         layout = (ConstraintLayout) view.findViewById(R.id.registerLayout);
-
         new countryAsyncData(mContext).execute(countryList);
-
 
         regCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CountryPicker picker = CountryPicker.getInstance("Select Country", new CountryPickerListener() {
                     @Override public void onSelectCountry(String name, String code) {
-                        //Toast.makeText(mContext, "Name: " + name, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "Name: " + name, Toast.LENGTH_SHORT).show();
                         int country_id = 0;
-                        zoneNames.clear();
                         zoneList = new ArrayList<Zone>();
-                        //Toast.makeText(mContext, "Name: " + name, Toast.LENGTH_SHORT).show();
-                        regCountry.setText(name);
-                        DialogFragment dialogFragment =
-                                (DialogFragment) getActivity().getSupportFragmentManager().findFragmentByTag("CountryPicker");
-                        dialogFragment.dismiss();
-
-                        for (Country counter: countryList)
-                        {
-                            Log.w("For1", counter.getName());
-                            Log.w("For2", name);
+                        Toast.makeText(mContext, "Name: " + name, Toast.LENGTH_SHORT).show();
+                        for (Country counter: countryList) {
                             if (counter.getName().equals(name))
                             {
                                 country_id = counter.getId();
@@ -105,39 +88,24 @@ public class RegisterActivity extends Fragment
                                 regCountry.setText(name);
                                 selectedCountry = counter;
                                 new Thread(new StateThread()).start();
+                               // BaseAdapter stateAdapter = new ArrayAdapter(getApplicationContext(), R.layout.state_item, R.id.regStateItem, zoneNames);
+                                ArrayAdapter<String> stateAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_dropdown_item_1line, zoneNames);
 
-                                boolean flag = true;
-                                int recoverCounter = 0;
-                                while(flag && recoverCounter < 400)
-                                {
-                                    Log.w("recover", String.valueOf(recoverCounter));
-                                    if (zoneNames.size() > 0)
-                                    {
-                                        stateAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_dropdown_item, zoneNames);
-                                        regState.setAdapter(stateAdapter);
 
-                                        regState.setSelection(0);
-                                        regState.setVisibility(View.VISIBLE);
-
-                                        flag = false;
-                                    }
-                                    try {
-                                        Thread.sleep(10);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                    recoverCounter++;
-                                }
-
-                                if(recoverCounter >= 399)
-                                {
-                                    regState.setSelection(-1);
-                                }
-
+                                zoneNames.clear();
+                                regState.setId(0);
+                                regState.setAdapter(stateAdapter);
+                                regState.setVisibility(View.VISIBLE);
                                 break;
                             }
                         }
+
+                        Toast.makeText(mContext, "Name: " + name, Toast.LENGTH_SHORT).show();
+                        regCountry.setText(name);
+                        DialogFragment dialogFragment =
+                                (DialogFragment) getActivity().getSupportFragmentManager().findFragmentByTag("CountryPicker");
+                        dialogFragment.dismiss();
+
                     }
                 });
                 picker.show(getActivity().getSupportFragmentManager(), "CountryPicker");
@@ -189,13 +157,13 @@ public class RegisterActivity extends Fragment
                 }
 
                 else {
-                    regCPass.setError(null);
+                    regCPass.setError("");
                 }
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                regCPass.setError(null);
+                regCPass.setError("");
             }
 
             @Override
@@ -205,7 +173,7 @@ public class RegisterActivity extends Fragment
                 }
 
                 else {
-                    regCPass.setError(null);
+                    regCPass.setError("");
                 }
 
             }
@@ -226,22 +194,22 @@ public class RegisterActivity extends Fragment
                 String nickName = regNickName.getText().toString();
                 String countryId = null;
                 String zone_id = null;
-
-                for (Zone zoneCounter: zoneList)
-                {
-                    if (zoneCounter.getName().equals(regState.getSelectedItem().toString()))
-                    {
+                for (Zone zoneCounter: zoneList) {
+                    if (zoneCounter.getName().equals(regState.getText().toString())) {
                         zone_id = Integer.toString(zoneCounter.getId());
-                        break;
                     }
 
                 }
 
-                countryId = String.valueOf(selectedCountry.getId());
+                for (Country countryCounter: countryList) {
+                    if (countryCounter.getName().equals(regCountry.getText()))
+
+                    countryId = Integer.toString(countryCounter.getId());
+                }
 
                 APIConnection connection = new APIConnection();
                 ArrayList<String> inputList = new ArrayList<String>();
-                inputList.add("&nickname="+nickName);
+                inputList.add("nickname="+nickName);
                 inputList.add("&first_name="+firstName);
                 inputList.add("&last_name="+lastName);
                 inputList.add("&zip=3000");
@@ -291,8 +259,7 @@ public class RegisterActivity extends Fragment
                     if (result.equals("success"))
                     {
                         JSONArray zones = obj.getJSONArray("zones");
-                        for (int i = 0; i <zones.length(); i++)
-                        {
+                        for (int i = 0; i <zones.length(); i++) {
                             Zone zone = new Zone();
                             System.out.println("json Array length is: "+ zones.length());
                             JSONObject jObj = zones.getJSONObject(i);
@@ -306,7 +273,6 @@ public class RegisterActivity extends Fragment
                             zone.setName(jObj.getString("name"));
                             System.out.println("json Object is: "+ zone.getName());
                             System.out.println(zone);
-
                             zoneList.add(zone);
 
                             zoneNames.add(zone.getName());
@@ -341,8 +307,7 @@ public class RegisterActivity extends Fragment
 
 
     public void setData(Member member, JSONObject jsonArray) {
-        try
-        {
+        try {
             member.setId(UtilMethods.tryParseInt(jsonArray.getString("id")));
             member.setTitle(jsonArray.getString("title"));
             member.setFirst_name(jsonArray.getString("first_name"));
@@ -359,7 +324,7 @@ public class RegisterActivity extends Fragment
             member.setZip_code(UtilMethods.tryParseInt(jsonArray.getString("zip")));
             member.setCountry_id(UtilMethods.tryParseInt(jsonArray.getString("country_id")));
             member.setAge(UtilMethods.tryParseInt(jsonArray.getString("age")));
-            member.setLanguage_id(jsonArray.getString("language_id"));
+            //member.setLanguage_id(UtilMethods.tryParseInt(jsonArray.getString("language_id")));
             member.setTimezone_id(UtilMethods.tryParseInt(jsonArray.getString("timezone_id")));
             member.setMembership_level_id(UtilMethods.tryParseInt(jsonArray.getString("membership_level_id")));
             member.setMembership_expiry(UtilMethods.tryParseInt(jsonArray.getString("membership_expiry")));
@@ -454,11 +419,11 @@ public class RegisterActivity extends Fragment
             if(result == 1)
             {
                 registerBtn.animFinish();
-                //Snackbar.make(layout, "Registration Successful.", Snackbar.LENGTH_LONG).show();
-                Toast.makeText(getActivity(), "Registration Successful.", Toast.LENGTH_LONG).show();
+                Snackbar.make(layout, "Registration Successful.", Snackbar.LENGTH_LONG).show();
+                //Toast.makeText(RegisterActivity.this, "Registration Successful.", Toast.LENGTH_LONG).show();
 
-                Intent registerDoneIntent = new Intent(context, MainMenu.class);
-                getActivity().startActivity(registerDoneIntent);
+                Intent registerDoneIntent = new Intent(context, LoginActivity.class);
+                RegisterActivity.this.startActivity(registerDoneIntent);
 
             }
 
@@ -543,12 +508,10 @@ public class RegisterActivity extends Fragment
     //setting data for countries
     public HashMap<String, Country> setDataCountry(final Context mContext, JSONArray jsonCountriesArray) {
         HashMap<String, Country> countries = new HashMap<String, Country>();
-        Country country = null;
+        Country country = new Country();
 
         try {   //country = new Country();
-                for (int i = 0; i <jsonCountriesArray.length(); i++)
-                {
-                    country = new Country();
+                for (int i = 0; i <jsonCountriesArray.length(); i++) {
                     JSONObject jObj = jsonCountriesArray.getJSONObject(i);
                     System.out.println("json Object is: "+ jObj);
                     country.setId(UtilMethods.tryParseInt(jObj.getString("id")));

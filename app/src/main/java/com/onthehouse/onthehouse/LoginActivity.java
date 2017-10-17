@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.onthehouse.Utils.CheckConnection;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
@@ -39,6 +40,8 @@ public class LoginActivity extends AppCompatActivity
     private String emailStr;
     private String passStr;
 
+    private CheckConnection checkConnection;
+
     public ConstraintLayout layout;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -58,6 +61,10 @@ public class LoginActivity extends AppCompatActivity
         //Shared Preference
         SharedPreferences sharedPreferences = getSharedPreferences("memberInfo",Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
+        checkConnection = new CheckConnection(this.getApplicationContext());
+        checkConnection.check();
+        //checkConnection.isNetworkConnectionAvailable();
 
         loginButton.setOnClickListener(new View.OnClickListener()
         {
