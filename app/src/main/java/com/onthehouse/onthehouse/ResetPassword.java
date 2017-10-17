@@ -7,6 +7,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -113,8 +114,13 @@ public class ResetPassword extends AppCompatActivity
             if(result == 1)
             {
                 resetButton.animFinish();
-                Toast.makeText(getApplicationContext(), "Reset Password Successful" +
-                        "\nPlease, check your inbox for the new password", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Reset Successful" +
+                        "\nPlease, check your inbox", Toast.LENGTH_LONG).show();
+                View view = getWindow().getDecorView().getRootView();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
                 finish();
             }
             else if(result == 2)
