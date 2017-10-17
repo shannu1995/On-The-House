@@ -37,8 +37,8 @@
     <string name="facebook_app_id">1971933133081390</string>
 
 
-    <string-array name="age_array">
-        <item>Select Your Age</item>
+    <string-array name="title_array">
+        <item>Select Your Title</item>
         <item>Mr</item>
         <item>Mrs</item>
         <item>Miss</item>
@@ -46,8 +46,8 @@
         <item>Dr</item>
     </string-array>
 
-    <string-array name="title_array">
-        <item>Select Your Title</item>
+    <string-array name="age_array">
+        <item>Select Your Age</item>
         <item>&#60; 15</item>
         <item>15-20</item>
         <item>21-30</item>

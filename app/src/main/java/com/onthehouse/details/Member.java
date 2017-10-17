@@ -26,7 +26,7 @@ public class Member
     private int zone_id;
     private int zip_code;
     private int country_id;
-    private int age;
+    private String age;
     private String language_id;
     private int timezone_id;
     private int membership_level_id;
@@ -171,11 +171,11 @@ public class Member
         this.country_id = country_id;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
