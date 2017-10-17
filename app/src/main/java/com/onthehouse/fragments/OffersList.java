@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 
 import com.onthehouse.Utils.OffersAdapter;
 import com.onthehouse.connection.APIConnection;
-import com.onthehouse.details.Member;
 import com.onthehouse.details.OfferDetail;
 import com.onthehouse.details.Offers;
 import com.onthehouse.details.UtilMethods;
@@ -318,7 +317,7 @@ public class OffersList extends Fragment {
                     {
                         imageUrl = "http://vollrath.com/ClientCss/images/VollrathImages/No_Image_Available.jpg";
                     }
-                    a = new Offers(offerDetails.get(i).getName(), imageUrl);
+                    a = new Offers(offerDetails.get(i).getName(), imageUrl, Integer.toString(offerDetails.get(i).getOfferId()));
                     offersList.add(a);
                 }
 

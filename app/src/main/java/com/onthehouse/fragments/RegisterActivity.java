@@ -8,8 +8,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +33,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
 
@@ -144,70 +144,48 @@ public class RegisterActivity extends Fragment
         });
 
 
-        regPass.addTextChangedListener(new TextWatcher() {
+        regEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.length() < 4) {
-                    regPass.setError("Min 4 chars");
+            public void onFocusChange(View view, boolean b) {
+                if (regEmail.getText().length() <= 0) {
+                    regEmail.setError(null);
+                } else if (!isValidEmail(regEmail.getText().toString())) {
+                    regEmail.setError("Invalid Email Address");
+                } else {
+                    regEmail.setError(null);
                 }
 
-                else if(charSequence.length() >= 4) {
-                    regPass.setError(null);
-                }
             }
+        });
 
+        regPass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.length() < 4) {
-                    regPass.setError("Min 4 chars");
-                }
-
-                else if(charSequence.length() >= 4) {
+            public void onFocusChange(View view, boolean b) {
+                if (regPass.getText().length() <= 0) {
                     regPass.setError(null);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(editable.toString().length() < 4) {
+                } else if (regPass.getText().length() < 4) {
                     regPass.setError("Min 4 chars");
-                }
-
-                else if(editable.toString().length() >= 4) {
+                } else {
                     regPass.setError(null);
                 }
             }
         });
 
 
-        regCPass.addTextChangedListener(new TextWatcher() {
+        regCPass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!regPass.getText().toString().equals(charSequence.toString())) {
+            public void onFocusChange(View view, boolean b) {
+                if (regCPass.getText().length() <= 0) {
+                    regCPass.setError(null);
+                } else if (!regPass.getText().toString().equals(regCPass.getText().toString())) {
                     regCPass.setError("Password Not matched");
                 }
 
                 else {
-                    regCPass.setError(null);
+                    regCPass.setError("");
                 }
             }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                regCPass.setError(null);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(!regPass.getText().toString().equals(editable.toString())) {
-                    regCPass.setError("Password Not matched");
-                }
-
-                else {
-                    regCPass.setError(null);
-                }
-
-            }
         });
 
         registerBtn.setOnClickListener(new View.OnClickListener()
@@ -264,9 +242,20 @@ public class RegisterActivity extends Fragment
         /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.states_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);*/
-
         return view;
+
     }
+
+    // validating email id
+    public boolean isValidEmail(String email) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
 
     class StateThread implements Runnable
     {
