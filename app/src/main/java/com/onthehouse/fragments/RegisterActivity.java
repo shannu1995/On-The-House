@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.juanpabloprado.countrypicker.CountryPicker;
@@ -47,6 +48,7 @@ public class RegisterActivity extends Fragment
     EditText regFName;
     EditText regNickName;
     EditText regCountry;
+    TextView regStateText;
     ArrayList<Zone> zoneList;
     ProgressButton registerBtn;
     Spinner regState;
@@ -72,12 +74,12 @@ public class RegisterActivity extends Fragment
         registerBtn = (ProgressButton) view.findViewById(R.id.registerBtn);
         regState = (Spinner) view.findViewById(R.id.stateSpinner);
         layout = (ConstraintLayout) view.findViewById(R.id.registerLayout);
-
-        regState.setVisibility(View.INVISIBLE);
+        regStateText = (TextView) view.findViewById(R.id.stateText);
 
         new countryAsyncData(mContext).execute(countryList);
 
-
+        regStateText.setText("Select State");
+        regState.setVisibility(View.INVISIBLE);
 
         regCountry.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,10 +151,12 @@ public class RegisterActivity extends Fragment
 
         regCountry.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View view, boolean b) {
+            public void onFocusChange(View viewed, boolean b) {
+
                 if (regCountry.getText().length() <= 0) {
                     regState.setVisibility(View.INVISIBLE);
                 } else {
+                    regStateText.setText(R.string.registerSelectState);
                     regState.setVisibility(View.VISIBLE);
                 }
             }
@@ -196,7 +200,7 @@ public class RegisterActivity extends Fragment
                 }
 
                 else {
-                    regCPass.setError("");
+                    regCPass.setError(null);
                 }
             }
 
