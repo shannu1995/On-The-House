@@ -18,6 +18,14 @@
     <item android:title="Member">
         <menu>
             <item
+                android:id="@+id/account"
+                android:title="My Account"
+            />
+            <item
+                android:id="@+id/membership"
+                android:title="My Membership"
+                />
+            <item
                 android:id="@+id/past_offerings"
                 android:icon="@drawable/offering_main"
                 android:title="My Past Offerings" />

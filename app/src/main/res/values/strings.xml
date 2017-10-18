@@ -34,9 +34,13 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="OR">OR</string>
     <string name="state_prompt">State</string>
-    <string name="facebook_app_id">1971933133081390</string>
-
-
+    <string name="reservations">Click to get Reservations</string>
+    <string name="name">Name</string>
+    <string name="time">Date / Time</string>
+    <string name="qty">Tickets / Qty</string>
+    <string name="activities">Activities</string>
+    <string name="editMemberTitle">Title</string>
+    <string name="editMemberAge">Age</string>
     <string-array name="title_array">
         <item>Select Your Title</item>
         <item>Mr</item>
@@ -45,7 +49,6 @@
         <item>Ms</item>
         <item>Dr</item>
     </string-array>
-
     <string-array name="age_array">
         <item>Select Your Age</item>
         <item>&#60; 15</item>
@@ -59,6 +62,16 @@
         <item>&#62; 80</item>
     </string-array>
 
+
+    <string-array name="states_array">
+        <item>VIC</item>
+        <item>QLD</item>
+        <item>TAS</item>
+        <item>NSW</item>
+        <item>WA</item>
+        <item>SA</item>
+    </string-array>
+
     <string name="title_activity_main_menu">MainMenu</string>
     <string name="full_price">Full Price :</string>
     <string name="oth_admin_fee">On The House Admin Fee :</string>
@@ -70,8 +83,7 @@
     <string name="city">City</string>
     <string name="postcode">Postcode</string>
     <string name="test">Delivery Booking page</string>
-    <string name="age_prompt">Select Your Age</string>
-    <string name="title_prompt">Select Your Title</string>
+
 
     <string-array name="show_source_array">
         <item>Please select option</item>
@@ -116,6 +128,4 @@
     <string name="title_guestOffering">Past Offering</string>
     <string name="title_guestsignup">Login/Register</string>
     <string name="my_past_offerings">My Past Offerings</string>
-    <string name="editMemberTitle">Title</string>
-    <string name="editMemberAge">Age</string>
 </resources>
