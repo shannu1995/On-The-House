@@ -15,10 +15,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.onthehouse.details.Member;
 import com.onthehouse.details.OfferDetail;
 import com.onthehouse.onthehouse.BookingPageCompetition;
 import com.onthehouse.onthehouse.BookingPageDeliveryPurchase;
@@ -49,13 +47,12 @@ public class OffersInfo extends Fragment {
     Button button;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         final View view = inflater.inflate(R.layout.activity_offer_detail, container, false);
-        Context mContext = container.getContext();
-
-
 
         int pos = getArguments().getInt("position");
-        //Toast.makeText(mContext, Integer.toString(pos), Toast.LENGTH_LONG).show();
+        Context mContext = container.getContext();
+
 
         offerTitle = view.findViewById(R.id.offer_title);
         offerFullPrice = view.findViewById(R.id.offer_fullPriceText);
@@ -73,6 +70,7 @@ public class OffersInfo extends Fragment {
         layout = (ConstraintLayout) view.findViewById(R.id.offer_info);
 
         final OfferDetail offerDet = OfferDetail.getInstance().get(pos);
+
         adapter = new ArrayAdapter<Integer>(view.getContext(),
                 android.R.layout.simple_expandable_list_item_1,
                 offerDet.getQuantities());
@@ -96,6 +94,7 @@ public class OffersInfo extends Fragment {
             }
         }
 
+
         String imageUrl = offerDet.getImageURL();
         if(imageUrl.isEmpty())
         {
@@ -103,6 +102,8 @@ public class OffersInfo extends Fragment {
         }
 
         Glide.with(mContext).load(imageUrl).into(offerImage);
+
+
         offerShowTimes.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
