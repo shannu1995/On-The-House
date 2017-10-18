@@ -67,16 +67,18 @@ public class OffersInfo extends Fragment {
         button = view.findViewById(R.id.book_button);
 
 
+
         layout = (ConstraintLayout) view.findViewById(R.id.offer_info);
 
         final OfferDetail offerDet = OfferDetail.getInstance().get(pos);
 
         adapter = new ArrayAdapter<Integer>(view.getContext(),
-                android.R.layout.simple_expandable_list_item_1,
+                R.layout.spinner_item,
                 offerDet.getQuantities());
 
         spinner.setAdapter(adapter);
         spinner.setSelection(0);
+        spinner.setPrompt("Tickets / Qty");
 
         offerTitle.setText(offerDet.getName());
         offerFullPrice.setText("FULL PRICE: "+offerDet.getFullPrice());
