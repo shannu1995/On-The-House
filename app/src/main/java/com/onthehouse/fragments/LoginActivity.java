@@ -36,6 +36,7 @@ import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
 
 public class LoginActivity extends Fragment
 {
+    private SharedPreferences sharedPreferences;
     public EditText email;
     public EditText password;
     public TextView skip;
@@ -45,7 +46,6 @@ public class LoginActivity extends Fragment
     private ArrayList<String> inputList = new ArrayList<>();
     private String emailStr;
     private String passStr;
-
     public ConstraintLayout layout;
     public CheckBox checkLogin;
     public boolean checkLognText;
@@ -60,12 +60,14 @@ public class LoginActivity extends Fragment
         password = (EditText) view.findViewById(R.id.loginPassword);
         loginButton= (ProgressButton) view.findViewById(R.id.loginButton);
         checkLogin = (CheckBox) view.findViewById(R.id.chkLogin);
-
-
         skip = (TextView) view.findViewById(R.id.skip);
         forgotPassword = (TextView) view.findViewById(R.id.forgot_Password);
 
         layout = (ConstraintLayout) view.findViewById(R.id.loginlayout);
+        //Shared Preferences
+        sharedPreferences = getContext().getSharedPreferences("memberInfo", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
         checkConnection = new CheckConnection(this.getActivity());
         checkConnection.check();
         checkLogin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -117,6 +119,10 @@ public class LoginActivity extends Fragment
             @Override
             public void onClick(View v)
             {
+                SharedPreferences guestPreference = getContext().getSharedPreferences("GuestMember", Context.MODE_PRIVATE);
+                SharedPreferences.Editor guestEditor = guestPreference.edit();
+                guestEditor.putBoolean("GuestCheck", false);
+                guestEditor.apply();
                 loginButton.startRotate();
 
                 emailStr = email.getText().toString();
@@ -126,8 +132,6 @@ public class LoginActivity extends Fragment
                 inputList.add("&password="+passStr);
 
                 new inputAsyncData(mContext).execute(inputList);
-
-
             }
         });
         forgotPassword.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +147,10 @@ public class LoginActivity extends Fragment
             @Override
             public void onClick(View v)
             {
+                SharedPreferences guestPreference = getContext().getSharedPreferences("GuestMember", Context.MODE_PRIVATE);
+                SharedPreferences.Editor guestEditor = guestPreference.edit();
+                guestEditor.putBoolean("GuestCheck", true);
+                guestEditor.apply();
                 Intent resetIntent = new Intent(mContext, GuestMain.class);
                 LoginActivity.this.startActivity(resetIntent);
             }
@@ -251,24 +259,18 @@ public class LoginActivity extends Fragment
             if(result == 1)
             {
                 loginButton.animFinish();
-                SharedPreferences sharedPreferences = context.getSharedPreferences("memberInfo",Context.MODE_PRIVATE);
-                editor = sharedPreferences.edit();
+
 
                 editor.putString("memberEmail", Member.getInstance().getEmail());
                 editor.putString("memberPass",Member.getInstance().getPassword());
                 editor.putBoolean("RememberMe" , checkLognText);
-                editor.commit();
-                Toast.makeText(context,"Login Successful\nLoggded in as: " +
+                editor.apply();
+                Toast.makeText(context, "Login Successful\nLogged in as: " +
                                 Member.getInstance().getFirst_name() + " " + Member.getInstance().getLast_name()
                         ,Toast.LENGTH_LONG).show();
                 Intent mainMenuIntent = new Intent(context, MainMenu.class);
                 LoginActivity.this.startActivity(mainMenuIntent);
                 getActivity().finish();
-                Snackbar.make(layout, "Login successful.", Snackbar.LENGTH_LONG).show();
-
-                Intent offerIntent = new Intent(context, MainMenu.class);
-                LoginActivity.this.startActivity(offerIntent);
-
             }
 
             else if(result == 2)
