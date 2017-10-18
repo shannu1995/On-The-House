@@ -1,41 +1,33 @@
-package com.onthehouse.onthehouse;
+package com.onthehouse.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.onthehouse.connection.APIConnection;
-import com.onthehouse.details.Country;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
-import com.onthehouse.details.Zone;
-import com.onthehouse.fragments.RegisterActivity;
+import com.onthehouse.onthehouse.R;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
 
-public class EditMemberActivity extends Fragment
+public class EditMemberFragment extends Fragment
 {
 
     Spinner titleSpinner;
