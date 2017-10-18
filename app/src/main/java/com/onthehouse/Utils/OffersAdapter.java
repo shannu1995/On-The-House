@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +23,7 @@ import com.onthehouse.onthehouse.R;
 
 import java.util.List;
 
-/**
- * Created by anashanifm on 7/9/17.
- */
+import static android.content.ContentValues.TAG;
 
 public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHolder> {
     private Context mContext;
@@ -75,16 +74,18 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
 
         if (!sharedPreferences.getBoolean("GuestCheck", false)) {
             holder.offersUpgradeText.setText("Upgrade to Gold");
-            holder.offersUpgrade.setBackgroundResource(android.R.drawable.ic_menu_manage);
+            holder.offersUpgrade.setImageResource(R.drawable.icon_upgrade_to_gold);
         } else {
+            Log.d(TAG, "onBindViewHolder: -----------------" + sharedPreferences.getBoolean("GuestCheck", false));
             holder.offersUpgradeText.setText("Login - Register");
-            holder.offersUpgrade.setBackgroundResource(android.R.drawable.ic_menu_edit);
+            holder.offersUpgrade.setImageResource(R.drawable.icon_register);
 
             holder.offersUpgrade.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, OnTheMain.class);
                     mContext.startActivity(intent);
+
                 }
             });
 
