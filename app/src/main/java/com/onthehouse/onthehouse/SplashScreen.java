@@ -66,7 +66,7 @@ public class SplashScreen extends AwesomeSplash {
                     SplashScreen.this.startActivity(offerIntent);
                     finish();
                 }
-            }, 15000);
+            }, 4000);
 
         }else {
             inputList.add("&email="+savedEmailStr);
@@ -201,7 +201,7 @@ public class SplashScreen extends AwesomeSplash {
                             finish();
 
                         }
-                    }, 15000);
+                    }, 4000);
                     break;
                 default:
                     toastMessage = "Auto login failed, Technical Error";
@@ -214,7 +214,7 @@ public class SplashScreen extends AwesomeSplash {
                             finish();
 
                         }
-                    }, 15000);
+                    }, 4000);
 
 
                     break;

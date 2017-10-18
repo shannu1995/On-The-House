@@ -18,7 +18,9 @@ import android.widget.Toast;
 
 import com.onthehouse.fragments.Account;
 import com.onthehouse.fragments.ChangePasswordFragment;
+import com.onthehouse.fragments.EditMemberFragment;
 import com.onthehouse.fragments.Member;
+import com.onthehouse.fragments.MyPastOfferings;
 import com.onthehouse.fragments.OffersList;
 import com.onthehouse.fragments.PastOffersList;
 
@@ -73,21 +75,14 @@ public class MainMenu extends AppCompatActivity
 
         if (id == R.id.offers) {
             fragment = new OffersList();
-
         } else if (id == R.id.nav_past_offers) {
             fragment = new PastOffersList();
-
         } else if(id == R.id.edit_details) {
-
-            Intent intent = new Intent(this, EditMemberActivity.class);
-            startActivity(intent);
-
-
+            fragment = new EditMemberFragment();
         } else if(id == R.id.past_offerings) {
-
+            fragment = new MyPastOfferings();
         } else if (id == R.id.change_password) {
             fragment = new ChangePasswordFragment();
-
         } else if (id == R.id.nav_logout) {
             SharedPreferences sharedPreferences = getSharedPreferences("memberInfo", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
