@@ -30,7 +30,7 @@ public class Member
     private String language_id;
     private int timezone_id;
     private int membership_level_id;
-    private int membership_expiry;
+    private long membership_expiry;
     private int membership_id;
     private int membership_expiry_email;
     private int newsletters;
@@ -203,11 +203,11 @@ public class Member
         this.membership_level_id = membership_level_id;
     }
 
-    public int getMembership_expiry() {
+    public long getMembership_expiry() {
         return membership_expiry;
     }
 
-    public void setMembership_expiry(int membership_expiry) {
+    public void setMembership_expiry(long membership_expiry) {
         this.membership_expiry = membership_expiry;
     }
 
