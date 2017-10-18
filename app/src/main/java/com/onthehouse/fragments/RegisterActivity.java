@@ -1,6 +1,5 @@
 package com.onthehouse.fragments;
 
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -8,8 +7,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import com.juanpabloprado.countrypicker.CountryPicker;
 import com.juanpabloprado.countrypicker.CountryPickerListener;
 import com.onthehouse.connection.APIConnection;
@@ -27,15 +26,15 @@ import com.onthehouse.details.UtilMethods;
 import com.onthehouse.details.Zone;
 import com.onthehouse.onthehouse.MainMenu;
 import com.onthehouse.onthehouse.R;
-import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
 
@@ -74,7 +73,10 @@ public class RegisterActivity extends Fragment
         regState = (Spinner) view.findViewById(R.id.stateSpinner);
         layout = (ConstraintLayout) view.findViewById(R.id.registerLayout);
 
+        regState.setVisibility(View.INVISIBLE);
+
         new countryAsyncData(mContext).execute(countryList);
+
 
 
         regCountry.setOnClickListener(new View.OnClickListener() {
@@ -141,74 +143,63 @@ public class RegisterActivity extends Fragment
                     }
                 });
                 picker.show(getActivity().getSupportFragmentManager(), "CountryPicker");
+
             }
         });
 
-
-        regPass.addTextChangedListener(new TextWatcher() {
+        regCountry.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.length() < 4) {
-                    regPass.setError("Min 4 chars");
-                }
-
-                else if(charSequence.length() >= 4) {
-                    regPass.setError(null);
-                }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.length() < 4) {
-                    regPass.setError("Min 4 chars");
-                }
-
-                else if(charSequence.length() >= 4) {
-                    regPass.setError(null);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(editable.toString().length() < 4) {
-                    regPass.setError("Min 4 chars");
-                }
-
-                else if(editable.toString().length() >= 4) {
-                    regPass.setError(null);
+            public void onFocusChange(View view, boolean b) {
+                if (regCountry.getText().length() <= 0) {
+                    regState.setVisibility(View.INVISIBLE);
+                } else {
+                    regState.setVisibility(View.VISIBLE);
                 }
             }
         });
 
 
-        regCPass.addTextChangedListener(new TextWatcher() {
+        regEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!regPass.getText().toString().equals(charSequence.toString())) {
+            public void onFocusChange(View view, boolean b) {
+                if (regEmail.getText().length() <= 0) {
+                    regEmail.setError(null);
+                } else if (!isValidEmail(regEmail.getText().toString())) {
+                    regEmail.setError("Invalid Email Address");
+                } else {
+                    regEmail.setError(null);
+                }
+            }
+        });
+
+        regPass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (regPass.getText().length() <= 0) {
+                    regPass.setError(null);
+                } else if (regPass.getText().length() < 4) {
+                    regPass.setError("Min 4 chars");
+                } else {
+                    regPass.setError(null);
+                }
+            }
+        });
+
+
+        regCPass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (regCPass.getText().length() <= 0) {
+                    regCPass.setError(null);
+                } else if (!regPass.getText().toString().equals(regCPass.getText().toString())) {
                     regCPass.setError("Password Not matched");
                 }
 
                 else {
-                    regCPass.setError(null);
+                    regCPass.setError("");
                 }
             }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                regCPass.setError(null);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(!regPass.getText().toString().equals(editable.toString())) {
-                    regCPass.setError("Password Not matched");
-                }
-
-                else {
-                    regCPass.setError(null);
-                }
-
-            }
         });
 
         registerBtn.setOnClickListener(new View.OnClickListener()
@@ -227,15 +218,19 @@ public class RegisterActivity extends Fragment
                 String countryId = null;
                 String zone_id = null;
 
-                for (Zone zoneCounter: zoneList)
-                {
-                    if (zoneCounter.getName().equals(regState.getSelectedItem().toString()))
+                try {
+                    for (Zone zoneCounter : zoneList)
                     {
-                        zone_id = Integer.toString(zoneCounter.getId());
-                        break;
-                    }
+                        if (zoneCounter.getName().equals(regState.getSelectedItem().toString())) {
+                            zone_id = Integer.toString(zoneCounter.getId());
+                            break;
+                        }
 
+                    }
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
+
 
                 countryId = String.valueOf(selectedCountry.getId());
 
@@ -261,9 +256,20 @@ public class RegisterActivity extends Fragment
         /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.states_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);*/
-
         return view;
+
     }
+
+    // validating email id
+    public boolean isValidEmail(String email) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
 
     class StateThread implements Runnable
     {
@@ -358,7 +364,7 @@ public class RegisterActivity extends Fragment
             member.setZone_id(UtilMethods.tryParseInt(jsonArray.getString("zone_id")));
             member.setZip_code(UtilMethods.tryParseInt(jsonArray.getString("zip")));
             member.setCountry_id(UtilMethods.tryParseInt(jsonArray.getString("country_id")));
-            member.setAge(UtilMethods.tryParseInt(jsonArray.getString("age")));
+            member.setAge(jsonArray.getString("age"));
             member.setLanguage_id(jsonArray.getString("language_id"));
             member.setTimezone_id(UtilMethods.tryParseInt(jsonArray.getString("timezone_id")));
             member.setMembership_level_id(UtilMethods.tryParseInt(jsonArray.getString("membership_level_id")));
@@ -635,29 +641,7 @@ public class RegisterActivity extends Fragment
 
 
         protected void onPostExecute(Integer result) {
-//            Log.w("Reset result", result.toString());
-//
-//            if(result == 1)
-//            {
-//                Log.d(TAG, "onPostExecute: ");
-////                resetButton.animFinish();
-////                Snackbar.make(layout, "Reset Password Successful.", Snackbar.LENGTH_LONG).show();
-////                Intent resetDoneIntent = new Intent(ResetPassword.this, LoginActivity.class);
-////                ResetPassword.this.startActivity(resetDoneIntent);
-//            }
-//            else if(result == 2)
-//            {
-////                resetButton.animError();
-////                Snackbar.make(layout, "Reset failed, please check your email.", Snackbar.LENGTH_LONG).show();
-//            }
-//
-//            else
-//            {
-////                resetButton.animError();
-////                Snackbar.make(layout, "Reset failed, technical error.", Snackbar.LENGTH_LONG).show();
-//            }
-////            resetButton.setEnabled(true);
-//        }
+
         }
     }
 }

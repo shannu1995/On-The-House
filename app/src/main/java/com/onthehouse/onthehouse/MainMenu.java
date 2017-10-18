@@ -14,9 +14,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.onthehouse.details.Member;
 import com.onthehouse.fragments.ChangePasswordFragment;
+import com.onthehouse.fragments.MyPastOfferings;
 import com.onthehouse.fragments.OffersList;
 import com.onthehouse.fragments.PastOffersList;
 
@@ -36,8 +40,20 @@ public class MainMenu extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        SharedPreferences sharedPreferences = getSharedPreferences("GuestMember", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("GuestCheck", false);
+        editor.commit();
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View header = navigationView.getHeaderView(0);
+        TextView navName = (TextView) header.findViewById(R.id.navName);
+        TextView navEmail = (TextView) header.findViewById(R.id.navEmail);
+
+        navName.setText(Member.getInstance().getFirst_name()+" "+Member.getInstance().getLast_name());
+        navEmail.setText(Member.getInstance().getEmail());
 
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
         tx.replace(R.id.frame_container, new OffersList());
@@ -53,9 +69,14 @@ public class MainMenu extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -76,12 +97,10 @@ public class MainMenu extends AppCompatActivity
             fragment = new PastOffersList();
 
         } else if(id == R.id.edit_details) {
-
-            Intent intent = new Intent(this, EditMemberActivity.class);
-            startActivity(intent);
-
+            fragment = new EditMemberActivity();
 
         } else if(id == R.id.past_offerings) {
+            fragment = new MyPastOfferings();
 
         } else if (id == R.id.change_password) {
             fragment = new ChangePasswordFragment();

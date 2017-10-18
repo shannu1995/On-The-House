@@ -4,10 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.WindowDecorActionBar;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,7 +15,6 @@ import com.onthehouse.details.UtilMethods;
 import com.viksaa.sssplash.lib.activity.AwesomeSplash;
 import com.viksaa.sssplash.lib.cnst.Flags;
 import com.viksaa.sssplash.lib.model.ConfigSplash;
-
 
 import org.json.JSONObject;
 
@@ -51,6 +47,7 @@ public class SplashScreen extends AwesomeSplash {
         configSplash.setAnimPathFillingDuration(3000);
         configSplash.setPathSplashFillColor(R.color.backgroundColorFirstHalf); //path object filling color
 
+        configSplash.setTitleSplash(null);
 
 
         SharedPreferences sharedPreferences = getSharedPreferences("memberInfo", Context.MODE_PRIVATE);
@@ -69,7 +66,7 @@ public class SplashScreen extends AwesomeSplash {
                     SplashScreen.this.startActivity(offerIntent);
                     finish();
                 }
-            }, 3000);
+            }, 15000);
 
         }else {
             inputList.add("&email="+savedEmailStr);
@@ -103,7 +100,7 @@ public class SplashScreen extends AwesomeSplash {
             member.setZone_id(UtilMethods.tryParseInt(jsonArray.getString("zone_id")));
             member.setZip_code(UtilMethods.tryParseInt(jsonArray.getString("zip")));
             member.setCountry_id(UtilMethods.tryParseInt(jsonArray.getString("country_id")));
-            member.setAge(UtilMethods.tryParseInt(jsonArray.getString("age")));
+            member.setAge(jsonArray.getString("age"));
             // member.setLanguage_id(UtilMethods.tryParseInt(jsonArray.getString("language_id")));
             member.setTimezone_id(UtilMethods.tryParseInt(jsonArray.getString("timezone_id")));
             member.setMembership_level_id(UtilMethods.tryParseInt(jsonArray.getString("membership_level_id")));
@@ -204,7 +201,7 @@ public class SplashScreen extends AwesomeSplash {
                             finish();
 
                         }
-                    }, 5000);
+                    }, 15000);
                     break;
                 default:
                     toastMessage = "Auto login failed, Technical Error";
@@ -217,7 +214,7 @@ public class SplashScreen extends AwesomeSplash {
                             finish();
 
                         }
-                    }, 5000);
+                    }, 15000);
 
 
                     break;

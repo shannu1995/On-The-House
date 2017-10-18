@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +16,18 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.onthehouse.Utils.CheckConnection;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
+import com.onthehouse.guest.GuestMain;
 import com.onthehouse.onthehouse.MainMenu;
-import com.onthehouse.onthehouse.OnTheMain;
 import com.onthehouse.onthehouse.R;
+import com.onthehouse.onthehouse.ResetPassword;
+
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,7 +39,7 @@ public class LoginActivity extends Fragment
     public EditText email;
     public EditText password;
     public TextView skip;
-    public TextView reset;
+    public TextView forgotPassword;
     private ProgressButton loginButton;
     private SharedPreferences.Editor editor;
     private ArrayList<String> inputList = new ArrayList<>();
@@ -60,7 +63,7 @@ public class LoginActivity extends Fragment
 
 
         skip = (TextView) view.findViewById(R.id.skip);
-        reset = (TextView) view.findViewById(R.id.resetPassword);
+        forgotPassword = (TextView) view.findViewById(R.id.forgot_Password);
 
         layout = (ConstraintLayout) view.findViewById(R.id.loginlayout);
         checkConnection = new CheckConnection(this.getActivity());
@@ -127,13 +130,20 @@ public class LoginActivity extends Fragment
 
             }
         });
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent forgotPass = new Intent(getActivity(), ResetPassword.class);
+                startActivity(forgotPass);
+            }
+        });
 
         skip.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                Intent resetIntent = new Intent(mContext, MainMenu.class);
+                Intent resetIntent = new Intent(mContext, GuestMain.class);
                 LoginActivity.this.startActivity(resetIntent);
             }
         });
@@ -160,7 +170,7 @@ public class LoginActivity extends Fragment
             member.setZone_id(UtilMethods.tryParseInt(jsonArray.getString("zone_id")));
             member.setZip_code(UtilMethods.tryParseInt(jsonArray.getString("zip")));
             member.setCountry_id(UtilMethods.tryParseInt(jsonArray.getString("country_id")));
-            member.setAge(UtilMethods.tryParseInt(jsonArray.getString("age")));
+            member.setAge(jsonArray.getString("age"));
             member.setLanguage_id(jsonArray.getString("language_id"));
             member.setTimezone_id(UtilMethods.tryParseInt(jsonArray.getString("timezone_id")));
             member.setMembership_level_id(UtilMethods.tryParseInt(jsonArray.getString("membership_level_id")));

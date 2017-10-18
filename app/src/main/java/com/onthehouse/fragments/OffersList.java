@@ -2,11 +2,15 @@ package com.onthehouse.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,10 +22,10 @@ import android.view.ViewGroup;
 
 import com.onthehouse.Utils.OffersAdapter;
 import com.onthehouse.connection.APIConnection;
-import com.onthehouse.details.Member;
 import com.onthehouse.details.OfferDetail;
 import com.onthehouse.details.Offers;
 import com.onthehouse.details.UtilMethods;
+import com.onthehouse.onthehouse.MainMenu;
 import com.onthehouse.onthehouse.R;
 
 import org.json.JSONArray;
@@ -34,13 +38,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class OffersList extends Fragment {
+public class OffersList extends Fragment
+{
     private RecyclerView recyclerView;
     private OffersAdapter adapter;
     private List<Offers> offersList;
     ArrayList<OfferDetail> offerDetails;
     ProgressDialog mProgressDialog;
-
+    SwipeRefreshLayout mSwipeRefreshLayout;
     public OffersList() {
 
     }
@@ -52,6 +57,7 @@ public class OffersList extends Fragment {
 
         offerDetails = OfferDetail.getInstance();
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
 
         offersList = new ArrayList<>();
         adapter = new OffersAdapter(mContext, offersList);
@@ -61,6 +67,14 @@ public class OffersList extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh()
+            {
+                // Refresh items
+                refreshItems();
+            }
+        });
 
         ArrayList<String> inputList = new ArrayList<String>();
         inputList.clear();
@@ -70,23 +84,29 @@ public class OffersList extends Fragment {
         return view;
     }
 
-    /**
-     * Adding few offers for testing
-     */
 
-/*   private void prepareOffers() {
-       int[] covers = new int[]{
-               R.drawable.album1,
-               R.drawable.album2};
+    void refreshItems()
+    {
 
-       Offers a = new Offers("True Romance", covers[0]);
-       offersList.add(a);
+        offersList = new ArrayList<>();
 
-       a = new Offers("Xscpae", covers[1]);
-       offersList.add(a);
+        ArrayList<String> inputList = new ArrayList<String>();
+        inputList.clear();
 
+        new inputAsyncData(getActivity()).execute(inputList);
+        //Intent offerIntent = new Intent(getActivity(), MainMenu.class);
+        //startActivity(offerIntent);
 
-   }*/
+        onItemsLoadComplete();
+    }
+
+    void onItemsLoadComplete() {
+        // Update the adapter and notify data set changed
+        // ...
+
+        // Stop refresh animation
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
 
     /**
      * RecyclerView item decoration - give equal margin around grid item
@@ -318,7 +338,7 @@ public class OffersList extends Fragment {
                     {
                         imageUrl = "http://vollrath.com/ClientCss/images/VollrathImages/No_Image_Available.jpg";
                     }
-                    a = new Offers(offerDetails.get(i).getName(), imageUrl);
+                    a = new Offers(offerDetails.get(i).getName(), imageUrl, Integer.toString(offerDetails.get(i).getOfferId()));
                     offersList.add(a);
                 }
 

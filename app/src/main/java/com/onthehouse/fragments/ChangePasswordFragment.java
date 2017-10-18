@@ -2,7 +2,6 @@ package com.onthehouse.fragments;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -12,16 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
-import com.onthehouse.onthehouse.PaymentPortal;
 import com.onthehouse.onthehouse.R;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -33,7 +29,6 @@ import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
  */
 public class ChangePasswordFragment extends Fragment {
 
-    public ProgressButton cancelBtn;
     public ProgressButton confirmBtn;
     public EditText newPassword;
     public EditText confirmPassword;
@@ -52,19 +47,12 @@ public class ChangePasswordFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_change_password, container, false);
         final Context mContext = container.getContext();
 
-        cancelBtn = view.findViewById(R.id.btn_cancel_changePassword);
         confirmBtn = view.findViewById(R.id.btn_changePassword);
 
         newPassword = view.findViewById(R.id.editText);
         confirmPassword = view.findViewById(R.id.editText3);
         layout = view.findViewById(R.id.passwordChangeFragment);
 
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().getFragmentManager().popBackStackImmediate();
-            }
-        });
 
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override

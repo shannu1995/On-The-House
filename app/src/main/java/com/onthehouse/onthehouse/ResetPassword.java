@@ -5,18 +5,21 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.onthehouse.connection.APIConnection;
-import com.onthehouse.fragments.LoginActivity;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
 
@@ -32,9 +35,25 @@ public class ResetPassword extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
         resetButton = (ProgressButton) findViewById(R.id.resetButton);
         resetEmail = (EditText) findViewById(R.id.resetEmail);
         layout = (ConstraintLayout) findViewById(R.id.resetLayout);
+
+        resetEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (resetEmail.getText().length() <= 0) {
+                    resetEmail.setError(null);
+                } else if (!isValidEmail(resetEmail.getText().toString())) {
+                    resetEmail.setError("Invalid Email Address");
+                } else {
+                    resetEmail.setError(null);
+                }
+            }
+        });
 
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,11 +63,28 @@ public class ResetPassword extends AppCompatActivity
                 String email = resetEmail.getText().toString();
 
                 ArrayList<String> inputList = new ArrayList<String>();
-                inputList.add("email="+email);
+                inputList.add("&email=" + email);
 
                 new inputAsyncData(getApplicationContext()).execute(inputList);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, OnTheMain.class);
+        startActivity(intent);
+        this.finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(this, OnTheMain.class);
+            startActivity(intent);
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public class inputAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
@@ -115,23 +151,40 @@ public class ResetPassword extends AppCompatActivity
             if(result == 1)
             {
                 resetButton.animFinish();
-                Snackbar.make(layout, "Reset Password Successful.", Snackbar.LENGTH_LONG).show();
-                Intent resetDoneIntent = new Intent(ResetPassword.this, LoginActivity.class);
-                ResetPassword.this.startActivity(resetDoneIntent);
+                Toast.makeText(getApplicationContext(), "Reset Successful" +
+                        "\nPlease, check your inbox", Toast.LENGTH_LONG).show();
+                //Close KeyBoard
+                View view = getWindow().getDecorView().getRootView();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+                //Go back to previous screen
+                finish();
             }
             else if(result == 2)
             {
                 resetButton.animError();
-                Snackbar.make(layout, "Reset failed, please check your email.", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Reset failed, please check your email", Toast.LENGTH_LONG).show();
             }
 
             else
             {
                 resetButton.animError();
-                Snackbar.make(layout, "Reset failed, technical error.", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Reset failed, technical error", Toast.LENGTH_LONG).show();
             }
             resetButton.setEnabled(true);
         }
+    }
+
+    // validating email id
+    private boolean isValidEmail(String email) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
 }
