@@ -20,10 +20,12 @@
             <item
                 android:id="@+id/account"
                 android:title="My Account"
+                android:icon="@drawable/email"
             />
             <item
                 android:id="@+id/membership"
                 android:title="My Membership"
+                android:icon="@drawable/icon_membership"
                 />
             <item
                 android:id="@+id/past_offerings"
