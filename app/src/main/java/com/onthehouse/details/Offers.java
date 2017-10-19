@@ -1,9 +1,5 @@
 package com.onthehouse.details;
 
-/**
- * Created by anashanifm on 7/9/17.
- */
-
 public class Offers {
     private String name;
     private String thumbnail;

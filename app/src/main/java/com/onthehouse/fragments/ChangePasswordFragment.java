@@ -114,6 +114,7 @@ public class ChangePasswordFragment extends Fragment {
                 SharedPreferences sharedPreferences = context.getSharedPreferences("memberInfo", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("memberPass", confirmPassword.getText().toString());
+                Member.getInstance().setPassword(confirmPassword.getText().toString());
                 editor.apply();
                 confirmBtn.animFinish();
                 Snackbar.make(layout, "Password Changed!", Snackbar.LENGTH_LONG).show();
