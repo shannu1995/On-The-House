@@ -197,7 +197,7 @@ public class OffersList extends Fragment
                     {
                         try
                         {
-                            //Member member = Member.getInstance();
+                            //MemberFragment member = MemberFragment.getInstance();
                             JSONArray jsonArray = obj.getJSONArray("events");
                             Log.w("events", jsonArray.toString());
 
