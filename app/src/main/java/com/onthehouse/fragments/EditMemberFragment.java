@@ -255,12 +255,7 @@ public class EditMemberFragment extends Fragment
             if(result == 1)
             {
                 updateBtn.animFinish();
-                //Snackbar.make(layout, "Registration Successful.", Snackbar.LENGTH_LONG).show();
                 Toast.makeText(getActivity(), "Update Details Successful.", Toast.LENGTH_LONG).show();
-
-                //Intent registerDoneIntent = new Intent(context, MainMenu.class);
-                //getActivity().startActivity(registerDoneIntent);
-
             }
 
             else if(result == 2)

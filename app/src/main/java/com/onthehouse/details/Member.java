@@ -1,12 +1,5 @@
 package com.onthehouse.details;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
-/**
- * Created by haseebjehangir on 24/8/17.
- */
-
 public class Member
 {
     private static Member instance = null;
