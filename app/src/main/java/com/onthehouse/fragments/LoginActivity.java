@@ -119,10 +119,6 @@ public class LoginActivity extends Fragment
             @Override
             public void onClick(View v)
             {
-                SharedPreferences guestPreference = getContext().getSharedPreferences("GuestMember", Context.MODE_PRIVATE);
-                SharedPreferences.Editor guestEditor = guestPreference.edit();
-                guestEditor.putBoolean("GuestCheck", false);
-                guestEditor.apply();
                 loginButton.startRotate();
 
                 emailStr = email.getText().toString();
@@ -258,9 +254,13 @@ public class LoginActivity extends Fragment
         {
             if(result == 1)
             {
+                //Checkout as member session
+                SharedPreferences guestPreference = getContext().getSharedPreferences("GuestMember", Context.MODE_PRIVATE);
+                SharedPreferences.Editor guestEditor = guestPreference.edit();
+                guestEditor.putBoolean("GuestCheck", false);
+                guestEditor.apply();
                 loginButton.animFinish();
-
-
+                //Save auto login info
                 editor.putString("memberEmail", Member.getInstance().getEmail());
                 editor.putString("memberPass",Member.getInstance().getPassword());
                 editor.putBoolean("RememberMe" , checkLognText);

@@ -58,7 +58,7 @@ public class GuestMain extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("GuestMember", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("GuestCheck", true);
-        editor.commit();
+        editor.apply();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -71,8 +71,6 @@ public class GuestMain extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
         if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             Intent intent = new Intent(this, OnTheMain.class);
             startActivity(intent);

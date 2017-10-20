@@ -1,12 +1,5 @@
 package com.onthehouse.details;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
-/**
- * Created by haseebjehangir on 24/8/17.
- */
-
 public class Member
 {
     private static Member instance = null;
@@ -323,9 +316,9 @@ public class Member
         this.limit_num_reservations = limit_num_reservations;
     }
 
-/*    public Member getMember(Context context)
+/*    public MemberFragment getMember(Context context)
     {
-        SharedPreferences saver = context.getSharedPreferences("Member", Context.MODE_PRIVATE);
+        SharedPreferences saver = context.getSharedPreferences("MemberFragment", Context.MODE_PRIVATE);
         id = saver.getInt("memId", 0);
         title = saver.getString("memTitle", "");
         first_name = saver.getString("memFName", "");
