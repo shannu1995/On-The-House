@@ -1,9 +1,5 @@
 package com.onthehouse.details;
 
-/**
- * Created by Shannu on 22-Sep-17.
- */
-
 public class Competition {
     private int event_id;
     private int member_id;

@@ -1,9 +1,5 @@
 package com.onthehouse.details;
 
-/**
- * Created by haseebjehangir on 26/8/17.
- */
-
 public class UtilMethods
 {
 
