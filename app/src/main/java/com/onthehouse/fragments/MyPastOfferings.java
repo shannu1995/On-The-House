@@ -38,11 +38,11 @@ public class MyPastOfferings extends Fragment {
         View view = inflater.inflate(R.layout.fragment_my_past_offerings, container, false);
         ArrayList<String> inputList = new ArrayList<>();
         inputList.add("&member_id=" + Member.getInstance().getId());
-        new inputAsycnData().execute(inputList);
+        new getPastReservationAsyncData().execute(inputList);
         return view;
     }
 
-    private class inputAsycnData extends AsyncTask<ArrayList<String>, Void, Integer> {
+    private class getPastReservationAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
 
         Context context;
         ProgressDialog progressDialog;
