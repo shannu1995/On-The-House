@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.onthehouse.details.Member;
-import com.onthehouse.fragments.Account;
+import com.onthehouse.fragments.AccountFragment;
 import com.onthehouse.fragments.ChangePasswordFragment;
 import com.onthehouse.fragments.EditMemberFragment;
 import com.onthehouse.fragments.MemberFragment;
@@ -111,7 +111,7 @@ public class MainMenu extends AppCompatActivity
             fragment = new MemberFragment();
         }
         else if(id == R.id.account){
-            fragment = new Account();
+            fragment = new AccountFragment();
         }
         else {
             fragment = new OffersList();

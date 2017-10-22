@@ -1,107 +1,93 @@
-<HorizontalScrollView
-    android:id="@+id/horizontalScrollView1"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-<android.support.constraint.ConstraintLayout
-    android:id="@+id/account_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.onthehouse.fragments.Account">
+    android:layout_height="match_parent">
+
 
     <TextView
-        android:id="@+id/welcome"
+        android:id="@+id/tv_my_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp" />
-
-    <TextView
-        android:id="@+id/membership_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
         android:layout_marginStart="16dp"
-        tools:layout_editor_absoluteY="49dp"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:layout_marginTop="16dp"
+        android:text="@string/my_account"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/reservation_heading"
+        android:id="@+id/tv_membership_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="64dp"
-        android:text="@string/reservations"
-        android:textSize="24sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/membership_status"
-        android:layout_marginStart="16dp" />
-
-    <TableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/reservation_heading"
-        android:layout_marginLeft="16dp"
+        android:text="@string/membership_label"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:id="@+id/tableLayout"
-        android:layout_marginStart="16dp">
+        app:layout_constraintTop_toBottomOf="@+id/tv_my_account" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tableLayout" >
+    <TextView
+        android:id="@+id/tv_membership_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/tv_membership_label"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_my_account" />
 
-            <TextView
-                android:id="@+id/event_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/name"
-                tools:layout_editor_absoluteX="116dp"
-                tools:layout_editor_absoluteY="261dp" />
+    <TextView
+        android:id="@+id/tv_my_reservations_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/reservations"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_membership_details" />
 
-            <TextView
-                android:id="@+id/event_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/time" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_current_reservations"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/reservations_border"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_my_reservations_label"
+        app:layout_constraintVertical_bias="0.0" />
 
-            <TextView
-                android:id="@+id/qty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/qty"
-                tools:layout_editor_absoluteX="177dp"
-                tools:layout_editor_absoluteY="385dp" />
 
-            <TextView
-                android:id="@+id/venue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Venue"
-                tools:layout_editor_absoluteX="162dp"
-                tools:layout_editor_absoluteY="373dp" />
-
-            <TextView
-                android:id="@+id/activity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/activities"
-                tools:layout_editor_absoluteX="139dp"
-                tools:layout_editor_absoluteY="221dp" />
-        </TableRow>
-    </TableLayout>
 </android.support.constraint.ConstraintLayout>
-</HorizontalScrollView>
