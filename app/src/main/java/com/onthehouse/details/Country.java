@@ -1,9 +1,5 @@
 package com.onthehouse.details;
 
-/**
- * Created by admin on 6/09/2017.
- */
-
 public class Country {
     private static Country instance = null;
 

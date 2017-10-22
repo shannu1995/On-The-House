@@ -1,9 +1,5 @@
 package com.onthehouse.details;
 
-/**
- * Created by admin on 7/09/2017.
- */
-
 public class Zone {
 
     private int id;

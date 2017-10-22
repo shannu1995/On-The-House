@@ -1,5 +1,7 @@
 package com.onthehouse.fragments;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -64,7 +66,7 @@ public class AccountFragment extends Fragment {
         //Get Reservation Data
         ArrayList<String> inputList = new ArrayList<>();
         inputList.add("&member_id=" + Member.getInstance().getId());
-        new getReservationsAsyncData().execute(inputList);
+        new getReservationsAsyncData(container.getContext()).execute(inputList);
         //Recycle View
         RecyclerView recyclerView = view.findViewById(R.id.rv_current_reservations);
         LinearLayoutManager layoutManager = new LinearLayoutManager(container.getContext());
@@ -82,6 +84,20 @@ public class AccountFragment extends Fragment {
 
     public class getReservationsAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
 
+        ProgressDialog progressDialog;
+        Context context;
+
+        private getReservationsAsyncData(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setTitle("Fetching Current Reservations");
+            progressDialog.setMessage("Please wait...");
+            progressDialog.show();
+        }
 
         @Override
         protected Integer doInBackground(ArrayList<String>... params) {
@@ -143,64 +159,9 @@ public class AccountFragment extends Fragment {
         @Override
         protected void onPostExecute(Integer integer) {
             adapter.notifyDataSetChanged();
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
         }
     }
-//    public class cancelReservationAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
-//        Context context;
-//        JSONObject object = new JSONObject();
-//
-//        public cancelReservationAsyncData(Context context){
-//            this.context = context;
-//        }
-//
-//        protected void onPreExecute()
-//        {
-//
-//        }
-//        @Override
-//        protected Integer doInBackground(ArrayList<String>... params){
-//            int status = 0;
-//            String output = "";
-//            try{
-//                APIConnection connection = new APIConnection();
-//                output = connection.sendPost("/api/v1/reservation/cancel", params[0]);
-//                if (output.length() > 0){
-//                    object = new JSONObject(output);
-//                    String result = object.getString("status");
-//                    if(result.equals("success")){
-//                        status = 1;
-//                    }else{
-//                        status = 2;
-//                        JSONObject jsonArray = object.getJSONObject("error");
-//                        JSONArray errorArr=  jsonArray.getJSONArray("messages");
-//                        errorText = errorArr.getString(0);
-//                        Log.w("Submission error", errorText);
-//                    }
-//                }
-//                else{
-//                    status = 3;
-//                }
-//            }catch(Exception e) {
-//                status = 3;
-//            }
-//            return status;
-//        }
-//        @Override
-//        protected void onPostExecute(Integer result)
-//        {
-//            if(result == 1)
-//            {
-//
-//                Snackbar.make(layout, "Cancellation Accepted!", Snackbar.LENGTH_LONG).show();
-//            }
-//            else if(result == 2)
-//            {
-//                Snackbar.make(layout, errorText, Snackbar.LENGTH_LONG).show();
-//            }
-//            else
-//            {
-//                Snackbar.make(layout, "Submission failed, technical error.", Snackbar.LENGTH_LONG).show();
-//            }
-//        }
-//    }
 }
