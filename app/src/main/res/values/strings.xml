@@ -34,7 +34,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="OR">OR</string>
     <string name="state_prompt">State</string>
-    <string name="reservations">Click to get Reservations</string>
+    <string name="reservations">My Reservations</string>
     <string name="name">Name</string>
     <string name="time">Date / Time</string>
     <string name="qty">Tickets / Qty</string>
@@ -128,4 +128,6 @@
     <string name="title_guestOffering">Past Offering</string>
     <string name="title_guestsignup">Login/Register</string>
     <string name="my_past_offerings">My Past Offerings</string>
+    <string name="my_account">My Account</string>
+    <string name="membership_label">Membership:</string>
 </resources>
