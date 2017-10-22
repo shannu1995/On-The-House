@@ -2,10 +2,6 @@ package com.onthehouse.details;
 
 import java.util.ArrayList;
 
-/**
- * Created by haseebjehangir on 7/9/17.
- */
-
 public class OfferDetail
 {
     private static ArrayList<OfferDetail> instance = null;
