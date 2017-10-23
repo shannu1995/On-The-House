@@ -46,7 +46,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/offer_image_border"
             android:clickable="true"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             card_view:layout_constraintHorizontal_bias="0.5"
             card_view:layout_constraintLeft_toLeftOf="parent"
             card_view:layout_constraintRight_toRightOf="parent"
