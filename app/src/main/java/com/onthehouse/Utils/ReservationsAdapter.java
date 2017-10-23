@@ -203,7 +203,6 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
     public class rateEventAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
         Context context;
         String errorText;
-        ProgressDialog progressDialog;
 
         public rateEventAsyncData(Context context) {
             this.context = context;
