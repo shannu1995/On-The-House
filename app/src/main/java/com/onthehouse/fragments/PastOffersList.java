@@ -2,13 +2,16 @@ package com.onthehouse.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.onthehouse.Utils.PastOffersAdapter;
@@ -32,7 +35,7 @@ public class PastOffersList extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.activity_past_offers, container, false);
-        Context context = container.getContext();
+        final Context context = container.getContext();
 
         ListView offerViewList = view.findViewById(R.id.past_offers_list_view);
         pastOffersArrayList = new ArrayList<>();
@@ -43,7 +46,28 @@ public class PastOffersList extends Fragment {
         inputList.clear();
         new inputAsyncData(context).execute(inputList);
 
+        offerViewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                offerDetailDialog(context, pastOffersArrayList.get(position).getName(),
+                        pastOffersArrayList.get(position).getDescription());
+            }
+        });
+
         return view;
+    }
+
+    public void offerDetailDialog(Context context, String title, String description) {
+        final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(description);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Dimiss", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 
     private class inputAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
