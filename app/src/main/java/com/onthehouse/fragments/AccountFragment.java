@@ -105,7 +105,6 @@ public class AccountFragment extends Fragment {
             APIConnection connection = new APIConnection();
             try {
                 String output = connection.sendPost("/api/v1/member/reservations", params[0]);
-                String o1 = connection.sendPost("/api/v1/member/membership", params[0]);
                 if (output.length() > 0) {
                     JSONObject obj = new JSONObject(output);
                     String result = obj.getString("status");
