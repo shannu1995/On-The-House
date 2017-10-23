@@ -14,7 +14,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/my_past_offerings"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/primary_dark"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintHorizontal_bias="0.0"

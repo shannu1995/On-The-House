@@ -71,7 +71,6 @@ public class MainMenu extends AppCompatActivity
         }
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
@@ -82,46 +81,60 @@ public class MainMenu extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         Fragment fragment = null;
-        int id = item.getItemId();
+        Class fragmentClass = OffersList.class;
 
-        if (id == R.id.offers) {
-            fragment = new OffersList();
-        } else if (id == R.id.nav_past_offers) {
-            fragment = new PastOffersList();
-        } else if(id == R.id.edit_details) {
-            fragment = new EditMemberFragment();
-        } else if(id == R.id.past_offerings) {
-            fragment = new MyPastOfferings();
-        } else if (id == R.id.change_password) {
-            fragment = new ChangePasswordFragment();
-        } else if (id == R.id.nav_logout) {
-            SharedPreferences sharedPreferences = getSharedPreferences("memberInfo", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("memberEmail", null);
-            editor.putString("memberPass", null);
-            editor.apply();
+        switch (item.getItemId()) {
+            case R.id.offers:
+                fragmentClass = OffersList.class;
+                break;
+            case R.id.nav_past_offers:
+                fragmentClass = PastOffersList.class;
+                break;
+            case R.id.edit_details:
+                fragmentClass = EditMemberFragment.class;
+                break;
+            case R.id.past_offerings:
+                fragmentClass = MyPastOfferings.class;
+                break;
+            case R.id.change_password:
+                fragmentClass = ChangePasswordFragment.class;
+                break;
+            case R.id.membership:
+                fragmentClass = MemberFragment.class;
+                break;
+            case R.id.account:
+                fragmentClass = AccountFragment.class;
+                break;
+            case R.id.nav_logout:
+                SharedPreferences sharedPreferences = getSharedPreferences("memberInfo", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("memberEmail", null);
+                editor.putString("memberPass", null);
+                editor.apply();
 
-            Toast.makeText(getApplicationContext(), "Logged Out Successfully"
-                    , Toast.LENGTH_LONG).show();
-            Intent loginIntent = new Intent(MainMenu.this, OnTheMain.class);
-            MainMenu.this.startActivity(loginIntent);
-            finish();
+                Toast.makeText(getApplicationContext(), "Logged Out Successfully"
+                        , Toast.LENGTH_LONG).show();
+                Intent loginIntent = new Intent(MainMenu.this, OnTheMain.class);
+                startActivity(loginIntent);
+                finish();
+                break;
+            default:
+                fragmentClass = OffersList.class;
+                break;
         }
-        else if(id == R.id.membership){
-            fragment = new MemberFragment();
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        else if(id == R.id.account){
-            fragment = new AccountFragment();
-        }
-        else {
-            fragment = new OffersList();
-        }
+        // Insert the fragment by replacing any existing fragment
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.frame_container, fragment).addToBackStack("On the House").commit();
+            fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
         }
-
+        // Highlight the selected item has been done by NavigationView
+//        item.setChecked(true);
+        //Close nav drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
