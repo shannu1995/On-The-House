@@ -2,14 +2,11 @@ package com.onthehouse.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -25,7 +22,6 @@ import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.OfferDetail;
 import com.onthehouse.details.Offers;
 import com.onthehouse.details.UtilMethods;
-import com.onthehouse.onthehouse.MainMenu;
 import com.onthehouse.onthehouse.R;
 
 import org.json.JSONArray;
@@ -83,7 +79,6 @@ public class OffersList extends Fragment
 
         return view;
     }
-
 
     void refreshItems()
     {
