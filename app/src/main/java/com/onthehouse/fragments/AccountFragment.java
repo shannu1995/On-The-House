@@ -82,6 +82,7 @@ public class AccountFragment extends Fragment {
         return view;
     }
 
+
     public class getReservationsAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
 
         ProgressDialog progressDialog;
