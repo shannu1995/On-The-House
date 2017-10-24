@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.onthehouse.Utils.DrawerLocker;
 import com.onthehouse.Utils.ReservationsAdapter;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
@@ -98,6 +99,7 @@ public class AccountFragment extends Fragment {
             progressDialog.setTitle("Fetching Current Reservations");
             progressDialog.setMessage("Please wait...");
             progressDialog.show();
+            ((DrawerLocker) getActivity()).setDrawerEnabled(false);
         }
 
         @Override
@@ -162,6 +164,7 @@ public class AccountFragment extends Fragment {
             if (progressDialog != null) {
                 progressDialog.dismiss();
             }
+            ((DrawerLocker) getActivity()).setDrawerEnabled(true);
         }
     }
 }

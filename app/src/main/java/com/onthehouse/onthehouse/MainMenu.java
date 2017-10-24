@@ -18,17 +18,22 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.onthehouse.Utils.DrawerLocker;
 import com.onthehouse.details.Member;
 import com.onthehouse.fragments.AccountFragment;
 import com.onthehouse.fragments.ChangePasswordFragment;
 import com.onthehouse.fragments.EditMemberFragment;
-import com.onthehouse.fragments.MemberFragment;
+import com.onthehouse.fragments.MembershipFragment;
 import com.onthehouse.fragments.MyPastOfferings;
 import com.onthehouse.fragments.OffersList;
 import com.onthehouse.fragments.PastOffersList;
 
 public class MainMenu extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, DrawerLocker {
+
+    DrawerLayout drawer;
+    ActionBarDrawerToggle toggle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +43,8 @@ public class MainMenu extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("On The House");
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -60,10 +64,17 @@ public class MainMenu extends AppCompatActivity
 
     }
 
+    @Override
+    public void setDrawerEnabled(boolean enabled) {
+
+        int lockMode = enabled ? DrawerLayout.LOCK_MODE_UNLOCKED :
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
+        drawer.setDrawerLockMode(lockMode);
+        toggle.setDrawerIndicatorEnabled(enabled);
+    }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -100,7 +111,7 @@ public class MainMenu extends AppCompatActivity
                 fragmentClass = ChangePasswordFragment.class;
                 break;
             case R.id.membership:
-                fragmentClass = MemberFragment.class;
+                fragmentClass = MembershipFragment.class;
                 break;
             case R.id.account:
                 fragmentClass = AccountFragment.class;
@@ -112,12 +123,10 @@ public class MainMenu extends AppCompatActivity
                 editor.putString("memberPass", null);
                 editor.apply();
 
-                Toast.makeText(getApplicationContext(), "Logged Out Successfully"
-                        , Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Logged Out Successfully", Toast.LENGTH_LONG).show();
                 Intent loginIntent = new Intent(MainMenu.this, OnTheMain.class);
                 startActivity(loginIntent);
                 finish();
-                break;
             default:
                 fragmentClass = OffersList.class;
                 break;
@@ -135,7 +144,7 @@ public class MainMenu extends AppCompatActivity
         // Highlight the selected item has been done by NavigationView
 //        item.setChecked(true);
         //Close nav drawer
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

@@ -4,7 +4,6 @@ package com.onthehouse.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
@@ -15,14 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.daimajia.androidanimations.library.Techniques;
 import com.onthehouse.details.OfferDetail;
 import com.onthehouse.details.UtilMethods;
 import com.onthehouse.onthehouse.BookingPageCompetition;
@@ -32,17 +28,12 @@ import com.onthehouse.onthehouse.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
-
-/**
- * Created by anashanifm on 9/9/17.
- */
 
 public class OffersInfo extends Fragment {
     public OffersInfo() {

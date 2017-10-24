@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.onthehouse.Utils.DrawerLocker;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.onthehouse.R;
@@ -77,6 +78,7 @@ public class ChangePasswordFragment extends Fragment {
         protected void onPreExecute()
         {
             confirmBtn.setEnabled(false);
+            ((DrawerLocker) getActivity()).setDrawerEnabled(false);
         }
 
         protected Integer doInBackground(ArrayList<String>... params){
@@ -131,6 +133,7 @@ public class ChangePasswordFragment extends Fragment {
                 confirmBtn.animError();
             }
             confirmBtn.setEnabled(true);
+            ((DrawerLocker) getActivity()).setDrawerEnabled(true);
         }
     }
 }
