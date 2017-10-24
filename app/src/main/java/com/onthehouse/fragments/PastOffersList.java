@@ -63,7 +63,7 @@ public class PastOffersList extends Fragment {
         final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(description);
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Dimiss", new DialogInterface.OnClickListener() {
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Dismiss", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
