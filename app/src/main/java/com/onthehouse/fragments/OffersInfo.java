@@ -56,7 +56,7 @@ public class OffersInfo extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        final View view = inflater.inflate(R.layout.activity_offer_detail, container, false);
+        final View view = inflater.inflate(R.layout.fragment_offer_detail, container, false);
         final Context context = container.getContext();
 
         int pos = getArguments().getInt("position");
