@@ -36,7 +36,7 @@ public class PastOffersList extends Fragment {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.activity_past_offers, container, false);
+        final View view = inflater.inflate(R.layout.fragment_past_offers, container, false);
         final Context context = container.getContext();
 
         ListView offerViewList = view.findViewById(R.id.past_offers_list_view);

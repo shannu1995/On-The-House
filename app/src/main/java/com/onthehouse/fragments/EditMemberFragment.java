@@ -50,7 +50,7 @@ public class EditMemberFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        final View view = inflater.inflate(R.layout.activity_edit_member, container, false);
+        final View view = inflater.inflate(R.layout.fragment_edit_member, container, false);
         final Context mContext = container.getContext();
 
         titleSpinner = (Spinner) view.findViewById(R.id.editMemberTitleSpinner);
