@@ -205,9 +205,15 @@ public class OffersInfo extends Fragment {
                         for(int j = 0; j < quantitiesJson.length(); j++){
                             quantities.add(UtilMethods.tryParseInt(quantitiesJson.getString(j)));
                         }
+                        /*
                         adapter = new ArrayAdapter<Integer>(view.getContext(),
                             android.R.layout.simple_expandable_list_item_1,
                             quantities);
+                            */
+                        adapter = new ArrayAdapter<Integer>(view.getContext(),
+                            android.R.layout.simple_spinner_item,
+                            quantities);
+                        spinner.setPadding(0, 0, 0, 0);
                         spinner.setAdapter(adapter);
                         spinner.setSelection(0);
                         spinner.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,
