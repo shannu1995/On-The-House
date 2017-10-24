@@ -26,10 +26,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static android.content.ContentValues.TAG;
-
 public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapter.MyViewHolder> {
 
+    private static final String TAG = "ReservationsAdapter";
     private Context context;
     private ArrayList<Reservation> reservationList;
 
@@ -146,7 +145,7 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
             }
         });
 
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Dismiss", new DialogInterface.OnClickListener() {
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Dismiss", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

@@ -3,53 +3,55 @@
 
     <item android:title="Offers">
         <menu>
-            <item
-                android:id="@+id/offers"
-                android:title="Current Offers"
-                android:icon="@drawable/offers"/>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/offers"
+                    android:icon="@drawable/offers"
+                    android:title="Current Offers" />
 
-            <item
-                android:id="@+id/nav_past_offers"
-                android:icon="@drawable/offers_main"
-                android:title="Past Offers" />
+                <item
+                    android:id="@+id/nav_past_offers"
+                    android:icon="@drawable/offers_main"
+                    android:title="Past Offers" />
+            </group>
         </menu>
     </item>
 
     <item android:title="Member">
         <menu>
-            <item
-                android:id="@+id/account"
-                android:title="My Account"
-                android:icon="@drawable/email"
-            />
-            <item
-                android:id="@+id/membership"
-                android:title="My Membership"
-                android:icon="@drawable/icon_membership"
-                />
-            <item
-                android:id="@+id/past_offerings"
-                android:icon="@drawable/offering_main"
-                android:title="My Past Offerings" />
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/account"
+                    android:icon="@drawable/email"
+                    android:title="My Account" />
+                <item
+                    android:id="@+id/membership"
+                    android:icon="@drawable/icon_membership"
+                    android:title="My Membership" />
+                <item
+                    android:id="@+id/past_offerings"
+                    android:icon="@drawable/offering_main"
+                    android:title="My Past Offerings" />
 
 
-            <item
-                android:id="@+id/edit_details"
-                android:title="Edit Details"
-                android:icon="@drawable/edit_main"/>
+                <item
+                    android:id="@+id/edit_details"
+                    android:icon="@drawable/edit_main"
+                    android:title="Edit Details" />
 
-            <item
-                android:id="@+id/change_password"
-                android:title="Change Password"
-                android:icon="@drawable/password" />
+                <item
+                    android:id="@+id/change_password"
+                    android:icon="@drawable/password"
+                    android:title="Change Password" />
+            </group>
         </menu>
     </item>
 
     <group android:checkableBehavior="single">
-           <item
-                android:id="@+id/nav_logout"
-                android:icon="@drawable/logout_main"
-                android:title="Logout" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/logout_main"
+            android:title="Logout" />
     </group>
 
 </menu>
