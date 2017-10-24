@@ -1,5 +1,7 @@
 package com.onthehouse.details;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 
 public class OfferDetail
@@ -24,11 +26,12 @@ public class OfferDetail
     private boolean isCompt;
     private String venueDetails;
     private String showsHeading;
-    private ArrayList<String> dates;
+   // private ArrayList<String> dates;
     private boolean delivery;
     private String question;
     private ArrayList<Integer> quantities;
     private String show_id;
+    private JSONArray showsArray;
 
     public OfferDetail()
     {
@@ -185,8 +188,8 @@ public class OfferDetail
     public void setShowsHeading(String showsHeading){this.showsHeading = showsHeading;}
     public String getShowsHeading(){return this.showsHeading;}
 
-    public void setDates(ArrayList<String> dates){this.dates = dates;}
-    public ArrayList<String> getDates(){return this.dates;}
+    //public void setDates(ArrayList<String> dates){this.dates = dates;}
+    //public ArrayList<String> getDates(){return this.dates;}
 
     public void setDelivery(boolean delivery){this.delivery = delivery;}
     public boolean isDelivery(){return this.delivery;}
@@ -199,4 +202,11 @@ public class OfferDetail
 
     public void setShow_id(String show_id){this.show_id = show_id;}
     public String getShow_id(){return this.show_id;}
+
+    public void setShowsArray(JSONArray showsArray){
+        this.showsArray = showsArray;
+    }
+    public JSONArray getShowsArray(){
+        return this.showsArray;
+    }
 }

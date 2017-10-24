@@ -235,6 +235,8 @@ public class OffersList extends Fragment
                                 JSONObject venueObject = showsObject.getJSONObject("venue");
                                 String showsHeadingObject = showsObject.getString("shows_heading");
                                 JSONArray shows = showsObject.getJSONArray("shows");
+                                detail.setShowsArray(shows);
+
                                 JSONObject showsDetailsObject = shows.getJSONObject(0);
 
                                 String venueName = venueObject.getString("name");
@@ -282,7 +284,7 @@ public class OffersList extends Fragment
                                 Log.w("From: ",showsDetailsObject.getString("show_date") + "\n");
                                 Log.w("To: ",date2 + "\n");
                                 //Log.w("to: ",date1);
-                                detail.setDates(showDates);
+                                //detail.setDates(showDates);
                                 offerDetails.add(detail);
                             }
                             //Log.w("eventtt", offerDetails.get(0).getDescription());
