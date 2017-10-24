@@ -14,7 +14,7 @@
         android:layout_marginTop="16dp"
         android:text="@string/rate_event"
         android:textAllCaps="true"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/primary_dark"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintHorizontal_bias="0.0"

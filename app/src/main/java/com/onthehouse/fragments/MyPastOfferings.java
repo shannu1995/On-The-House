@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.onthehouse.Utils.DrawerLocker;
 import com.onthehouse.Utils.ReservationsAdapter;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
@@ -78,6 +79,8 @@ public class MyPastOfferings extends Fragment {
             progressDialog.setTitle("Fetching Past Offerings");
             progressDialog.setMessage("Please wait...");
             progressDialog.show();
+
+            ((DrawerLocker) getActivity()).setDrawerEnabled(false);
         }
 
         @Override
@@ -141,6 +144,7 @@ public class MyPastOfferings extends Fragment {
             if (progressDialog != null) {
                 progressDialog.dismiss();
             }
+            ((DrawerLocker) getActivity()).setDrawerEnabled(true);
         }
     }
 

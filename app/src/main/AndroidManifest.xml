@@ -50,7 +50,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.onthehouse.guest.GuestMain"
-            android:label="@string/title_activity_guest_main"></activity>
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_guest_main" />
     </application>
 
 </manifest>

@@ -135,4 +135,9 @@
     <string name="comments_here">Please provide your comments here</string>
     <string name="rate_event">Rate Event</string>
     <string name="past_reservations">Past Reservations</string>
+    <string name="membership_heading">Membership</string>
+    <string name="gold_radio_text">Gold: 6 Months - $55.90</string>
+    <string name="bronze_radio_text">Bronze: 2 Years - Free</string>
+    <string name="my_memberships">My Memberships</string>
+    <string name="change_membership">Change Membership</string>
 </resources>
