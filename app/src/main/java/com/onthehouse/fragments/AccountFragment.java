@@ -37,6 +37,7 @@ public class AccountFragment extends Fragment {
     private ArrayList<Reservation> reservationArrayList = new ArrayList<>();
     private static final String TAG = "AccountFragment";
     private ReservationsAdapter adapter;
+    private TextView reservations_label;
 
     public AccountFragment() {
 
@@ -46,6 +47,8 @@ public class AccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
+        //Views
+        reservations_label = view.findViewById(R.id.tv_my_reservations_label);
         //Text View Membership details
         Member member = Member.getInstance();
         String detailsStr;
@@ -161,6 +164,11 @@ public class AccountFragment extends Fragment {
         @Override
         protected void onPostExecute(Integer integer) {
             adapter.notifyDataSetChanged();
+            if (reservationArrayList.isEmpty()) {
+                reservations_label.setText(R.string.no_reservations_available);
+            } else {
+                reservations_label.setText(R.string.reservations);
+            }
             if (progressDialog != null) {
                 progressDialog.dismiss();
             }

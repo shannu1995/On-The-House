@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.onthehouse.Utils.DrawerLocker;
 import com.onthehouse.Utils.ReservationsAdapter;
@@ -34,6 +35,7 @@ public class MyPastOfferings extends Fragment {
     private static final String TAG = "MyPastOfferings";
     private ArrayList<Reservation> pastReservations = new ArrayList<>();
     private ReservationsAdapter adapter;
+    private TextView pastReservations_label;
 
     public MyPastOfferings() {
         // Required empty public constructor
@@ -44,6 +46,8 @@ public class MyPastOfferings extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_past_offerings, container, false);
+        //View
+        pastReservations_label = view.findViewById(R.id.tv_past_reservations_label);
         //Get Reservation Data
         ArrayList<String> inputList = new ArrayList<>();
         inputList.add("&member_id=" + Member.getInstance().getId());
@@ -140,6 +144,11 @@ public class MyPastOfferings extends Fragment {
         @Override
         protected void onPostExecute(Integer integer) {
             adapter.notifyDataSetChanged();
+            if (pastReservations.isEmpty()) {
+                pastReservations_label.setText(R.string.no_past_reservations_available);
+            } else {
+                pastReservations_label.setText(R.string.past_reservations);
+            }
             if (progressDialog != null) {
                 progressDialog.dismiss();
             }

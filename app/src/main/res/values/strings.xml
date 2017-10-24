@@ -140,4 +140,19 @@
     <string name="bronze_radio_text">Bronze: 2 Years - Free</string>
     <string name="my_memberships">My Memberships</string>
     <string name="change_membership">Change Membership</string>
+    <string name="level">Level: </string>
+    <string name="period">Period:</string>
+    <string name="price">Price:</string>
+    <string name="no_membership_history">No membership history</string>
+    <string name="no_reservations_available">You currently don\'t have any reservations</string>
+    <string name="no_past_reservations_available">You don\'t have any past reservations</string>
+    <string name="gold_membership_details">As a Gold Member you  will have access to premium tickets on our site for a period of 6 months, these tickets will not incur an admin fee.
+        \r\n\r\nYou can reserve tickets that are available for both Bronze and Gold Members. You do not pay an admin fee when you take up complimentary tickets.
+        \r\n\r\nIf you want to reserve tickets provided to ON THE HOUSE at cut price, you will be charged the ON THE HOUSE ticket price.
+        \r\n\r\nStay subscribed to our newsletters to receive our newsletter notifications.</string>
+    <string name="bronze_membership_details">Bronze membership allows you to book tickets right throughout the year.
+        \r\n\r\nA small admin charge of $5.98 may apply to reserve some give-aways or promotional tickets.
+        \r\nIf you reserve tickets provided to ON THE HOUSE at cut price, you will be charged the ON THE HOUSE ticket price.
+        \r\n\r\nYou can reserve tickets available for bronze members only.
+        \r\n\r\nStay subscribed to our newsletters to receive our newsletter notifications.</string>
 </resources>
