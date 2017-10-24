@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.onthehouse.Utils.DrawerLocker;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
@@ -195,6 +196,7 @@ public class EditMemberFragment extends Fragment
         protected void onPreExecute()
         {
             updateBtn.setEnabled(false);
+            ((DrawerLocker) getActivity()).setDrawerEnabled(false);
         }
 
         protected Integer doInBackground(ArrayList<String>... params)
@@ -269,6 +271,7 @@ public class EditMemberFragment extends Fragment
                 updateBtn.animError();
             }
             updateBtn.setEnabled(true);
+            ((DrawerLocker) getActivity()).setDrawerEnabled(true);
         }
     }
 

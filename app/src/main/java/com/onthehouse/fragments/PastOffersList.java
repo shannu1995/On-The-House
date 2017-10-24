@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.onthehouse.Utils.DrawerLocker;
 import com.onthehouse.Utils.PastOffersAdapter;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.PastOffers;
@@ -86,6 +87,8 @@ public class PastOffersList extends Fragment {
             progressDialog.setTitle("Fetching Past Offers");
             progressDialog.setMessage("Loading...");
             progressDialog.show();
+            //Lock Drawer While Loading
+            ((DrawerLocker) getActivity()).setDrawerEnabled(false);
         }
 
         @Override
@@ -142,6 +145,8 @@ public class PastOffersList extends Fragment {
             if (progressDialog != null) {
                 progressDialog.dismiss();
             }
+            //Unlock Drawer
+            ((DrawerLocker) getActivity()).setDrawerEnabled(true);
         }
     }
 }

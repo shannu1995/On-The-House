@@ -16,7 +16,9 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.onthehouse.Utils.DrawerLocker;
 import com.onthehouse.Utils.OffersAdapter;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.OfferDetail;
@@ -169,6 +171,8 @@ public class OffersList extends Fragment
             mProgressDialog.setIndeterminate(false);
             // Show progressdialog
             mProgressDialog.show();
+            //Lock Drawer While Loading
+            ((DrawerLocker) getActivity()).setDrawerEnabled(false);
         }
 
         @Override
@@ -192,7 +196,7 @@ public class OffersList extends Fragment
                     {
                         try
                         {
-                            //MemberFragment member = MemberFragment.getInstance();
+                            //MembershipFragment member = MembershipFragment.getInstance();
                             JSONArray jsonArray = obj.getJSONArray("events");
                             Log.w("events", jsonArray.toString());
 
@@ -338,27 +342,21 @@ public class OffersList extends Fragment
                     a = new Offers(offerDetails.get(i).getName(), imageUrl, Integer.toString(offerDetails.get(i).getOfferId()));
                     offersList.add(a);
                 }
-
-                //loginButton.animFinish();
-                //Snackbar.make(layout, "Login successful.", Snackbar.LENGTH_LONG).show();
-
             }
 
             else if(result == 2)
             {
-                //loginButton.animError();
-                //Snackbar.make(layout, "Login failed, please check your details", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(context, "Technical error", Toast.LENGTH_LONG).show();
             }
 
             else
             {
-                //loginButton.animError();
-                //Snackbar.make(layout, "Login failed, technical error.", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(context, "Technical error", Toast.LENGTH_LONG).show();
             }
             adapter.notifyDataSetChanged();
             mProgressDialog.dismiss();
-
-            //loginButton.setEnabled(true);
+            //Unlock Drawer
+            ((DrawerLocker) getActivity()).setDrawerEnabled(true);
         }
     }
 }
