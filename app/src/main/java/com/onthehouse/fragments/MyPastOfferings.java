@@ -26,13 +26,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MyPastOfferings extends Fragment {
 
+    private static final String TAG = "MyPastOfferings";
     private ArrayList<Reservation> pastReservations = new ArrayList<>();
     private ReservationsAdapter adapter;
 

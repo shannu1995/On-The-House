@@ -19,6 +19,7 @@ import com.onthehouse.Utils.PastOffersAdapter;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.PastOffers;
 import com.onthehouse.details.UtilMethods;
+import com.onthehouse.onthehouse.MainMenu;
 import com.onthehouse.onthehouse.R;
 
 import org.json.JSONArray;
@@ -88,7 +89,9 @@ public class PastOffersList extends Fragment {
             progressDialog.setMessage("Loading...");
             progressDialog.show();
             //Lock Drawer While Loading
-            ((DrawerLocker) getActivity()).setDrawerEnabled(false);
+            if (getActivity() instanceof MainMenu) {
+                ((DrawerLocker) getActivity()).setDrawerEnabled(false);
+            }
         }
 
         @Override
@@ -145,8 +148,12 @@ public class PastOffersList extends Fragment {
             if (progressDialog != null) {
                 progressDialog.dismiss();
             }
-            //Unlock Drawer
-            ((DrawerLocker) getActivity()).setDrawerEnabled(true);
+
+            if (getActivity() instanceof MainMenu) {
+                //Unlock Drawer
+                ((DrawerLocker) getActivity()).setDrawerEnabled(true);
+            }
+
         }
     }
 }

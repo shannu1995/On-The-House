@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.onthehouse.onthehouse.BookingPageCompetition"
-    android:background="@color/backgroundColorFirstHalf"
+    android:background="@color/white"
     tools:layout_editor_absoluteY="81dp"
     tools:layout_editor_absoluteX="0dp">
 
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/selector_button"
         android:text="@string/confirm_1"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginTop="32dp"
