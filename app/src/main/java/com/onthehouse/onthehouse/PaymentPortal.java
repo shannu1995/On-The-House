@@ -3,6 +3,7 @@ package com.onthehouse.onthehouse;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
@@ -10,9 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
+import com.onthehouse.fragments.AccountFragment;
 import com.paypal.android.sdk.payments.*;
 
 import org.json.JSONArray;
@@ -32,6 +36,11 @@ public class PaymentPortal extends AppCompatActivity {
     int requestCode = 999;
     String errorText = "";
     ArrayList<String> inputList = new ArrayList<String>();
+    Bundle extras;
+    Button button;
+    TextView heading;
+    TextView details;
+    TextView result;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,18 +48,52 @@ public class PaymentPortal extends AppCompatActivity {
         configuration = new PayPalConfiguration()
                 .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
                 .clientId(clientId);
+        heading = (TextView) findViewById(R.id.paymentSummary);
+        details = (TextView) findViewById(R.id.details);
+        button = (Button) findViewById(R.id.button);
+        result = (TextView) findViewById(R.id.result);
+
+        extras = getIntent().getExtras();
+        details.setText("Number of Tickets: "+extras.getString("tickets"));
+        if(extras.getString("payment").equals("affiliate")){
+            button.setVisibility(View.GONE);
+            details.append("\nRedirected to the affiliated URL provided by the supplier.\n Please complete your transaction there");
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(extras.getString("affiliate_url")));
+            startActivity(browserIntent);
+        }
+        else if(extras.getString("payment").equals("free")){
+            button.setVisibility(View.GONE);
+            details.append("\nAs a gold member, you do not need to pay the admin fee for this event");
+            inputList.add("nonce="+(UUID.randomUUID().toString()).replace("-",""));
+            inputList.add("&reservation_id="+extras.getString("reservation_id"));
+            inputList.add("&show_id="+extras.getString("show_id"));
+            inputList.add("&member_id="+Member.getInstance().getId());
+            inputList.add("&price=0");
+            inputList.add("&tickets="+extras.getString("tickets"));
+            new reserveAsyncData(getApplicationContext(), result).execute(inputList);
+        }
         service = new Intent(this, PayPalService.class);
         service.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
         startService(service);
     }
     public void pay(View view){
-        PayPalPayment payment =
-                new PayPalPayment(new BigDecimal(10), "AUD", "Paypal testing", PayPalPayment.PAYMENT_INTENT_SALE);
-
-        Intent intent = new Intent(this, PaymentActivity.class);
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
-        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
-        startActivityForResult(intent, requestCode);
+        if(extras.getString("payment").equals("paypal")){
+            PayPalPayment payment =
+                    new PayPalPayment(new BigDecimal(10), "AUD", "Paypal testing", PayPalPayment.PAYMENT_INTENT_SALE);
+            Intent intent = new Intent(this, PaymentActivity.class);
+            intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
+            intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+            startActivityForResult(intent, requestCode);
+        }
+        else{
+            inputList.add("nonce="+(UUID.randomUUID().toString()).replace("-",""));
+            inputList.add("&reservation_id="+extras.getString("reservation_id"));
+            inputList.add("&show_id="+extras.getString("show_id"));
+            inputList.add("&member_id="+Member.getInstance().getId());
+            inputList.add("&price="+extras.getString("item_price"));
+            inputList.add("&tickets="+extras.getString("tickets"));
+            new reserveAsyncData(getApplicationContext(), result).execute(inputList);
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -62,14 +105,13 @@ public class PaymentPortal extends AppCompatActivity {
                 if(confirmation != null){
                     String state = confirmation.getProofOfPayment().getState();
                     if(state.equals("approved")) {
-                        Bundle extras = getIntent().getExtras();
                         inputList.add("nonce="+(UUID.randomUUID().toString()).replace("-",""));
                         inputList.add("&reservation_id="+extras.getString("reservation_id"));
                         inputList.add("&show_id="+extras.getString("show_id"));
                         inputList.add("&member_id="+Member.getInstance().getId());
                         inputList.add("&price="+extras.getString("item_price"));
                         inputList.add("&tickets="+extras.getString("tickets"));
-                        new reserveAsyncData(getApplicationContext()).execute(inputList);
+                        new reserveAsyncData(getApplicationContext(), result).execute(inputList);
                     }
                     else
                         Snackbar.make(layout, "Payment Failed, Technical Error", Snackbar.LENGTH_LONG).show();
@@ -85,7 +127,7 @@ public class PaymentPortal extends AppCompatActivity {
         APIConnection connection = new APIConnection();
         JSONObject object;
 
-        public reserveAsyncData(Context context){this.context = context;}
+        public reserveAsyncData(Context context, TextView result){this.context = context;}
 
         protected void onPreExecute()
         {
@@ -120,18 +162,27 @@ public class PaymentPortal extends AppCompatActivity {
         }
         protected void onPostExecute(Integer result)
         {
+            TextView textView = (TextView) findViewById(R.id.result);
+            textView.setVisibility(View.VISIBLE);
             if(result == 1)
             {
                 Log.w("COMPLETED!", "SUCCESS!!");
+                textView.setText("Reservation Successful!\n Please check \'My Account\' or your email for the reservation details");
             }
 
             else if(result == 2)
             {
                 Log.w("ERROR!!!", errorText);
+                textView.setText("Reservation Failed because:\n"+errorText);
             }
             else
             {
-                Log.w("SUBMISSION FAILED!", "Technical Error");
+                Log.w("SUBMISSION FAILED!", errorText);
+                if(extras.getString("payment").equals("free")){
+                    textView.setText("Reservation Successful!\n Please check \'My Account\' or your email for the reservation details");
+                }else{
+                    textView.setText("Reservation Failed because:\n"+errorText);
+                }
             }
         }
     }

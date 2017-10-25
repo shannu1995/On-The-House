@@ -180,25 +180,38 @@ public class BookingPageDeliveryPurchase extends AppCompatActivity {
             {
                 submit_reservation.animFinish();
                 Snackbar.make(layout, "Submitted Answer", Snackbar.LENGTH_LONG).show();
-                try{
-                    if(object.getString("paypal").equals("1")){
-                        Bundle extras = new Bundle();
-                        extras.putString("item_name",object.getString("item_name"));
-                        extras.putString("item_sku",object.getString("item_sku"));
-                        extras.putString("item_quantity",getTickets());
-                        extras.putString("item_price", object.getString("item_price"));
-                        extras.putString("reservation_id", object.getString("reservation_id"));
-                        extras.putString("show_id", getShowId());
-                        extras.putString("tickets", getTickets());
-                        paymentActivity.putExtras(extras);
-                        paymentActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(paymentActivity);
+                Bundle extras = new Bundle();
+                if(object.has("paypal")){
+                    try{
+                        if(object.getString("paypal").equals("1")){
+                            extras.putString("payment", "paypal");
+                            extras.putString("item_name",object.getString("item_name"));
+                            extras.putString("item_sku",object.getString("item_sku"));
+                            extras.putString("item_quantity",getTickets());
+                            extras.putString("item_price", object.getString("item_price"));
+                            extras.putString("reservation_id", object.getString("reservation_id"));
+                            extras.putString("show_id", getShowId());
+                            extras.putString("tickets", getTickets());
+                        }
+                        else{
+                            extras.putString("payment", "free");
+                            extras.putString("reservation_id", object.getString("reservation_id"));
+                            extras.putString("show_id", getShowId());
+                            extras.putString("tickets", getTickets());
+                        }
+                    } catch (Exception e){
                     }
-                    else{
+                } else{
+                    try{
+                        extras.putString("payment", "affiliate");
+                        extras.putString("affiliate_url", object.getString("affiliate_url"));
+                    }catch (Exception e){
+
                     }
-                }catch(JSONException e){
-                    Log.w("Error: JSON Exception", e);
                 }
+                paymentActivity.putExtras(extras);
+                paymentActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(paymentActivity);
             }
 
             else if(result == 2)
