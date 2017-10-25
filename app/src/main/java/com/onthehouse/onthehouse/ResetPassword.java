@@ -45,9 +45,9 @@ public class ResetPassword extends AppCompatActivity
         resetEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (resetEmail.getText().length() <= 0) {
+                if (resetEmail.getText().toString().trim().length() <= 0) {
                     resetEmail.setError(null);
-                } else if (!isValidEmail(resetEmail.getText().toString())) {
+                } else if (!isValidEmail(resetEmail.getText().toString().trim())) {
                     resetEmail.setError("Invalid Email Address");
                 } else {
                     resetEmail.setError(null);
@@ -60,7 +60,7 @@ public class ResetPassword extends AppCompatActivity
             public void onClick(View v)
             {
                 resetButton.startRotate();
-                String email = resetEmail.getText().toString();
+                String email = resetEmail.getText().toString().trim();
 
                 ArrayList<String> inputList = new ArrayList<String>();
                 inputList.add("&email=" + email);

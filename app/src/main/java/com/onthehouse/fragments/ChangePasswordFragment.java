@@ -6,17 +6,18 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.onthehouse.Utils.DrawerLocker;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
+import com.onthehouse.onthehouse.MainMenu;
 import com.onthehouse.onthehouse.R;
 
 import org.json.JSONArray;
@@ -60,8 +61,8 @@ public class ChangePasswordFragment extends Fragment {
             @Override
             public void onClick(View view) {
             inputList.add("&member_id="+ Member.getInstance().getId());
-            inputList.add("&password="+ newPassword.getText().toString());
-            inputList.add("&password_confirm="+ confirmPassword.getText().toString());
+                inputList.add("&password=" + newPassword.getText().toString().trim());
+                inputList.add("&password_confirm=" + confirmPassword.getText().toString().trim());
             new changePasswordAsyncData(mContext).execute(inputList);
             }
         });
@@ -113,23 +114,26 @@ public class ChangePasswordFragment extends Fragment {
         {
             if(result == 1)
             {
+                //Update preferences for auto login
                 SharedPreferences sharedPreferences = context.getSharedPreferences("memberInfo", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("memberPass", confirmPassword.getText().toString());
                 Member.getInstance().setPassword(confirmPassword.getText().toString());
                 editor.apply();
                 confirmBtn.animFinish();
-                Snackbar.make(layout, "Password Changed!", Snackbar.LENGTH_LONG).show();
-
+                //Show Message
+                Toast.makeText(context, "Password Updated", Toast.LENGTH_LONG).show();
+                //Return to offers page
+                ((MainMenu) context).onBackPressed();
             }
             else if(result == 2)
             {
-                Snackbar.make(layout, errorText, Snackbar.LENGTH_LONG).show();
+                Toast.makeText(context, errorText, Toast.LENGTH_LONG).show();
                 confirmBtn.animError();
             }
             else
             {
-                Snackbar.make(layout, "Submission failed, technical error.", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(context, "Submission failed, technical error", Toast.LENGTH_LONG).show();
                 confirmBtn.animError();
             }
             confirmBtn.setEnabled(true);

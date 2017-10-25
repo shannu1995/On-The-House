@@ -80,11 +80,9 @@ public class LoginActivity extends Fragment
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if(email.getText().length() <= 0) {
+                if (email.getText().toString().trim().length() <= 0) {
                     email.setError(null);
-                }
-
-                else if(!isValidEmail(email.getText().toString())) {
+                } else if (!isValidEmail(email.getText().toString().trim())) {
                     email.setError("Invalid Email Address");
                 }
 
@@ -95,16 +93,14 @@ public class LoginActivity extends Fragment
             }
         });
 
-        layout = (ConstraintLayout) view.findViewById(R.id.loginlayout);
+        layout = view.findViewById(R.id.loginlayout);
         //Shared Preference
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if(password.getText().length() <= 0) {
+                if (password.getText().toString().trim().length() <= 0) {
                     password.setError(null);
-                }
-
-                else if(password.getText().length() < 4) {
+                } else if (password.getText().toString().trim().length() < 4) {
                     password.setError("Min 4 chars");
                 }
 
@@ -121,8 +117,8 @@ public class LoginActivity extends Fragment
             {
                 loginButton.startRotate();
 
-                emailStr = email.getText().toString();
-                passStr = password.getText().toString();
+                emailStr = email.getText().toString().trim();
+                passStr = password.getText().toString().trim();
 
                 inputList.add("&email="+emailStr);
                 inputList.add("&password="+passStr);
