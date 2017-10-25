@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.onthehouse.details.Offers;
 import com.onthehouse.fragments.OffersInfo;
+import com.onthehouse.guest.GuestMain;
 import com.onthehouse.onthehouse.OnTheMain;
 import com.onthehouse.onthehouse.R;
 
@@ -85,6 +86,7 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, OnTheMain.class);
                     mContext.startActivity(intent);
+                    ((GuestMain) mContext).finish();
 
                 }
             });
@@ -94,6 +96,7 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, OnTheMain.class);
                     mContext.startActivity(intent);
+                    ((GuestMain) mContext).finish();
                 }
             });
         }
