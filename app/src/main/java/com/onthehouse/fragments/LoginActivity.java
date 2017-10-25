@@ -147,8 +147,9 @@ public class LoginActivity extends Fragment
                 SharedPreferences.Editor guestEditor = guestPreference.edit();
                 guestEditor.putBoolean("GuestCheck", true);
                 guestEditor.apply();
-                Intent resetIntent = new Intent(mContext, GuestMain.class);
-                LoginActivity.this.startActivity(resetIntent);
+                Intent guestIntent = new Intent(mContext, GuestMain.class);
+                LoginActivity.this.startActivity(guestIntent);
+                getActivity().finish();
             }
         });
 

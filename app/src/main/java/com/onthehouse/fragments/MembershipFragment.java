@@ -1,7 +1,9 @@
 package com.onthehouse.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,11 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.onthehouse.Utils.DrawerLocker;
 import com.onthehouse.Utils.MyMembershipsAdapter;
@@ -22,10 +26,16 @@ import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.Membership;
 import com.onthehouse.onthehouse.R;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -40,6 +50,9 @@ public class MembershipFragment extends Fragment {
     private ArrayList<Membership> membershipArrayList;
     private MyMembershipsAdapter adapter;
     private TextView myMembership_tv;
+    //Pay pal
+    private PayPalConfiguration configuration;
+    int requestCode = 999;
 
     public MembershipFragment() {
         // Required empty public constructor
@@ -50,11 +63,22 @@ public class MembershipFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_membership, container, false);
         final Context mContext = container.getContext();
+        //Member Object
+        final Member member = Member.getInstance();
 
+        //Pay pal
+        String client_id = getString(R.string.paypal_client_id);
+        configuration = new PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX).clientId(client_id);
+        Intent service = new Intent(mContext, PayPalService.class);
+        service.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
+        mContext.startService(service);
+
+        //Initialize Lists
         membershipArrayList = new ArrayList<>();
         currentMembership = new Membership();
 
         //Views
+        Button btn_change_membership = view.findViewById(R.id.btn_change_membership);
         ImageView info_gold = view.findViewById(R.id.iv_info_gold);
         ImageView info_bronze = view.findViewById(R.id.iv_info_bronze);
         myMembership_tv = view.findViewById(R.id.tv_my_memberships_label);
@@ -76,23 +100,124 @@ public class MembershipFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String message = getString(R.string.gold_membership_details);
-                infoDialog(container.getContext(), "Gold Membership: 6 Months - $55.90", message);
+                infoDialog(container.getContext(), "Gold Membership: 6 Months - $55.90",
+                        message, R.drawable.icon_gold_member);
             }
         });
         info_bronze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String message = getString(R.string.bronze_membership_details);
-                infoDialog(container.getContext(), "Bronze Membership: 2 Years - Free", message);
+                infoDialog(container.getContext(), "Bronze Membership: 2 Years - Free",
+                        message, R.drawable.icon_bronze_member);
+            }
+        });
+        btn_change_membership.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Check if member is already a gold member
+                if (member.getMembership_level_id() == 9
+                        && member.getMembership_expiry() * 1000 > System.currentTimeMillis()
+                        && gold_radio.isChecked()) {
+                    Toast.makeText(getContext(), "Already a gold member", Toast.LENGTH_LONG).show();
+                }
+                //Upgrade to gold from bronze
+                else if (member.getMembership_level_id() == 3 && gold_radio.isChecked()) {
+                    upgradeDialog(mContext);
+
+                }
+                //Already a bronze member
+                else if (member.getMembership_level_id() == 3 && bronze_radio.isChecked()) {
+                    Toast.makeText(getContext(), "Already a bronze member", Toast.LENGTH_LONG).show();
+                }
+                //Downgrade to bronze
+                else if (member.getMembership_level_id() == 9 && bronze_radio.isChecked()) {
+                    downgradeDialog(mContext);
+                }
+                //Renew gold membership
+                else if (member.getMembership_level_id() == 9
+                        && member.getMembership_expiry() * 1000 < System.currentTimeMillis()
+                        && gold_radio.isChecked()) {
+
+                }
+
+
             }
         });
 
         return view;
     }
 
-    private void infoDialog(Context context, String title, String message) {
+    public void upgradeDialog(final Context context) {
+        final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("Upgrade to Gold");
+        alertDialog.setIcon(R.drawable.icon_gold_member);
+        alertDialog.setMessage("You would be taken to Paypal.");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Dismiss", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Proceed to Paypal", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                PayPalPayment payment =
+                        new PayPalPayment(new BigDecimal(55.90), "AUD", "On The House - Gold Membership Fee", PayPalPayment.PAYMENT_INTENT_SALE);
+                Intent intent = new Intent(context, PaymentActivity.class);
+                intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
+                intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+                startActivityForResult(intent, requestCode);
+                dialog.dismiss();
+            }
+        });
+        alertDialog.show();
+    }
+
+    public void downgradeDialog(Context context) {
+        final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("Downgrade to Bronze");
+        alertDialog.setIcon(R.drawable.icon_bronze_member);
+        alertDialog.setMessage(getString(R.string.downgrade_message));
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Dismiss", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Change Membership", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == this.requestCode) {
+            if (resultCode == Activity.RESULT_OK) {
+                PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+                if (confirmation != null) {
+                    String state = confirmation.getProofOfPayment().getState();
+                    if (state.equals("approved")) {
+                        Toast.makeText(getContext(), "Thank you for your payment. It may take a few minutes before your new membership is activated.", Toast.LENGTH_LONG).show();
+                    } else
+                        Toast.makeText(getContext(), "Payment Failed, Technical Error", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getContext(), "Payment Failed", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    }
+
+    private void infoDialog(Context context, String title, String message, int icon) {
         final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle(title);
+        alertDialog.setIcon(icon);
         alertDialog.setMessage(message);
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Dismiss", new DialogInterface.OnClickListener() {
             @Override

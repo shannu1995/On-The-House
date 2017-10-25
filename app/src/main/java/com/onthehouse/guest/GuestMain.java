@@ -28,8 +28,10 @@ public class GuestMain extends AppCompatActivity {
 
             if (item.getItemId() == R.id.navigation_offers) {
                 fragment = new OffersList();
+                getSupportActionBar().setSubtitle("Current Offers");
             } else if (item.getItemId() == R.id.navigation_offerings) {
                 fragment = new PastOffersList();
+                getSupportActionBar().setSubtitle("Past Offers");
 
             } else {
                 fragment = new OffersList();
@@ -51,7 +53,8 @@ public class GuestMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest_main);
 
-
+        getSupportActionBar().setTitle("On The House - Guest User");
+        getSupportActionBar().setSubtitle("Current Offers");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -71,13 +74,10 @@ public class GuestMain extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            Intent intent = new Intent(this, OnTheMain.class);
-            startActivity(intent);
-            this.finish();
-        }
-
-        super.onBackPressed();
+        //Back to login
+        Intent intent = new Intent(this, OnTheMain.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
