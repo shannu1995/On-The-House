@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,6 +47,7 @@ public class MembershipFragment extends Fragment {
     private static final String TAG = "MembershipFragment";
     private RadioGroup membershipLevel;
     private RadioButton gold_radio, bronze_radio;
+    private Button btn_change_membership;
     private Membership currentMembership;
     private ArrayList<Membership> membershipArrayList;
     private MyMembershipsAdapter adapter;
@@ -78,7 +80,7 @@ public class MembershipFragment extends Fragment {
         currentMembership = new Membership();
 
         //Views
-        Button btn_change_membership = view.findViewById(R.id.btn_change_membership);
+        btn_change_membership = view.findViewById(R.id.btn_change_membership);
         ImageView info_gold = view.findViewById(R.id.iv_info_gold);
         ImageView info_bronze = view.findViewById(R.id.iv_info_bronze);
         myMembership_tv = view.findViewById(R.id.tv_my_memberships_label);
@@ -117,7 +119,7 @@ public class MembershipFragment extends Fragment {
             public void onClick(View v) {
                 //Check if member is already a gold member
                 if (member.getMembership_level_id() == 9
-                        && member.getMembership_expiry() * 1000 > System.currentTimeMillis()
+                        && (member.getMembership_expiry() * 1000) > System.currentTimeMillis()
                         && gold_radio.isChecked()) {
                     Toast.makeText(getContext(), "Already a gold member", Toast.LENGTH_LONG).show();
                 }
@@ -136,7 +138,7 @@ public class MembershipFragment extends Fragment {
                 }
                 //Renew gold membership
                 else if (member.getMembership_level_id() == 9
-                        && member.getMembership_expiry() * 1000 < System.currentTimeMillis()
+                        && (member.getMembership_expiry() * 1000) < System.currentTimeMillis()
                         && gold_radio.isChecked()) {
 
                 }
@@ -152,7 +154,7 @@ public class MembershipFragment extends Fragment {
         final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle("Upgrade to Gold");
         alertDialog.setIcon(R.drawable.icon_gold_member);
-        alertDialog.setMessage("You would be taken to Paypal.");
+        alertDialog.setMessage("You would be taken to Paypal.\nPress the button to proceed.");
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Dismiss", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -188,6 +190,10 @@ public class MembershipFragment extends Fragment {
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Change Membership", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                ArrayList<String> inputList = new ArrayList<>();
+                inputList.add("&member_id=" + Member.getInstance().getId());
+                inputList.add("&membership_level_id=3");
+                new updateMembershipAsyncData(getContext(), 3).execute(inputList);
                 dialog.dismiss();
             }
         });
@@ -197,14 +203,19 @@ public class MembershipFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == this.requestCode) {
             if (resultCode == Activity.RESULT_OK) {
                 PaymentConfirmation confirmation = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
                 if (confirmation != null) {
                     String state = confirmation.getProofOfPayment().getState();
                     if (state.equals("approved")) {
-                        Toast.makeText(getContext(), "Thank you for your payment. It may take a few minutes before your new membership is activated.", Toast.LENGTH_LONG).show();
+
+                        Log.d(TAG, "onActivityResult: Paypal payment successful");
+
+                        ArrayList<String> inputList = new ArrayList<>();
+                        inputList.add("&member_id=" + Member.getInstance().getId());
+                        inputList.add("&membership_level_id=9");
+                        new updateMembershipAsyncData(getContext(), 9).execute(inputList);
                     } else
                         Toast.makeText(getContext(), "Payment Failed, Technical Error", Toast.LENGTH_LONG).show();
                 } else {
@@ -228,7 +239,76 @@ public class MembershipFragment extends Fragment {
         alertDialog.show();
     }
 
-    public class pastMembershipAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
+    private class updateMembershipAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
+
+        private String errorText;
+        private Context context;
+        private int new_membership_id;
+
+        public updateMembershipAsyncData(Context context, int new_membership_id) {
+            this.context = context;
+            this.new_membership_id = new_membership_id;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            //Disable button
+            btn_change_membership.setEnabled(false);
+            //Lock Drawer While Loading
+            ((DrawerLocker) getActivity()).setDrawerEnabled(false);
+        }
+
+        @Override
+        protected Integer doInBackground(ArrayList<String>... params) {
+            int status = 0;
+            APIConnection connection = new APIConnection();
+            try {
+                String output = connection.sendPost("/api/v1/member/membership/update", params[0]);
+                if (output.length() > 0) {
+                    JSONObject object = new JSONObject(output);
+                    String result = object.getString("status");
+                    Log.w("Full details: ", output.toString());
+
+                    if (result.equals("success")) {
+                        status = 1;
+                    } else {
+                        status = 2;
+                        JSONObject jsonArray = object.getJSONObject("error");
+                        JSONArray errorArr = jsonArray.getJSONArray("messages");
+                        errorText = errorArr.getString(0);
+                        Log.w("Submission error", errorText);
+                    }
+                } else {
+                    status = 3;
+                }
+            } catch (Exception e) {
+                status = 3;
+            }
+            return status;
+        }
+
+        @Override
+        protected void onPostExecute(Integer status) {
+            if (status == 1) {
+                Toast.makeText(context, "Membership updated, it may take a few minutes before your new membership is activated ", Toast.LENGTH_LONG).show();
+                Member.getInstance().setMembership_level_id(new_membership_id);
+            } else if (status == 2) {
+                Toast.makeText(context, errorText, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(context, "Technical error", Toast.LENGTH_LONG).show();
+            }
+            //Enable button
+            btn_change_membership.setEnabled(true);
+            //Unlock Drawer While Loading
+            ((DrawerLocker) getActivity()).setDrawerEnabled(true);
+
+            FragmentTransaction tx = getFragmentManager().beginTransaction();
+            tx.replace(R.id.frame_container, new MembershipFragment());
+            tx.commit();
+        }
+    }
+
+    private class pastMembershipAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
 
         @Override
         protected void onPreExecute() {
@@ -299,7 +379,7 @@ public class MembershipFragment extends Fragment {
         }
     }
 
-    public class currentMembershipAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
+    private class currentMembershipAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
 
         @Override
         protected void onPreExecute() {
