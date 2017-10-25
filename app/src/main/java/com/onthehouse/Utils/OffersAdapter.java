@@ -16,9 +16,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.onthehouse.details.Member;
 import com.onthehouse.details.Offers;
+import com.onthehouse.fragments.MembershipFragment;
 import com.onthehouse.fragments.OffersInfo;
 import com.onthehouse.guest.GuestMain;
+import com.onthehouse.onthehouse.MainMenu;
 import com.onthehouse.onthehouse.OnTheMain;
 import com.onthehouse.onthehouse.R;
 
@@ -72,12 +75,85 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
         holder.title.setText(offers.getName());
 
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("GuestMember", Context.MODE_PRIVATE);
+        boolean guestMember = sharedPreferences.getBoolean("GuestCheck", false);
 
-        if (!sharedPreferences.getBoolean("GuestCheck", false)) {
-            holder.offersUpgradeText.setText("Upgrade to Gold");
-            holder.offersUpgrade.setImageResource(R.drawable.icon_upgrade_to_gold);
+        if (!guestMember) {
+            if (Member.getInstance().getMembership_level_id() == 3) {
+                //Update text and button icon for Upgrade
+                holder.offersUpgradeText.setText("Upgrade to Gold");
+                holder.offersUpgrade.setImageResource(R.drawable.icon_upgrade_to_gold);
+                //Update Listener
+                holder.offersUpgrade.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.frame_container, new MembershipFragment())
+                                .commit();
+                        ((AppCompatActivity) mContext).getSupportActionBar().setSubtitle("My Membership");
+                        ((MainMenu) mContext).setChecked(R.id.membership, false);
+                    }
+                });
+
+                holder.offersUpgradeText.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.frame_container, new MembershipFragment())
+                                .commit();
+                        ((AppCompatActivity) mContext).getSupportActionBar().setSubtitle("My Membership");
+                        ((MainMenu) mContext).setChecked(R.id.membership, false);
+                    }
+                });
+            } else {
+                //Update text and button icon for Book Now
+                holder.offersUpgradeText.setText("Book Now");
+                holder.offersUpgrade.setImageResource(R.drawable.icon_book_now);
+                //Update Listener
+                holder.offersUpgrade.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Fragment fragment = null;
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("position", position);
+
+                        fragment = new OffersInfo();
+                        fragment.setArguments(bundle);
+
+                        if (fragment != null) {
+                            FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.frame_container, fragment).addToBackStack("On the House").commit();
+
+                        }
+                        ((MainMenu) mContext).getSupportActionBar().setSubtitle("");
+                    }
+                });
+
+                holder.offersUpgradeText.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Fragment fragment = null;
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("position", position);
+
+                        fragment = new OffersInfo();
+                        fragment.setArguments(bundle);
+
+                        if (fragment != null) {
+                            FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.frame_container, fragment).addToBackStack("On the House").commit();
+
+                        }
+                        ((MainMenu) mContext).getSupportActionBar().setSubtitle("");
+                    }
+                });
+
+            }
         } else {
-            Log.d(TAG, "onBindViewHolder: -----------------" + sharedPreferences.getBoolean("GuestCheck", false));
+            Log.d(TAG, "onBindViewHolder: -----------------" + guestMember);
             holder.offersUpgradeText.setText("Login - Register");
             holder.offersUpgrade.setImageResource(R.drawable.icon_register);
 
@@ -106,57 +182,21 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
         holder.offersInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = null;
-                Bundle bundle = new Bundle();
-                bundle.putInt("position", position);
-
-                fragment = new OffersInfo();
-                fragment.setArguments(bundle);
-
-                if (fragment != null) {
-                    FragmentManager fragmentManager = ((AppCompatActivity)mContext).getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.frame_container, fragment).addToBackStack("On the House").commit();
-
-                }
+                launchOfferDetailFragment(position);
             }
         });
 
         holder.offersInfoText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = null;
-                Bundle bundle = new Bundle();
-                bundle.putInt("position", position);
-
-                fragment = new OffersInfo();
-                fragment.setArguments(bundle);
-
-                if (fragment != null) {
-                    FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.frame_container, fragment).addToBackStack("On the House").commit();
-
-                }
+                launchOfferDetailFragment(position);
             }
         });
 
         holder.title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = null;
-                Bundle bundle = new Bundle();
-                bundle.putInt("position", position);
-
-                fragment = new OffersInfo();
-                fragment.setArguments(bundle);
-
-                if (fragment != null) {
-                    FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.frame_container, fragment).addToBackStack("On the House").commit();
-
-                }
+                launchOfferDetailFragment(position);
             }
         });
 
@@ -187,21 +227,25 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = null;
-                Bundle bundle = new Bundle();
-                bundle.putInt("position", position);
-
-                fragment = new OffersInfo();
-                fragment.setArguments(bundle);
-
-                if (fragment != null) {
-                    FragmentManager fragmentManager = ((AppCompatActivity)mContext).getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.frame_container, fragment).addToBackStack("On the House").commit();
-
-                }
+                launchOfferDetailFragment(position);
             }
         });
+    }
+
+    public void launchOfferDetailFragment(int position) {
+        Fragment fragment = null;
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+
+        fragment = new OffersInfo();
+        fragment.setArguments(bundle);
+
+        if (fragment != null) {
+            FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.frame_container, fragment).addToBackStack("On the House").commit();
+
+        }
     }
 
 

@@ -81,6 +81,7 @@ public class OffersInfo extends Fragment {
         layout = (ConstraintLayout) view.findViewById(R.id.offer_info);
 
         final OfferDetail offerDet = OfferDetail.getInstance().get(pos);
+        System.out.println(offerDet.toString());
         /*
         adapter = new ArrayAdapter<Integer>(view.getContext(),
                 android.R.layout.simple_expandable_list_item_1,
@@ -185,9 +186,9 @@ public class OffersInfo extends Fragment {
                         constraintSet.applyTo(layout);
 
                         final Spinner spinner = new Spinner(context);
-                        spinner.setBackground(getResources().getDrawable(R.drawable.gradient_spinner));
+                    spinner.setBackground(getResources().getDrawable(R.drawable.spinner_edit_profile));
 
-                        spinner.setPopupBackgroundDrawable(getResources().getDrawable(R.drawable.backgroud_spinner));
+                    spinner.setPopupBackgroundDrawable(getResources().getDrawable(R.drawable.spinner_edit_profile));
                         ArrayList<Integer> quantities = new ArrayList<>();
                         JSONArray quantitiesJson = eachShow.getJSONArray("quantities");
                         spinner.setId(1000 + i);
