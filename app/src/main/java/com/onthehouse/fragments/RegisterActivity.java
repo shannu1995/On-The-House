@@ -153,7 +153,7 @@ public class RegisterActivity extends Fragment
             @Override
             public void onFocusChange(View viewed, boolean b) {
 
-                if (regCountry.getText().length() <= 0) {
+                if (regCountry.getText().toString().trim().length() <= 0) {
                     regState.setVisibility(View.INVISIBLE);
                 } else {
                     regStateText.setText(R.string.registerSelectState);
@@ -166,9 +166,9 @@ public class RegisterActivity extends Fragment
         regEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (regEmail.getText().length() <= 0) {
+                if (regEmail.getText().toString().trim().length() <= 0) {
                     regEmail.setError(null);
-                } else if (!isValidEmail(regEmail.getText().toString())) {
+                } else if (!isValidEmail(regEmail.getText().toString().trim())) {
                     regEmail.setError("Invalid Email Address");
                 } else {
                     regEmail.setError(null);
@@ -179,9 +179,9 @@ public class RegisterActivity extends Fragment
         regPass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (regPass.getText().length() <= 0) {
+                if (regPass.getText().toString().trim().length() <= 0) {
                     regPass.setError(null);
-                } else if (regPass.getText().length() < 4) {
+                } else if (regPass.getText().toString().trim().length() < 4) {
                     regPass.setError("Min 4 chars");
                 } else {
                     regPass.setError(null);
@@ -193,9 +193,9 @@ public class RegisterActivity extends Fragment
         regCPass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if (regCPass.getText().length() <= 0) {
+                if (regCPass.getText().toString().trim().length() <= 0) {
                     regCPass.setError(null);
-                } else if (!regPass.getText().toString().equals(regCPass.getText().toString())) {
+                } else if (!regPass.getText().toString().trim().equals(regCPass.getText().toString().trim())) {
                     regCPass.setError("Password Not matched");
                 }
 
@@ -213,12 +213,12 @@ public class RegisterActivity extends Fragment
             {
                 registerBtn.startRotate();
 
-                String email = regEmail.getText().toString();
-                String password = regPass.getText().toString();
-                String cPassword = regCPass.getText().toString();
-                String lastName = regLName.getText().toString();
-                String firstName = regFName.getText().toString();
-                String nickName = regNickName.getText().toString();
+                String email = regEmail.getText().toString().trim();
+                String password = regPass.getText().toString().trim();
+                String cPassword = regCPass.getText().toString().trim();
+                String lastName = regLName.getText().toString().trim();
+                String firstName = regFName.getText().toString().trim();
+                String nickName = regNickName.getText().toString().trim();
                 String countryId = null;
                 String zone_id = null;
 
