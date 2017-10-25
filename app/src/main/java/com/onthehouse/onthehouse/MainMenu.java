@@ -80,6 +80,11 @@ public class MainMenu extends AppCompatActivity
         toggle.setDrawerIndicatorEnabled(enabled);
     }
 
+    public void setChecked(int id, boolean offerList) {
+        navigationView.setCheckedItem(id);
+        offerListFragment = offerList;
+    }
+
     @Override
     public void onBackPressed() {
         if (offerListFragment) {
