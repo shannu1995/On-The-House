@@ -354,7 +354,7 @@ public class MembershipFragment extends Fragment {
                     } else {
                         status = 2;
                         //Wrong Details
-                        Log.d(TAG, "doInBackground: Wrong details, Status = " + status);
+                        Log.d(TAG, "doInBackground: Wrong details,Status = " + status);
                     }
                 }
 
