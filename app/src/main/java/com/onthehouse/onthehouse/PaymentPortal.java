@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
-import com.onthehouse.fragments.AccountFragment;
+import com.onthehouse.fragments.*;
 import com.paypal.android.sdk.payments.*;
 
 import org.json.JSONArray;
@@ -72,9 +72,17 @@ public class PaymentPortal extends AppCompatActivity {
             inputList.add("&tickets="+extras.getString("tickets"));
             new reserveAsyncData(getApplicationContext(), result).execute(inputList);
         }
+        else{
+
+        }
         service = new Intent(this, PayPalService.class);
         service.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
         startService(service);
+    }
+    @Override
+    public void onBackPressed(){
+        Intent mainMenuIntent = new Intent(this, MainMenu.class);
+        PaymentPortal.this.startActivity(mainMenuIntent);
     }
     public void pay(View view){
         if(extras.getString("payment").equals("paypal")){
