@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +18,7 @@ import com.onthehouse.Utils.DrawerLocker;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
+import com.onthehouse.onthehouse.MainMenu;
 import com.onthehouse.onthehouse.R;
 
 import org.json.JSONArray;
@@ -131,13 +131,13 @@ public class EditMemberFragment extends Fragment
             {
                 updateBtn.startRotate();
 
-                String email = editEmail.getText().toString();
-                String phone = editPhone.getText().toString();
-                String address = editAddress.getText().toString();
-                String lastName = editSurname.getText().toString();
-                String firstName = editFName.getText().toString();
-                String nickName = editNick.getText().toString();
-                String city = editCity.getText().toString();
+                String email = editEmail.getText().toString().trim();
+                String phone = editPhone.getText().toString().trim();
+                String address = editAddress.getText().toString().trim();
+                String lastName = editSurname.getText().toString().trim();
+                String firstName = editFName.getText().toString().trim();
+                String nickName = editNick.getText().toString().trim();
+                String city = editCity.getText().toString().trim();
                 int countryId = Member.getInstance().getCountry_id();
                 int zone_id = Member.getInstance().getZone_id();
                 int zip = Member.getInstance().getZip_code();
@@ -257,17 +257,19 @@ public class EditMemberFragment extends Fragment
             if(result == 1)
             {
                 updateBtn.animFinish();
-                Toast.makeText(getActivity(), "Update Details Successful.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Update Details Successful", Toast.LENGTH_LONG).show();
+                //Return to Offers screen
+                ((MainMenu) context).onBackPressed();
             }
 
             else if(result == 2)
             {
-                Snackbar.make(layout, errorText, Snackbar.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), errorText, Toast.LENGTH_LONG).show();
                 updateBtn.animError();
             }
             else
             {
-                Snackbar.make(layout, "Update failed, technical error.", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Update failed, technical error", Toast.LENGTH_LONG).show();
                 updateBtn.animError();
             }
             updateBtn.setEnabled(true);
