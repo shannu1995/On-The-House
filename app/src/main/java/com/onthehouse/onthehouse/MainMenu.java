@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.onthehouse.Utils.DrawerLocker;
 import com.onthehouse.details.Member;
+import com.onthehouse.fragments.AboutFragment;
 import com.onthehouse.fragments.AccountFragment;
 import com.onthehouse.fragments.ChangePasswordFragment;
 import com.onthehouse.fragments.EditMemberFragment;
@@ -142,6 +143,10 @@ public class MainMenu extends AppCompatActivity
                 break;
             case R.id.account:
                 fragmentClass = AccountFragment.class;
+                offerListFragment = false;
+                break;
+            case R.id.nav_about:
+                fragmentClass = AboutFragment.class;
                 offerListFragment = false;
                 break;
             case R.id.nav_logout:

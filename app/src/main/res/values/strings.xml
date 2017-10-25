@@ -152,4 +152,7 @@
         \nPress the button to proceed.</string>
     <string name="paypal_client_id">ASYJ58EM8uChSD_3fil3tG4cBtlhfAkCNBsqyqynS6NY0qqCfBLz7uE4yu1x3s4caImMq9JBESwQ8w1U</string>
     <string name="paymentSummary">Payment Summary</string>
+    <string name="frequently_asked_questions">Frequently Asked Questions</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_and_conditions">Terms And Conditions</string>
 </resources>
