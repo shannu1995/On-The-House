@@ -209,4 +209,33 @@ public class OfferDetail
     public JSONArray getShowsArray(){
         return this.showsArray;
     }
+
+    @Override
+    public String toString() {
+        return "OfferDetail{" +
+                "offerId=" + offerId +
+                ", type='" + type + '\'' +
+                ", name='" + name + '\'' +
+                ", pageTitle='" + pageTitle + '\'' +
+                ", rating=" + rating +
+                ", imageURL='" + imageURL + '\'' +
+                ", description='" + description + '\'' +
+                ", priceFrom=" + priceFrom +
+                ", priceTo=" + priceTo +
+                ", fullPrice='" + fullPrice + '\'' +
+                ", ourPrice='" + ourPrice + '\'' +
+                ", ourPriceHeading='" + ourPriceHeading + '\'' +
+                ", memberShipLevel='" + memberShipLevel + '\'' +
+                ", soldOut=" + soldOut +
+                ", comingSoon=" + comingSoon +
+                ", isCompt=" + isCompt +
+                ", venueDetails='" + venueDetails + '\'' +
+                ", showsHeading='" + showsHeading + '\'' +
+                ", delivery=" + delivery +
+                ", question='" + question + '\'' +
+                ", quantities=" + quantities +
+                ", show_id='" + show_id + '\'' +
+                ", showsArray=" + showsArray +
+                '}';
+    }
 }
