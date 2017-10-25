@@ -78,6 +78,7 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
                 "\n- Date: " + reservation.getDate();
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle(reservation.getEvent_name());
+        alertDialog.setIcon(R.drawable.icon_details);
         alertDialog.setMessage(message);
         if (reservation.isCan_rate()) {
             alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Rate",
@@ -96,7 +97,7 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
                         }
                     });
         }
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "More Info",
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Dismiss",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                     }
@@ -158,6 +159,7 @@ public class ReservationsAdapter extends RecyclerView.Adapter<ReservationsAdapte
     public void confirmCancelDialog(final Context context, final Reservation reservation) {
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle("Cancel Reservation");
+        alertDialog.setIcon(R.drawable.icon_cancel);
         alertDialog.setMessage("Are you sure you want to cancel this reservation?");
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Cancel Reservation", new DialogInterface.OnClickListener() {
             @Override

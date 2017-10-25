@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -46,6 +47,7 @@ public class OffersInfo extends Fragment {
     TextView offerMemberType;
     TextView offerAbout;
     ImageView offerImage;
+    RatingBar ratingBar;
     //TextView offerVenue;
     //TextView offerShowHeading;
     //TextView offerShowTimes;
@@ -70,6 +72,7 @@ public class OffersInfo extends Fragment {
         offerAbout = view.findViewById(R.id.offer_about);
         offerImage = view.findViewById(R.id.offer_image);
         shows = view.findViewById(R.id.shows);
+        ratingBar = view.findViewById(R.id.rb_offer_details_rating);
         //showsLayout = view.findViewById(R.id.show_details);
         //offerVenue = view.findViewById(R.id.venue_details);
         //offerShowHeading = view.findViewById(R.id.shows);
@@ -96,6 +99,7 @@ public class OffersInfo extends Fragment {
         offerAdminFee.setText(offerDet.getOurPriceHeading()+": "+offerDet.getOurPrice());
         offerMemberType.setText(offerDet.getMemberShipLevel());
         offerAbout.setText(offerDet.getDescription());
+        ratingBar.setRating(offerDet.getRating());
         //offerVenue.setText(offerDet.getVenueDetails());
         //offerShowHeading.setText(offerDet.getShowsHeading());
 

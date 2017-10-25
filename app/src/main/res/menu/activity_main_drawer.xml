@@ -49,6 +49,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/icon_membership_info"
+            android:title="About" />
+        <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout_main"
             android:title="Logout" />
