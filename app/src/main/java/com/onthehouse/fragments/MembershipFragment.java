@@ -26,6 +26,7 @@ import com.onthehouse.Utils.MyMembershipsAdapter;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.Membership;
+import com.onthehouse.details.MembershipLevels;
 import com.onthehouse.onthehouse.R;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
@@ -52,6 +53,11 @@ public class MembershipFragment extends Fragment {
     private ArrayList<Membership> membershipArrayList;
     private MyMembershipsAdapter adapter;
     private TextView myMembership_tv;
+    private ImageView info_gold;
+    private ImageView info_bronze;
+    //Membership levels
+    private MembershipLevels gold_level;
+    private MembershipLevels bronze_level;
     //Pay pal
     private PayPalConfiguration configuration;
     int requestCode = 999;
@@ -76,13 +82,15 @@ public class MembershipFragment extends Fragment {
         mContext.startService(service);
 
         //Initialize Lists
+        gold_level = new MembershipLevels();
+        bronze_level = new MembershipLevels();
         membershipArrayList = new ArrayList<>();
         currentMembership = new Membership();
 
         //Views
         btn_change_membership = view.findViewById(R.id.btn_change_membership);
-        ImageView info_gold = view.findViewById(R.id.iv_info_gold);
-        ImageView info_bronze = view.findViewById(R.id.iv_info_bronze);
+        info_gold = view.findViewById(R.id.iv_info_gold);
+        info_bronze = view.findViewById(R.id.iv_info_bronze);
         myMembership_tv = view.findViewById(R.id.tv_my_memberships_label);
         membershipLevel = view.findViewById(R.id.rg_memberships);
         gold_radio = view.findViewById(R.id.radioButton_gold);
@@ -91,56 +99,64 @@ public class MembershipFragment extends Fragment {
         adapter = new MyMembershipsAdapter(container.getContext(), membershipArrayList);
 
         listView.setAdapter(adapter);
-
+        //Get member membership details
         ArrayList<String> inputList = new ArrayList<>();
         inputList.add("&member_id=" + Member.getInstance().getId());
         new currentMembershipAsyncData().execute(inputList);
         new pastMembershipAsyncData().execute(inputList);
+        new getMembershipLevelAsyncData().execute();
 
         //listeners
         info_gold.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = getString(R.string.gold_membership_details);
-                infoDialog(container.getContext(), "Gold Membership: 6 Months - $55.90",
-                        message, R.drawable.icon_gold_member);
+                String title = "Gold Membership: 6 Months - $";
+                title += gold_level.getPrice();
+                infoDialog(container.getContext(), title,
+                        gold_level.getDescription(), R.drawable.icon_gold_member);
             }
         });
         info_bronze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = getString(R.string.bronze_membership_details);
-                infoDialog(container.getContext(), "Bronze Membership: 2 Years - Free",
-                        message, R.drawable.icon_bronze_member);
+                String title;
+                if (bronze_level.getPrice() == 0) {
+                    title = "Bronze Membership: 2 Years - Free";
+                } else {
+                    title = "Bronze Membership: 2 Years - $";
+                    title += bronze_level.getPrice();
+                }
+                infoDialog(container.getContext(), title,
+                        bronze_level.getDescription(), R.drawable.icon_bronze_member);
             }
         });
         btn_change_membership.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Check if member is already a gold member
-                if (member.getMembership_level_id() == 9
+                if (member.getMembership_level_id() == gold_level.getId()
                         && (member.getMembership_expiry() * 1000) > System.currentTimeMillis()
                         && gold_radio.isChecked()) {
                     Toast.makeText(getContext(), "Already a gold member", Toast.LENGTH_LONG).show();
                 }
                 //Upgrade to gold from bronze
-                else if (member.getMembership_level_id() == 3 && gold_radio.isChecked()) {
+                else if (member.getMembership_level_id() == bronze_level.getId() && gold_radio.isChecked()) {
                     upgradeDialog(mContext);
 
                 }
                 //Already a bronze member
-                else if (member.getMembership_level_id() == 3 && bronze_radio.isChecked()) {
+                else if (member.getMembership_level_id() == bronze_level.getId() && bronze_radio.isChecked()) {
                     Toast.makeText(getContext(), "Already a bronze member", Toast.LENGTH_LONG).show();
                 }
                 //Downgrade to bronze
-                else if (member.getMembership_level_id() == 9 && bronze_radio.isChecked()) {
+                else if (member.getMembership_level_id() == gold_level.getId() && bronze_radio.isChecked()) {
                     downgradeDialog(mContext);
                 }
                 //Renew gold membership
-                else if (member.getMembership_level_id() == 9
+                else if (member.getMembership_level_id() == gold_level.getId()
                         && (member.getMembership_expiry() * 1000) < System.currentTimeMillis()
                         && gold_radio.isChecked()) {
-
+                    renewMembershipDialog(mContext);
                 }
 
 
@@ -150,11 +166,12 @@ public class MembershipFragment extends Fragment {
         return view;
     }
 
-    public void upgradeDialog(final Context context) {
+    public void renewMembershipDialog(final Context context) {
+        final BigDecimal price = new BigDecimal(gold_level.getPrice());
         final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-        alertDialog.setTitle("Upgrade to Gold");
+        alertDialog.setTitle("Renew Gold Membership");
         alertDialog.setIcon(R.drawable.icon_gold_member);
-        alertDialog.setMessage("You would be taken to Paypal.\nPress the button to proceed.");
+        alertDialog.setMessage(getString(R.string.gold_paypal_message));
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Dismiss", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -165,7 +182,34 @@ public class MembershipFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 PayPalPayment payment =
-                        new PayPalPayment(new BigDecimal(55.90), "AUD", "On The House - Gold Membership Fee", PayPalPayment.PAYMENT_INTENT_SALE);
+                        new PayPalPayment(price, "AUD", "On The House - Gold Membership Fee", PayPalPayment.PAYMENT_INTENT_SALE);
+                Intent intent = new Intent(context, PaymentActivity.class);
+                intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
+                intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+                startActivityForResult(intent, requestCode);
+                dialog.dismiss();
+            }
+        });
+        alertDialog.show();
+    }
+
+    public void upgradeDialog(final Context context) {
+        final BigDecimal price = new BigDecimal(gold_level.getPrice());
+        final AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("Upgrade to Gold");
+        alertDialog.setIcon(R.drawable.icon_gold_member);
+        alertDialog.setMessage(getString(R.string.gold_paypal_message));
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Dismiss", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Proceed to Paypal", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                PayPalPayment payment =
+                        new PayPalPayment(price, "AUD", "On The House - Gold Membership Fee", PayPalPayment.PAYMENT_INTENT_SALE);
                 Intent intent = new Intent(context, PaymentActivity.class);
                 intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
                 intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
@@ -192,8 +236,8 @@ public class MembershipFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 ArrayList<String> inputList = new ArrayList<>();
                 inputList.add("&member_id=" + Member.getInstance().getId());
-                inputList.add("&membership_level_id=3");
-                new updateMembershipAsyncData(getContext(), 3).execute(inputList);
+                inputList.add("&membership_level_id=" + bronze_level.getId());
+                new updateMembershipAsyncData(getContext(), bronze_level.getId()).execute(inputList);
                 dialog.dismiss();
             }
         });
@@ -214,8 +258,8 @@ public class MembershipFragment extends Fragment {
 
                         ArrayList<String> inputList = new ArrayList<>();
                         inputList.add("&member_id=" + Member.getInstance().getId());
-                        inputList.add("&membership_level_id=9");
-                        new updateMembershipAsyncData(getContext(), 9).execute(inputList);
+                        inputList.add("&membership_level_id=" + gold_level.getId());
+                        new updateMembershipAsyncData(getContext(), gold_level.getId()).execute(inputList);
                     } else
                         Toast.makeText(getContext(), "Payment Failed, Technical Error", Toast.LENGTH_LONG).show();
                 } else {
@@ -238,6 +282,107 @@ public class MembershipFragment extends Fragment {
         });
         alertDialog.show();
     }
+
+    private class getMembershipLevelAsyncData extends AsyncTask<Void, Void, Integer> {
+
+        @Override
+        protected void onPreExecute() {
+            //Disable buttons while loading
+            btn_change_membership.setEnabled(false);
+            info_gold.setEnabled(false);
+            info_bronze.setEnabled(false);
+            //Lock Drawer While Loading
+            ((DrawerLocker) getActivity()).setDrawerEnabled(false);
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            int status = 0;
+            APIConnection connection = new APIConnection();
+            try {
+                String output = connection.sendGet("/api/v1/membership/levels");
+                if (output.length() > 0) {
+                    JSONObject obj = new JSONObject(output);
+                    String result = obj.getString("status");
+
+                    if (result.equals("success")) {
+                        System.out.println(output);
+                        try {
+                            JSONArray memArray = obj.getJSONArray("membership_levels");
+                            for (int i = 0; i < memArray.length(); i++) {
+                                JSONObject memLvlObject = memArray.getJSONObject(i);
+                                //Gold level data
+                                if (memLvlObject.getString("name").equalsIgnoreCase("Gold")) {
+                                    gold_level.setId(memLvlObject.getInt("id"));
+                                    gold_level.setName(memLvlObject.getString("name"));
+                                    gold_level.setLevel(memLvlObject.getInt("level"));
+                                    gold_level.setPrice(memLvlObject.getDouble("price"));
+                                    gold_level.setDuration_type(memLvlObject.getInt("duration_type"));
+                                    gold_level.setDuration_amount(memLvlObject.getInt("duration_amount"));
+                                    gold_level.setImage(memLvlObject.getString("image"));
+                                    gold_level.setEmail_duration_type(memLvlObject.getInt("email_duration_type"));
+                                    gold_level.setEmail_duration_amount(memLvlObject.getInt("email_duration_amount"));
+                                    gold_level.setNo_offering_admin_fee(memLvlObject.getInt("no_offering_admin_fee"));
+                                    gold_level.setStatus(memLvlObject.getInt("status"));
+                                    gold_level.setDescription(memLvlObject.getString("description"));
+                                    gold_level.setNo_offering_fee(memLvlObject.getInt("no_offering_fee"));
+                                }
+                                //Bronze level data
+                                else if (memLvlObject.getString("name").equalsIgnoreCase("Bronze")) {
+                                    bronze_level.setId(memLvlObject.getInt("id"));
+                                    bronze_level.setName(memLvlObject.getString("name"));
+                                    bronze_level.setLevel(memLvlObject.getInt("level"));
+                                    bronze_level.setPrice(memLvlObject.getDouble("price"));
+                                    bronze_level.setDuration_type(memLvlObject.getInt("duration_type"));
+                                    bronze_level.setDuration_amount(memLvlObject.getInt("duration_amount"));
+                                    bronze_level.setImage(memLvlObject.getString("image"));
+                                    bronze_level.setEmail_duration_type(memLvlObject.getInt("email_duration_type"));
+                                    bronze_level.setEmail_duration_amount(memLvlObject.getInt("email_duration_amount"));
+                                    bronze_level.setNo_offering_admin_fee(memLvlObject.getInt("no_offering_admin_fee"));
+                                    bronze_level.setStatus(memLvlObject.getInt("status"));
+                                    bronze_level.setDescription(memLvlObject.getString("description"));
+                                    bronze_level.setNo_offering_fee(memLvlObject.getInt("no_offering_fee"));
+                                }
+
+
+                            }
+                            status = 1;
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.w("Error", e.getMessage());
+                            status = 3;
+                        }
+                    } else {
+                        status = 2;
+                        //Wrong Details
+                        Log.d(TAG, "doInBackground: Wrong details,Status = " + status);
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.d(TAG, "doInBackground: " + e.getMessage());
+                status = 3;
+            }
+            return status;
+        }
+
+        @Override
+        protected void onPostExecute(Integer status) {
+            if (status == 1) {
+                //Disable buttons while loading
+                btn_change_membership.setEnabled(true);
+                info_gold.setEnabled(true);
+                info_bronze.setEnabled(true);
+            } else {
+                Toast.makeText(getContext(), "Technical Error, membership changes unavailable", Toast.LENGTH_LONG).show();
+            }
+            //Unlock Drawer after Loading
+            ((DrawerLocker) getActivity()).setDrawerEnabled(true);
+        }
+    }
+
 
     private class updateMembershipAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
 
@@ -448,7 +593,7 @@ public class MembershipFragment extends Fragment {
                 currentMembership.setMembership_level_name("Bronze");
                 currentMembership.setMembership_level_id(3);
             }
-            //Unlock Drawer While Loading
+            //Unlock Drawer after Loading
             ((DrawerLocker) getActivity()).setDrawerEnabled(true);
         }
     }
