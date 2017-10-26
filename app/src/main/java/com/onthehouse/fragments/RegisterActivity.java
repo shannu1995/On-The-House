@@ -2,6 +2,7 @@ package com.onthehouse.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -464,6 +465,12 @@ public class RegisterActivity extends Fragment
             if(result == 1)
             {
                 registerBtn.animFinish();
+
+                SharedPreferences guestPreference = getContext().getSharedPreferences("GuestMember", Context.MODE_PRIVATE);
+                SharedPreferences.Editor guestEditor = guestPreference.edit();
+                guestEditor.putBoolean("GuestCheck", false);
+                guestEditor.apply();
+
                 //Snackbar.make(layout, "Registration Successful.", Snackbar.LENGTH_LONG).show();
                 Toast.makeText(getActivity(), "Registration Successful.", Toast.LENGTH_LONG).show();
 
