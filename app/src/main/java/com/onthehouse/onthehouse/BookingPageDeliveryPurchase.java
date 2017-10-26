@@ -3,24 +3,23 @@ package com.onthehouse.onthehouse;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -63,6 +62,8 @@ public class BookingPageDeliveryPurchase extends AppCompatActivity {
         postcode = (MaterialEditText) findViewById(R.id.postcode);
         submit_reservation = (ProgressButton) findViewById(R.id.confirm_delivery);
 
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle extras = getIntent().getExtras();
 
@@ -127,6 +128,15 @@ public class BookingPageDeliveryPurchase extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void setShowId(String showId){this.showId = showId;}
     public String getShowId(){return this.showId;}
 

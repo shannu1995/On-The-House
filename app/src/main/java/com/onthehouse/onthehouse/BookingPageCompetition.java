@@ -2,11 +2,12 @@ package com.onthehouse.onthehouse;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -41,6 +42,9 @@ public class BookingPageCompetition extends AppCompatActivity {
         submit_competition = (ProgressButton) findViewById(R.id.confirm_delivery);
         layout = (ConstraintLayout) findViewById(R.id.competeLayout);
 
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Bundle extras = getIntent().getExtras();
         question.setText(extras.getString("question"));
         this.setEventId(extras.getString("eventID"));
@@ -58,6 +62,15 @@ public class BookingPageCompetition extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void setEventId(String eventId){this.eventId = eventId;}
     public String getEventId(){return this.eventId;}
 

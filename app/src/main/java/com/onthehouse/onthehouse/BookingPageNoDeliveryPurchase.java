@@ -1,14 +1,14 @@
 package com.onthehouse.onthehouse;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,7 +20,6 @@ import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -49,6 +48,10 @@ public class BookingPageNoDeliveryPurchase extends AppCompatActivity {
         layout = (ConstraintLayout) findViewById(R.id.pickUpLayout);
         final EditText editText = (EditText) findViewById(R.id.editText2);
         confirmButton = (ProgressButton) findViewById(R.id.confirm_delivery);
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         Bundle extras = getIntent().getExtras();
         this.setShow_id(extras.getString("show_id"));
@@ -102,6 +105,15 @@ public class BookingPageNoDeliveryPurchase extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void setShow_id(String show_id){this.show_id = show_id;}
     public String getShow_id(){return this.show_id;}
 

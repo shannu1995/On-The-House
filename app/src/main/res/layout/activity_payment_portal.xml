@@ -27,15 +27,19 @@
         android:layout_weight="0.4">
 
         <TextView
+            android:id="@+id/details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/details"
-            android:text="Number of tickets" />
+            android:text="Number of tickets"
+            android:textSize="18sp"
+            android:layout_margin="10dp" />
 
         <TextView
             android:id="@+id/result"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_margin="10dp" />
 
     </LinearLayout>
 

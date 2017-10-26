@@ -50,10 +50,11 @@ public class PaymentPortal extends AppCompatActivity {
         configuration = new PayPalConfiguration()
                 .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
                 .clientId(clientId);
-//        heading = (TextView) findViewById(R.id.paymentSummary);
         details = (TextView) findViewById(R.id.details);
         button = (Button) findViewById(R.id.button);
         result = (TextView) findViewById(R.id.result);
+
+        button.setVisibility(View.VISIBLE);
 
         extras = getIntent().getExtras();
         details.setText("Number of Tickets: "+extras.getString("tickets"));
@@ -177,7 +178,7 @@ public class PaymentPortal extends AppCompatActivity {
             {
                 Log.w("COMPLETED!", "SUCCESS!!");
                 textView.setText("Reservation Successful!\n Please check \'My Account\' or your email for the reservation details");
-                finish();
+                button.setVisibility(View.INVISIBLE);
             }
 
             else if(result == 2)
@@ -190,6 +191,7 @@ public class PaymentPortal extends AppCompatActivity {
                 Log.w("SUBMISSION FAILED!", errorText);
                 if(extras.getString("payment").equals("free")){
                     textView.setText("Reservation Successful!\n Please check \'My Account\' or your email for the reservation details");
+                    button.setVisibility(View.INVISIBLE);
                 }else{
                     textView.setText("Reservation Failed because:\n"+errorText);
                 }
