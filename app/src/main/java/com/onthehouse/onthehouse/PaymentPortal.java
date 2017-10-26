@@ -46,11 +46,11 @@ public class PaymentPortal extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_payment_portal);
+        setContentView(R.layout.activity_payment_portal);
         configuration = new PayPalConfiguration()
                 .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
                 .clientId(clientId);
-        heading = (TextView) findViewById(R.id.paymentSummary);
+//        heading = (TextView) findViewById(R.id.paymentSummary);
         details = (TextView) findViewById(R.id.details);
         button = (Button) findViewById(R.id.button);
         result = (TextView) findViewById(R.id.result);
