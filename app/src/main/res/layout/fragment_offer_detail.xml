@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/offer_image"
         android:layout_width="wrap_content"
-        android:layout_height="160dp"
+        android:layout_height="200dp"
         android:background="@drawable/offer_image_border"
         android:cropToPadding="true"
         android:scaleType="centerCrop"
@@ -210,7 +210,8 @@
         android:layout_height="wrap_content"
         android:padding="15dp"
         android:orientation="horizontal"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:background="@drawable/spinner_edit_profile">
 
         <Button
             android:id="@+id/book_button"
