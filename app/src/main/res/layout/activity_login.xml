@@ -91,7 +91,7 @@
                 android:inputType="textPassword"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/colorAccent"
-                android:textCursorDrawable="@drawable/cursor_color"/>
+                android:textCursorDrawable="@drawable/cursor_color" />
 
         </android.support.design.widget.TextInputLayout>
 

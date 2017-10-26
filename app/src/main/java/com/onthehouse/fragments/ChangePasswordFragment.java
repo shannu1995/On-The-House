@@ -50,10 +50,11 @@ public class ChangePasswordFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_change_password, container, false);
         final Context mContext = container.getContext();
 
+
         confirmBtn = view.findViewById(R.id.btn_changePassword);
 
-        newPassword = view.findViewById(R.id.editText);
-        confirmPassword = view.findViewById(R.id.editText3);
+        newPassword = view.findViewById(R.id.cp_password);
+        confirmPassword = view.findViewById(R.id.cp_cpassword);
         layout = view.findViewById(R.id.passwordChangeFragment);
 
 
@@ -140,4 +141,5 @@ public class ChangePasswordFragment extends Fragment {
             ((DrawerLocker) getActivity()).setDrawerEnabled(true);
         }
     }
+
 }

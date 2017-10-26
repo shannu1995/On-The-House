@@ -46,7 +46,7 @@ public class PaymentPortal extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_payment_portal);
+        setContentView(R.layout.fragment_payment_portal);
         configuration = new PayPalConfiguration()
                 .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
                 .clientId(clientId);
@@ -73,8 +73,7 @@ public class PaymentPortal extends AppCompatActivity {
             inputList.add("&price=0");
             inputList.add("&tickets="+extras.getString("tickets"));
             new reserveAsyncData(getApplicationContext(), result).execute(inputList);
-        }
-        else{
+        } else{
 
         }
         service = new Intent(this, PayPalService.class);
