@@ -132,7 +132,6 @@ public class OffersInfo extends Fragment {
         spinner.setSelection(0);
         spinner.setPrompt("Tickets / Qty");
 
-
         offerTitle.setText(offerDet.getName());
         offerFullPrice.setText("FULL PRICE: "+offerDet.getFullPrice());
         offerAdminFee.setText(offerDet.getOurPriceHeading()+": "+offerDet.getOurPrice());
