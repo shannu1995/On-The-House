@@ -203,7 +203,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Book now"
-            android:textColor="@color/textColor"
+            android:textColor="@color/text"
             android:textSize="18sp"
             android:textStyle="bold"
             android:background="@drawable/rectangle_button"
@@ -224,6 +224,7 @@
                 android:popupBackground="@drawable/background_spinner2"
                 android:layout_marginLeft="2dp"
                 android:gravity="center"
+                android:spinnerMode="dialog"
                 android:textAlignment="center" />
 
         </LinearLayout>

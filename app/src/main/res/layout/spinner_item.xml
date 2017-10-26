@@ -6,5 +6,7 @@
     android:paddingRight="20dp"
     android:paddingBottom="10dp"
     android:paddingTop="10dp"
+    android:textColor="@color/textColor"
+    android:textStyle="bold"
     android:textAlignment="gravity"
     android:gravity="right" />
