@@ -1,9 +1,6 @@
 package com.onthehouse.onthehouse;
 
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Animatable;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
@@ -24,6 +21,7 @@ import com.onthehouse.fragments.RegisterActivity;
 
 public class OnTheMain extends AppCompatActivity{
     ImageView imageView;
+    Boolean anim = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,8 +30,17 @@ public class OnTheMain extends AppCompatActivity{
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setVisibility(View.INVISIBLE);
         imageView = (ImageView)findViewById(R.id.logo);
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.home_animation);
-        imageView.startAnimation(animation);
+
+        Bundle b = getIntent().getExtras();
+
+        if (b != null)
+            anim = b.getBoolean("Animation");
+
+        if (anim) {
+            Animation animation = AnimationUtils.loadAnimation(this, R.anim.home_animation);
+            imageView.startAnimation(animation);
+            anim = false;
+        }
         // Locate the viewpager in activity_main.xml
 
 
@@ -57,5 +64,10 @@ public class OnTheMain extends AppCompatActivity{
             }
         }, 1000);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

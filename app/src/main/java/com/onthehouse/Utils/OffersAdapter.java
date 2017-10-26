@@ -233,17 +233,35 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
     }
 
     public void launchOfferDetailFragment(int position) {
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("GuestMember", Context.MODE_PRIVATE);
+        boolean guestMember = sharedPreferences.getBoolean("GuestCheck", false);
+
         Fragment fragment = null;
         Bundle bundle = new Bundle();
         bundle.putInt("position", position);
 
+        if (guestMember) {
+            bundle.putBoolean("Guest", true);
+        } else {
+            bundle.putBoolean("Guest", false);
+        }
+
         fragment = new OffersInfo();
         fragment.setArguments(bundle);
 
+
         if (fragment != null) {
-            FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.frame_container, fragment).addToBackStack("On the House").commit();
+
+            if (!guestMember) {
+                FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.frame_container, fragment).addToBackStack("On the House").commit();
+            } else {
+                FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.guest_content, fragment).addToBackStack("On the House").commit();
+
+            }
 
         }
     }
