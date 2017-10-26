@@ -195,7 +195,8 @@
         android:layout_height="wrap_content"
         android:padding="15dp"
         android:orientation="horizontal"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:id="@+id/layout_booking">
 
         <Button
             android:id="@+id/book_button"

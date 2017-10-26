@@ -69,14 +69,22 @@ public class OffersInfo extends Fragment {
         book = new ProgressButton(context);
 
         boolean guest = getArguments().getBoolean("Guest");
-        infoDetail(view, context, guest);
+        infoDetail(view, context);
 
+        if (guest) {
+            guestDetails(view, context);
+        }
 
         return view;
     }
 
+    public void guestDetails(View view, Context context) {
+        book_now.setVisibility(View.GONE);
+        spinner.setVisibility(View.GONE);
+    }
 
-    public void infoDetail(View view, Context context, Boolean guest) {
+
+    public void infoDetail(View view, Context context) {
         int pos = getArguments().getInt("position");
 
         offerTitle = view.findViewById(R.id.offer_title);
