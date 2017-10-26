@@ -9,7 +9,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,15 +48,15 @@ public class OffersInfo extends Fragment {
     TextView offerAbout;
     ImageView offerImage;
     RatingBar ratingBar;
-    //TextView offerVenue;
+    TextView offerVenue;
     //TextView offerShowHeading;
-    //TextView offerShowTimes;
+    TextView offerShowTimes;
     ConstraintLayout layout;
     //ConstraintLayout showsLayout;
     ArrayAdapter adapter;
     TextView shows;
     Spinner spinner;
-    Button button;
+    Button book_now;
     TextView showMore;
     ProgressButton book;
 
@@ -90,11 +89,11 @@ public class OffersInfo extends Fragment {
         ratingBar = view.findViewById(R.id.rb_offer_details_rating);
         showMore = view.findViewById(R.id.show_more);
         //showsLayout = view.findViewById(R.id.show_details);
-        //offerVenue = view.findViewById(R.id.venue_details);
+        offerVenue = view.findViewById(R.id.venue_details);
         //offerShowHeading = view.findViewById(R.id.shows);
-        //offerShowTimes = view.findViewById(R.id.show_details);
-        //spinner = view.findViewById(R.id.quantity_list);
-        //button = view.findViewById(R.id.book_button);
+        offerShowTimes = view.findViewById(R.id.show_details);
+        spinner = view.findViewById(R.id.quantity_list);
+        book_now = view.findViewById(R.id.book_button);
 
         showMore.setMaxLines(3);
 
@@ -115,17 +114,15 @@ public class OffersInfo extends Fragment {
 
         final OfferDetail offerDet = OfferDetail.getInstance().get(pos);
 
-        /*
+
         adapter = new ArrayAdapter<Integer>(view.getContext(),
                 R.layout.spinner_item,
                 offerDet.getQuantities());
-                */
 
-        //spinner.setAdapter(adapter);
-        //spinner.setSelection(0);
-//        spinner.setAdapter(adapter);
-        //      spinner.setSelection(0);
-        //    spinner.setPrompt("Tickets / Qty");
+
+        spinner.setAdapter(adapter);
+        spinner.setSelection(0);
+        spinner.setPrompt("Tickets / Qty");
 
 
         offerTitle.setText(offerDet.getName());
@@ -179,114 +176,23 @@ public class OffersInfo extends Fragment {
                     String endDateStr = dateFormat.format(endDate);
 
 
-                    TextView dates = new TextView(context);
-                    dates.setText(startDateStr + " to " + endDateStr);
-                    Log.w("Date is", dates.getText().toString());
-                    dates.setId(100 + i);
-                    layout.addView(dates);
-                    constraintSet.clone(layout);
-                    if (i == 0) {
-                        constraintSet.connect(dates.getId(), ConstraintSet.TOP, shows.getId(), ConstraintSet.BOTTOM, 16);
-                    } else {
-                        constraintSet.connect(dates.getId(), ConstraintSet.TOP, 500 + (i - 1), ConstraintSet.BOTTOM, 16);
-                    }
-                    constraintSet.connect(dates.getId(), ConstraintSet.TOP, shows.getId(), ConstraintSet.BOTTOM, 16);
-                    constraintSet.connect(dates.getId(), ConstraintSet.LEFT, shows.getId(), ConstraintSet.LEFT, 0);
-                    constraintSet.applyTo(layout);
-
-                    ProgressButton book = new ProgressButton(context);
-                    book.setBackground(getResources().getDrawable(R.drawable.selector_button));
-                    book.setText("Book Now");
-                    book.setTextColor(getResources().getColor(R.color.white));
-                    book.setTypeface(null, Typeface.BOLD);
-                    book.setId(UtilMethods.tryParseInt(eachShow.getString("id")));
+                    offerShowTimes.setText(startDateStr + " to " + endDateStr);
 
 
-                    final float scale = getResources().getDisplayMetrics().density;
-                    int dpWidthInPx = (int) (120 * scale);
-                    int dpHeightInPx = (int) (40 * scale);
-                    ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(dpWidthInPx, dpHeightInPx);
-                    book.setLayoutParams(layoutParams);
 
 
-                    layout.addView(book);
-
-                    if (guest)
-                        book.setVisibility(View.GONE);
-
-                    constraintSet.clone(layout);
-                    constraintSet.connect(book.getId(), ConstraintSet.TOP, dates.getId(), ConstraintSet.BOTTOM, 16);
-                    constraintSet.connect(book.getId(), ConstraintSet.LEFT, dates.getId(), ConstraintSet.LEFT, 0);
-                    constraintSet.applyTo(layout);
-
-                    TextView tickets = new TextView(context);
-                    tickets.setText("No. of tickets: ");
-                    tickets.setTypeface(null, Typeface.ITALIC);
-                    tickets.setId(500 + i);
-
-                    if (!guest)
-                        layout.addView(tickets);
-                    constraintSet.clone(layout);
-                    constraintSet.connect(tickets.getId(), ConstraintSet.TOP, dates.getId(), ConstraintSet.BOTTOM, 16);
-                    constraintSet.connect(tickets.getId(), ConstraintSet.LEFT, book.getId(), ConstraintSet.RIGHT, 16);
-                    constraintSet.applyTo(layout);
-
-                    final Spinner spinner = new Spinner(context);
-                    spinner.setBackground(getResources().getDrawable(R.drawable.spinner_edit_profile));
-
-                    spinner.setPopupBackgroundDrawable(getResources().getDrawable(R.drawable.spinner_edit_profile));
                     ArrayList<Integer> quantities = new ArrayList<>();
                     JSONArray quantitiesJson = eachShow.getJSONArray("quantities");
                     spinner.setId(1000 + i);
-                    spinner.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                            ConstraintLayout.LayoutParams.WRAP_CONTENT));
+
                     for (int j = 0; j < quantitiesJson.length(); j++) {
                         quantities.add(UtilMethods.tryParseInt(quantitiesJson.getString(j)));
                     }
-                        /*
-                        adapter = new ArrayAdapter<Integer>(view.getContext(),
-                            android.R.layout.simple_expandable_list_item_1,
-                            quantities);
-                            */
-                    adapter = new ArrayAdapter<Integer>(view.getContext(),
-                            android.R.layout.simple_spinner_item,
-                            quantities);
-                    spinner.setPadding(0, 0, 0, 0);
-                    spinner.setAdapter(adapter);
-                    spinner.setSelection(0);
-                    spinner.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                            ConstraintLayout.LayoutParams.WRAP_CONTENT));
 
-                    if (!guest)
-                        layout.addView(spinner);
+                    offerVenue.setText(offerDet.getVenueDetails());
 
-                    constraintSet.clone(layout);
-                    constraintSet.connect(spinner.getId(), ConstraintSet.TOP, dates.getId(), ConstraintSet.BOTTOM, 16);
-                    constraintSet.connect(spinner.getId(), ConstraintSet.LEFT, tickets.getId(), ConstraintSet.RIGHT, 16);
-                    constraintSet.applyTo(layout);
 
-                    TextView venueHeading = new TextView(context);
-                    venueHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-                    venueHeading.setText("Venue");
-                    venueHeading.setId(1500 + i);
-                    venueHeading.setTextColor(getResources().getColor(R.color.textColor));
-                    layout.addView(venueHeading);
-                    constraintSet.clone(layout);
-                    constraintSet.connect(venueHeading.getId(), ConstraintSet.TOP, book.getId(), ConstraintSet.BOTTOM, 16);
-                    constraintSet.connect(venueHeading.getId(), ConstraintSet.LEFT, book.getId(), ConstraintSet.LEFT, 0);
-                    constraintSet.applyTo(layout);
-
-                    TextView venueDetails = new TextView(context);
-
-                    venueDetails.setId(i);
-                    venueDetails.setText(offerDet.getVenueDetails());
-
-                    layout.addView(venueDetails);
-                    constraintSet.clone(layout);
-                    constraintSet.connect(venueDetails.getId(), ConstraintSet.TOP, venueHeading.getId(), ConstraintSet.BOTTOM, 16);
-                    constraintSet.connect(venueDetails.getId(), ConstraintSet.LEFT, book.getId(), ConstraintSet.LEFT, 0);
-                    constraintSet.applyTo(layout);
-                    book.setOnClickListener(new View.OnClickListener() {
+                    book_now.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v){
                             int tickets = (int)spinner.getSelectedItem();
@@ -308,12 +214,6 @@ public class OffersInfo extends Fragment {
             }catch(Exception e){
                 Log.w("Error JSONArray:",e);
             }
-            /*
-            for(int i = 0; i < offerDet.getDates().size(); i++){
-                offerShowTimes.setText(offerDet.getDates().get(i) + "\n");
-                //offerShowTimes.append(offerDet.getOurPrice().toString());
-            }
-            */
         }
 
 
