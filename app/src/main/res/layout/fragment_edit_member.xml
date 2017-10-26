@@ -4,7 +4,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/backgroundColorFirstHalf"
+    android:background="@color/white"
             tools:context="com.onthehouse.fragments.RegisterActivity">
 
     <android.support.constraint.ConstraintLayout
@@ -19,7 +19,7 @@
             android:id="@+id/editMemberTitleTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="22dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/blue"
@@ -41,18 +41,17 @@
             android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/gradient_spinner"
+            android:background="@drawable/spinner_edit_profile"
             android:ems="10"
             android:entries="@array/title_array"
             android:hint="Select Title"
-            android:popupBackground="@drawable/backgroud_spinner"
+            android:popupBackground="@drawable/spinner_edit_profile"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editMemberTitleTv"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/editMemberTitleTv" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/NickName"
@@ -162,6 +161,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
+                android:drawableLeft="@drawable/email"
                 android:hint="@string/registerEmail"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/textColor"
@@ -191,6 +191,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
+                android:drawableLeft="@drawable/icon_phone"
                 android:hint="@string/editMemberPhone"
                 android:inputType="number"
                 android:textColor="@color/textColor"
@@ -225,16 +226,16 @@
             android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/gradient_spinner"
+            android:background="@drawable/spinner_edit_profile"
             android:ems="10"
             android:entries="@array/age_array"
-            android:popupBackground="@drawable/backgroud_spinner"
+            android:popupBackground="@drawable/spinner_edit_profile"
             android:textColor="@color/textColor"
             android:textSize="18sp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editMemberAgeTv"/>
+            app:layout_constraintTop_toBottomOf="@+id/editMemberAgeTv" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/Street"
@@ -258,6 +259,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
+                android:drawableLeft="@drawable/city"
                 android:hint="@string/editMemberAddress"
                 android:inputType="textAutoCorrect"
                 android:textColor="@color/textColor"
@@ -327,11 +329,11 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:text="Unsubscribe from emails and periodicals"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editMemberTv"/>
+            app:layout_constraintTop_toBottomOf="@+id/editMemberTv" />
 
         <CheckBox
             android:id="@+id/editMemberisFocusGroup"
@@ -346,11 +348,11 @@
             android:singleLine="true"
             android:text="Are you interested in participating in focus groups?"
             android:textCursorDrawable="@drawable/cursor_color"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editMemberisUnsubEmail"/>
+            app:layout_constraintTop_toBottomOf="@+id/editMemberisUnsubEmail" />
 
         <CheckBox
             android:id="@+id/editMemberisPaidMarketing"
@@ -365,11 +367,11 @@
             android:singleLine="true"
             android:text="Are you interested in paid marketing work?"
             android:textCursorDrawable="@drawable/cursor_color"
-            android:textSize="12sp"
+            android:textSize="14sp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editMemberisFocusGroup"/>
+            app:layout_constraintTop_toBottomOf="@+id/editMemberisFocusGroup" />
 
 
         <cn.xm.weidongjian.progressbuttonlib.ProgressButton
@@ -385,7 +387,7 @@
             android:background="@drawable/selector_button"
             android:text="Update"
             android:textAlignment="center"
-            android:textColor="@android:color/black"
+            android:textColor="@android:color/white"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -34,7 +34,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="OR">OR</string>
     <string name="state_prompt">State</string>
-    <string name="reservations">Click to get Reservations</string>
+    <string name="reservations">My Reservations</string>
     <string name="name">Name</string>
     <string name="time">Date / Time</string>
     <string name="qty">Tickets / Qty</string>
@@ -127,5 +127,32 @@
     <string name="title_guestoffers">Offers</string>
     <string name="title_guestOffering">Past Offering</string>
     <string name="title_guestsignup">Login/Register</string>
-    <string name="my_past_offerings">My Past Offerings</string>
+    <string name="my_past_offerings">Past Offerings</string>
+    <string name="my_account">My Account</string>
+    <string name="membership_label">Membership:</string>
+    <string name="please_rate_event">Rate Event</string>
+    <string name="rating">Rating</string>
+    <string name="comments_here">Please provide your comments here</string>
+    <string name="rate_event">Rate Event</string>
+    <string name="past_reservations">Past Reservations</string>
+    <string name="membership_heading">Membership</string>
+    <string name="gold_radio_text">Gold: 6 Months - $55.90</string>
+    <string name="bronze_radio_text">Bronze: 2 Years - Free</string>
+    <string name="my_memberships">My Memberships</string>
+    <string name="change_membership">Change Membership</string>
+    <string name="level">Level: </string>
+    <string name="period">Period:</string>
+    <string name="price">Price:</string>
+    <string name="no_membership_history">No membership history</string>
+    <string name="no_reservations_available">You currently don\'t have any reservations</string>
+    <string name="no_past_reservations_available">You don\'t have any past reservations</string>
+    <string name="downgrade_message">Are you sure you want to change to Bronze membership?
+        \nGold members keep our service alive.</string>
+    <string name="gold_paypal_message">You would be taken to Paypal.
+        \nPress the button to proceed.</string>
+    <string name="paypal_client_id">ASYJ58EM8uChSD_3fil3tG4cBtlhfAkCNBsqyqynS6NY0qqCfBLz7uE4yu1x3s4caImMq9JBESwQ8w1U</string>
+    <string name="paymentSummary">Payment Summary</string>
+    <string name="frequently_asked_questions">Frequently Asked Questions</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_and_conditions">Terms And Conditions</string>
 </resources>

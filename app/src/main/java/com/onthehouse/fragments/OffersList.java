@@ -2,24 +2,20 @@ package com.onthehouse.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.onthehouse.Utils.DrawerLocker;
 import com.onthehouse.Utils.OffersAdapter;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.OfferDetail;
@@ -56,8 +52,8 @@ public class OffersList extends Fragment
         Context mContext = container.getContext();
 
         offerDetails = OfferDetail.getInstance();
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        recyclerView = view.findViewById(R.id.recycler_view);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_container);
 
         offersList = new ArrayList<>();
         adapter = new OffersAdapter(mContext, offersList);
@@ -76,7 +72,7 @@ public class OffersList extends Fragment
             }
         });
 
-        ArrayList<String> inputList = new ArrayList<String>();
+        ArrayList<String> inputList = new ArrayList<>();
         inputList.clear();
 
         new inputAsyncData(mContext).execute(inputList);
@@ -84,19 +80,14 @@ public class OffersList extends Fragment
         return view;
     }
 
-
     void refreshItems()
     {
-
         offersList = new ArrayList<>();
 
-        ArrayList<String> inputList = new ArrayList<String>();
+        ArrayList<String> inputList = new ArrayList<>();
         inputList.clear();
 
         new inputAsyncData(getActivity()).execute(inputList);
-        //Intent offerIntent = new Intent(getActivity(), MainMenu.class);
-        //startActivity(offerIntent);
-
         onItemsLoadComplete();
     }
 
@@ -106,52 +97,6 @@ public class OffersList extends Fragment
 
         // Stop refresh animation
         mSwipeRefreshLayout.setRefreshing(false);
-    }
-
-    /**
-     * RecyclerView item decoration - give equal margin around grid item
-     */
-    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
-
-        private int spanCount;
-        private int spacing;
-        private boolean includeEdge;
-
-        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
-            this.spanCount = spanCount;
-            this.spacing = spacing;
-            this.includeEdge = includeEdge;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view); // item position
-            int column = position % spanCount; // item column
-
-            if (includeEdge) {
-                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
-
-                if (position < spanCount) { // top edge
-                    outRect.top = spacing;
-                }
-                outRect.bottom = spacing; // item bottom
-            } else {
-                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
-                if (position >= spanCount) {
-                    outRect.top = spacing; // item top
-                }
-            }
-        }
-    }
-
-    /**
-     * Converting dp to pixel
-     */
-    private int dpToPx(int dp) {
-        Resources r = getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
     public class inputAsyncData extends AsyncTask<ArrayList<String>, Void, Integer>
@@ -165,15 +110,19 @@ public class OffersList extends Fragment
 
         protected void onPreExecute()
         {
-            // Create a progressdialog
+            // Create a progress dialog
             mProgressDialog = new ProgressDialog(getActivity());
-            // Set progressdialog title
+            // Set progress dialog title
             mProgressDialog.setTitle("Getting offers....");
-            // Set progressdialog message
+            // Set progress dialog message
             mProgressDialog.setMessage("Loading...");
             mProgressDialog.setIndeterminate(false);
-            // Show progressdialog
+            // Show progress dialog
             mProgressDialog.show();
+            //Lock Drawer While Loading
+            if (getActivity() instanceof MainMenu) {
+                ((DrawerLocker) getActivity()).setDrawerEnabled(false);
+            }
         }
 
         @Override
@@ -197,7 +146,7 @@ public class OffersList extends Fragment
                     {
                         try
                         {
-                            //MemberFragment member = MemberFragment.getInstance();
+                            //MembershipFragment member = MembershipFragment.getInstance();
                             JSONArray jsonArray = obj.getJSONArray("events");
                             Log.w("events", jsonArray.toString());
 
@@ -240,6 +189,8 @@ public class OffersList extends Fragment
                                 JSONObject venueObject = showsObject.getJSONObject("venue");
                                 String showsHeadingObject = showsObject.getString("shows_heading");
                                 JSONArray shows = showsObject.getJSONArray("shows");
+                                detail.setShowsArray(shows);
+
                                 JSONObject showsDetailsObject = shows.getJSONObject(0);
 
                                 String venueName = venueObject.getString("name");
@@ -287,11 +238,9 @@ public class OffersList extends Fragment
                                 Log.w("From: ",showsDetailsObject.getString("show_date") + "\n");
                                 Log.w("To: ",date2 + "\n");
                                 //Log.w("to: ",date1);
-                                detail.setDates(showDates);
+                                //detail.setDates(showDates);
                                 offerDetails.add(detail);
                             }
-                            //Log.w("eventtt", offerDetails.get(0).getDescription());
-                            //Log.w("eventtt", offerDetails.get(1).getDescription());
 
                             status = 1;
                         }
@@ -300,9 +249,6 @@ public class OffersList extends Fragment
                             Log.w("Event error", e.getMessage());
                             status = 3;
                         }
-
-                        //Log.w("status", String.valueOf(status));
-                        //Log.w("OBJECT TEST", member.getFirst_name());
                     }
 
                     else
@@ -341,27 +287,23 @@ public class OffersList extends Fragment
                     a = new Offers(offerDetails.get(i).getName(), imageUrl, Integer.toString(offerDetails.get(i).getOfferId()));
                     offersList.add(a);
                 }
-
-                //loginButton.animFinish();
-                //Snackbar.make(layout, "Login successful.", Snackbar.LENGTH_LONG).show();
-
             }
 
             else if(result == 2)
             {
-                //loginButton.animError();
-                //Snackbar.make(layout, "Login failed, please check your details", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(context, "Technical error", Toast.LENGTH_LONG).show();
             }
 
             else
             {
-                //loginButton.animError();
-                //Snackbar.make(layout, "Login failed, technical error.", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(context, "Technical error", Toast.LENGTH_LONG).show();
             }
             adapter.notifyDataSetChanged();
             mProgressDialog.dismiss();
-
-            //loginButton.setEnabled(true);
+            if (getActivity() instanceof MainMenu) {
+                //Unlock Drawer
+                ((DrawerLocker) getActivity()).setDrawerEnabled(true);
+            }
         }
     }
 }

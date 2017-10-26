@@ -316,9 +316,9 @@ public class Member
         this.limit_num_reservations = limit_num_reservations;
     }
 
-/*    public MemberFragment getMember(Context context)
+/*    public MembershipFragment getMember(Context context)
     {
-        SharedPreferences saver = context.getSharedPreferences("MemberFragment", Context.MODE_PRIVATE);
+        SharedPreferences saver = context.getSharedPreferences("MembershipFragment", Context.MODE_PRIVATE);
         id = saver.getInt("memId", 0);
         title = saver.getString("memTitle", "");
         first_name = saver.getString("memFName", "");

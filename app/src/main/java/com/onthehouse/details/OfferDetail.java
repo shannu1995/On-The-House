@@ -1,10 +1,8 @@
 package com.onthehouse.details;
 
-import java.util.ArrayList;
+import org.json.JSONArray;
 
-/**
- * Created by haseebjehangir on 7/9/17.
- */
+import java.util.ArrayList;
 
 public class OfferDetail
 {
@@ -28,11 +26,12 @@ public class OfferDetail
     private boolean isCompt;
     private String venueDetails;
     private String showsHeading;
-    private ArrayList<String> dates;
+   // private ArrayList<String> dates;
     private boolean delivery;
     private String question;
     private ArrayList<Integer> quantities;
     private String show_id;
+    private JSONArray showsArray;
 
     public OfferDetail()
     {
@@ -189,8 +188,8 @@ public class OfferDetail
     public void setShowsHeading(String showsHeading){this.showsHeading = showsHeading;}
     public String getShowsHeading(){return this.showsHeading;}
 
-    public void setDates(ArrayList<String> dates){this.dates = dates;}
-    public ArrayList<String> getDates(){return this.dates;}
+    //public void setDates(ArrayList<String> dates){this.dates = dates;}
+    //public ArrayList<String> getDates(){return this.dates;}
 
     public void setDelivery(boolean delivery){this.delivery = delivery;}
     public boolean isDelivery(){return this.delivery;}
@@ -203,4 +202,40 @@ public class OfferDetail
 
     public void setShow_id(String show_id){this.show_id = show_id;}
     public String getShow_id(){return this.show_id;}
+
+    public void setShowsArray(JSONArray showsArray){
+        this.showsArray = showsArray;
+    }
+    public JSONArray getShowsArray(){
+        return this.showsArray;
+    }
+
+    @Override
+    public String toString() {
+        return "OfferDetail{" +
+                "offerId=" + offerId +
+                ", type='" + type + '\'' +
+                ", name='" + name + '\'' +
+                ", pageTitle='" + pageTitle + '\'' +
+                ", rating=" + rating +
+                ", imageURL='" + imageURL + '\'' +
+                ", description='" + description + '\'' +
+                ", priceFrom=" + priceFrom +
+                ", priceTo=" + priceTo +
+                ", fullPrice='" + fullPrice + '\'' +
+                ", ourPrice='" + ourPrice + '\'' +
+                ", ourPriceHeading='" + ourPriceHeading + '\'' +
+                ", memberShipLevel='" + memberShipLevel + '\'' +
+                ", soldOut=" + soldOut +
+                ", comingSoon=" + comingSoon +
+                ", isCompt=" + isCompt +
+                ", venueDetails='" + venueDetails + '\'' +
+                ", showsHeading='" + showsHeading + '\'' +
+                ", delivery=" + delivery +
+                ", question='" + question + '\'' +
+                ", quantities=" + quantities +
+                ", show_id='" + show_id + '\'' +
+                ", showsArray=" + showsArray +
+                '}';
+    }
 }
