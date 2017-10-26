@@ -17,6 +17,7 @@ import com.onthehouse.fragments.PastOffersList;
 import com.onthehouse.onthehouse.OnTheMain;
 import com.onthehouse.onthehouse.R;
 // Guest screen operations starts from here
+// Everything related to guest is being managed here
 public class GuestMain extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
