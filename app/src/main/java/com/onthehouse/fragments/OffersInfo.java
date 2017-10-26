@@ -175,11 +175,7 @@ public class OffersInfo extends Fragment {
                     String startDateStr = dateFormat.format(startDate);
                     String endDateStr = dateFormat.format(endDate);
 
-
                     offerShowTimes.setText(startDateStr + " to " + endDateStr);
-
-
-
 
                     ArrayList<Integer> quantities = new ArrayList<>();
                     JSONArray quantitiesJson = eachShow.getJSONArray("quantities");

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -50,12 +51,46 @@ public class ChangePasswordFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_change_password, container, false);
         final Context mContext = container.getContext();
 
+        /* code to show keyboard on startup.this code is not working.*/
 
         confirmBtn = view.findViewById(R.id.btn_changePassword);
 
         newPassword = view.findViewById(R.id.cp_password);
         confirmPassword = view.findViewById(R.id.cp_cpassword);
         layout = view.findViewById(R.id.passwordChangeFragment);
+
+
+        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
+
+        newPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (newPassword.getText().toString().trim().length() <= 0) {
+                    newPassword.setError(null);
+                } else if (newPassword.getText().toString().trim().length() < 4) {
+                    newPassword.setError("Min 4 chars");
+                } else {
+                    newPassword.setError(null);
+                }
+            }
+        });
+
+
+        confirmPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (confirmPassword.getText().toString().trim().length() <= 0) {
+                    confirmPassword.setError(null);
+                } else if (!newPassword.getText().toString().trim().equals(confirmPassword.getText().toString().trim())) {
+                    confirmPassword.setError("Password Not matched");
+                } else {
+                    confirmPassword.setError(null);
+                }
+            }
+
+        });
 
 
         confirmBtn.setOnClickListener(new View.OnClickListener() {

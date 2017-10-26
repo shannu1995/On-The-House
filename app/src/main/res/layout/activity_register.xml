@@ -37,6 +37,7 @@
                 android:id="@+id/regFirstName"
                 android:backgroundTint="@color/colorAccent"
                 android:hint="@string/registerFirstName"
+                android:drawableLeft="@drawable/firstname"
                 android:inputType="textPersonName"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/colorAccent"
@@ -68,6 +69,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/colorAccent"
                     android:hint="@string/registerLastName"
+                android:drawableLeft="@drawable/lastname"
                     android:inputType="textPersonName"
                     android:textColor="@color/textColor"
                     android:textColorHint="@color/colorAccent"/>
@@ -94,6 +96,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
                 android:hint="@string/registerNickName"
+                android:drawableLeft="@drawable/nickname"
                 android:inputType="textPersonName"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/colorAccent"/>
@@ -178,6 +181,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
                 android:hint="@string/registerConfirmPassword"
+                android:drawableLeft="@drawable/cnfrmpass"
                 android:inputType="textPassword"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/colorAccent"/>
@@ -206,6 +210,7 @@
                 android:backgroundTint="@color/colorAccent"
                 android:hint="@string/registerCountry"
                 android:focusable="false"
+                android:drawableLeft="@drawable/country"
                 android:inputType="text"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/colorAccent"/>
