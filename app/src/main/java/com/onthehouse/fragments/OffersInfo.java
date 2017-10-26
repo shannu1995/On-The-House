@@ -59,14 +59,26 @@ public class OffersInfo extends Fragment {
     Spinner spinner;
     Button button;
     TextView showMore;
+    ProgressButton book;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.fragment_offer_detail, container, false);
         final Context context = container.getContext();
 
-        int pos = getArguments().getInt("position");
+        book = new ProgressButton(context);
 
+        boolean guest = getArguments().getBoolean("Guest");
+        infoDetail(view, context, guest);
+
+
+        return view;
+    }
+
+
+    public void infoDetail(View view, Context context, Boolean guest) {
+        int pos = getArguments().getInt("position");
 
         offerTitle = view.findViewById(R.id.offer_title);
         offerFullPrice = view.findViewById(R.id.offer_fullPriceText);
@@ -102,6 +114,7 @@ public class OffersInfo extends Fragment {
         layout = (ConstraintLayout) view.findViewById(R.id.offer_info);
 
         final OfferDetail offerDet = OfferDetail.getInstance().get(pos);
+
         /*
         adapter = new ArrayAdapter<Integer>(view.getContext(),
                 R.layout.spinner_item,
@@ -125,8 +138,8 @@ public class OffersInfo extends Fragment {
         //offerShowHeading.setText(offerDet.getShowsHeading());
 
         ConstraintSet constraintSet = new ConstraintSet();
+
         if(offerDet.isCompt()){
-            ProgressButton book = new ProgressButton(context);
             book.setBackground(getResources().getDrawable(R.drawable.selector_button));
             book.setText("Book Now");
             book.setTextColor (getResources().getColor(R.color.white));
@@ -156,113 +169,124 @@ public class OffersInfo extends Fragment {
                 JSONArray showsArray = offerDet.getShowsArray();
                 //JSONArray showsArray = new JSONArray(offerDet.getShowsArray());
                 for(int i = 0; i < showsArray.length(); i++){
-                        JSONObject eachShow = showsArray.getJSONObject(i);
-                        long startDateL = UtilMethods.tryParseInt(eachShow.getString("show_date"));
-                        Date startDate = new Date(startDateL * 1000);
-                        long endDateL = UtilMethods.tryParseInt(eachShow.getString("show_date2"));
-                        Date endDate = new Date(endDateL * 1000);
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                        String startDateStr = dateFormat.format(startDate);
-                        String endDateStr = dateFormat.format(endDate);
+                    JSONObject eachShow = showsArray.getJSONObject(i);
+                    long startDateL = UtilMethods.tryParseInt(eachShow.getString("show_date"));
+                    Date startDate = new Date(startDateL * 1000);
+                    long endDateL = UtilMethods.tryParseInt(eachShow.getString("show_date2"));
+                    Date endDate = new Date(endDateL * 1000);
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    String startDateStr = dateFormat.format(startDate);
+                    String endDateStr = dateFormat.format(endDate);
 
 
-                        TextView dates = new TextView(context);
-                        dates.setText(startDateStr+" to "+endDateStr);
-                        Log.w("Date is", dates.getText().toString());
-                        dates.setId(100 + i);
-                        layout.addView(dates);
-                        constraintSet.clone(layout);
-                        if(i == 0){
-                            constraintSet.connect(dates.getId(), ConstraintSet.TOP, shows.getId(), ConstraintSet.BOTTOM, 16);
-                        }else{
-                            constraintSet.connect(dates.getId(), ConstraintSet.TOP, 500 + (i - 1), ConstraintSet.BOTTOM, 16);
-                        }
+                    TextView dates = new TextView(context);
+                    dates.setText(startDateStr + " to " + endDateStr);
+                    Log.w("Date is", dates.getText().toString());
+                    dates.setId(100 + i);
+                    layout.addView(dates);
+                    constraintSet.clone(layout);
+                    if (i == 0) {
                         constraintSet.connect(dates.getId(), ConstraintSet.TOP, shows.getId(), ConstraintSet.BOTTOM, 16);
-                        constraintSet.connect(dates.getId(), ConstraintSet.LEFT, shows.getId(), ConstraintSet.LEFT, 0);
-                        constraintSet.applyTo(layout);
+                    } else {
+                        constraintSet.connect(dates.getId(), ConstraintSet.TOP, 500 + (i - 1), ConstraintSet.BOTTOM, 16);
+                    }
+                    constraintSet.connect(dates.getId(), ConstraintSet.TOP, shows.getId(), ConstraintSet.BOTTOM, 16);
+                    constraintSet.connect(dates.getId(), ConstraintSet.LEFT, shows.getId(), ConstraintSet.LEFT, 0);
+                    constraintSet.applyTo(layout);
 
-                        ProgressButton book = new ProgressButton(context);
-                        book.setBackground(getResources().getDrawable(R.drawable.selector_button));
-                        book.setText("Book Now");
-                        book.setTextColor (getResources().getColor(R.color.white));
-                        book.setTypeface(null, Typeface.BOLD);
-                        book.setId(UtilMethods.tryParseInt(eachShow.getString("id")));
+                    ProgressButton book = new ProgressButton(context);
+                    book.setBackground(getResources().getDrawable(R.drawable.selector_button));
+                    book.setText("Book Now");
+                    book.setTextColor(getResources().getColor(R.color.white));
+                    book.setTypeface(null, Typeface.BOLD);
+                    book.setId(UtilMethods.tryParseInt(eachShow.getString("id")));
 
 
-                        final float scale = getResources().getDisplayMetrics().density;
-                        int dpWidthInPx  = (int) (120 * scale);
-                        int dpHeightInPx = (int) (40 * scale);
-                        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(dpWidthInPx, dpHeightInPx);
-                        book.setLayoutParams(layoutParams);
-                        layout.addView(book);
-                        constraintSet.clone(layout);
-                        constraintSet.connect(book.getId(), ConstraintSet.TOP, dates.getId(), ConstraintSet.BOTTOM, 16);
-                        constraintSet.connect(book.getId(), ConstraintSet.LEFT, dates.getId(), ConstraintSet.LEFT, 0);
-                        constraintSet.applyTo(layout);
+                    final float scale = getResources().getDisplayMetrics().density;
+                    int dpWidthInPx = (int) (120 * scale);
+                    int dpHeightInPx = (int) (40 * scale);
+                    ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(dpWidthInPx, dpHeightInPx);
+                    book.setLayoutParams(layoutParams);
 
-                        TextView tickets = new TextView(context);
-                        tickets.setText("No. of tickets: ");
-                        tickets.setTypeface(null, Typeface.ITALIC);
-                        tickets.setId(500 + i);
+
+                    layout.addView(book);
+
+                    if (guest)
+                        book.setVisibility(View.GONE);
+
+                    constraintSet.clone(layout);
+                    constraintSet.connect(book.getId(), ConstraintSet.TOP, dates.getId(), ConstraintSet.BOTTOM, 16);
+                    constraintSet.connect(book.getId(), ConstraintSet.LEFT, dates.getId(), ConstraintSet.LEFT, 0);
+                    constraintSet.applyTo(layout);
+
+                    TextView tickets = new TextView(context);
+                    tickets.setText("No. of tickets: ");
+                    tickets.setTypeface(null, Typeface.ITALIC);
+                    tickets.setId(500 + i);
+
+                    if (!guest)
                         layout.addView(tickets);
-                        constraintSet.clone(layout);
-                        constraintSet.connect(tickets.getId(), ConstraintSet.TOP, dates.getId(), ConstraintSet.BOTTOM, 16);
-                        constraintSet.connect(tickets.getId(), ConstraintSet.LEFT, book.getId(), ConstraintSet.RIGHT, 16);
-                        constraintSet.applyTo(layout);
+                    constraintSet.clone(layout);
+                    constraintSet.connect(tickets.getId(), ConstraintSet.TOP, dates.getId(), ConstraintSet.BOTTOM, 16);
+                    constraintSet.connect(tickets.getId(), ConstraintSet.LEFT, book.getId(), ConstraintSet.RIGHT, 16);
+                    constraintSet.applyTo(layout);
 
-                        final Spinner spinner = new Spinner(context);
+                    final Spinner spinner = new Spinner(context);
                     spinner.setBackground(getResources().getDrawable(R.drawable.spinner_edit_profile));
 
                     spinner.setPopupBackgroundDrawable(getResources().getDrawable(R.drawable.spinner_edit_profile));
-                        ArrayList<Integer> quantities = new ArrayList<>();
-                        JSONArray quantitiesJson = eachShow.getJSONArray("quantities");
-                        spinner.setId(1000 + i);
-                        spinner.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                    ArrayList<Integer> quantities = new ArrayList<>();
+                    JSONArray quantitiesJson = eachShow.getJSONArray("quantities");
+                    spinner.setId(1000 + i);
+                    spinner.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,
                             ConstraintLayout.LayoutParams.WRAP_CONTENT));
-                        for(int j = 0; j < quantitiesJson.length(); j++){
-                            quantities.add(UtilMethods.tryParseInt(quantitiesJson.getString(j)));
-                        }
+                    for (int j = 0; j < quantitiesJson.length(); j++) {
+                        quantities.add(UtilMethods.tryParseInt(quantitiesJson.getString(j)));
+                    }
                         /*
                         adapter = new ArrayAdapter<Integer>(view.getContext(),
                             android.R.layout.simple_expandable_list_item_1,
                             quantities);
                             */
-                        adapter = new ArrayAdapter<Integer>(view.getContext(),
+                    adapter = new ArrayAdapter<Integer>(view.getContext(),
                             android.R.layout.simple_spinner_item,
                             quantities);
-                        spinner.setPadding(0, 0, 0, 0);
-                        spinner.setAdapter(adapter);
-                        spinner.setSelection(0);
-                        spinner.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                    spinner.setPadding(0, 0, 0, 0);
+                    spinner.setAdapter(adapter);
+                    spinner.setSelection(0);
+                    spinner.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,
                             ConstraintLayout.LayoutParams.WRAP_CONTENT));
+
+                    if (!guest)
                         layout.addView(spinner);
-                        constraintSet.clone(layout);
-                        constraintSet.connect(spinner.getId(), ConstraintSet.TOP, dates.getId(), ConstraintSet.BOTTOM, 16);
-                        constraintSet.connect(spinner.getId(), ConstraintSet.LEFT, tickets.getId(), ConstraintSet.RIGHT, 16);
-                        constraintSet.applyTo(layout);
 
-                        TextView venueHeading = new TextView(context);
-                        venueHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-                        venueHeading.setText("Venue");
-                        venueHeading.setId(1500 + i);
-                        venueHeading.setTextColor(getResources().getColor(R.color.textColor));
-                        layout.addView(venueHeading);
-                        constraintSet.clone(layout);
-                        constraintSet.connect(venueHeading.getId(), ConstraintSet.TOP, book.getId(), ConstraintSet.BOTTOM, 16);
-                        constraintSet.connect(venueHeading.getId(), ConstraintSet.LEFT, book.getId(), ConstraintSet.LEFT, 0);
-                        constraintSet.applyTo(layout);
+                    constraintSet.clone(layout);
+                    constraintSet.connect(spinner.getId(), ConstraintSet.TOP, dates.getId(), ConstraintSet.BOTTOM, 16);
+                    constraintSet.connect(spinner.getId(), ConstraintSet.LEFT, tickets.getId(), ConstraintSet.RIGHT, 16);
+                    constraintSet.applyTo(layout);
 
-                        TextView venueDetails = new TextView(context);
+                    TextView venueHeading = new TextView(context);
+                    venueHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+                    venueHeading.setText("Venue");
+                    venueHeading.setId(1500 + i);
+                    venueHeading.setTextColor(getResources().getColor(R.color.textColor));
+                    layout.addView(venueHeading);
+                    constraintSet.clone(layout);
+                    constraintSet.connect(venueHeading.getId(), ConstraintSet.TOP, book.getId(), ConstraintSet.BOTTOM, 16);
+                    constraintSet.connect(venueHeading.getId(), ConstraintSet.LEFT, book.getId(), ConstraintSet.LEFT, 0);
+                    constraintSet.applyTo(layout);
 
-                        venueDetails.setId(i);
-                        venueDetails.setText(offerDet.getVenueDetails());
+                    TextView venueDetails = new TextView(context);
 
-                        layout.addView(venueDetails);
-                        constraintSet.clone(layout);
-                        constraintSet.connect(venueDetails.getId(), ConstraintSet.TOP, venueHeading.getId(), ConstraintSet.BOTTOM, 16);
-                        constraintSet.connect(venueDetails.getId(), ConstraintSet.LEFT, book.getId(), ConstraintSet.LEFT, 0);
-                        constraintSet.applyTo(layout);
-                        book.setOnClickListener(new View.OnClickListener(){
+                    venueDetails.setId(i);
+                    venueDetails.setText(offerDet.getVenueDetails());
+
+                    layout.addView(venueDetails);
+                    constraintSet.clone(layout);
+                    constraintSet.connect(venueDetails.getId(), ConstraintSet.TOP, venueHeading.getId(), ConstraintSet.BOTTOM, 16);
+                    constraintSet.connect(venueDetails.getId(), ConstraintSet.LEFT, book.getId(), ConstraintSet.LEFT, 0);
+                    constraintSet.applyTo(layout);
+                    book.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v){
                             int tickets = (int)spinner.getSelectedItem();
@@ -351,8 +375,6 @@ public class OffersInfo extends Fragment {
             }
         });*/
 
-
-        return view;
     }
 
 }

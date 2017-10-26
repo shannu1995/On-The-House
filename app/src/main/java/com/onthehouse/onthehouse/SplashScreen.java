@@ -38,6 +38,7 @@ public class SplashScreen extends AppCompatActivity {
                 @Override
                 public void run() {
                     Intent offerIntent = new Intent(SplashScreen.this, OnTheMain.class);
+                    offerIntent.putExtra("Animation", true);
                     SplashScreen.this.startActivity(offerIntent);
                     finish();
                 }
@@ -168,6 +169,7 @@ public class SplashScreen extends AppCompatActivity {
                         @Override
                         public void run() {
                             Intent loginIntent = new Intent(SplashScreen.this, OnTheMain.class);
+                            loginIntent.putExtra("Animation", true);
                             SplashScreen.this.startActivity(loginIntent);
                             finish();
 
@@ -181,6 +183,7 @@ public class SplashScreen extends AppCompatActivity {
                         @Override
                         public void run() {
                             Intent loginIntent = new Intent(SplashScreen.this, OnTheMain.class);
+                            loginIntent.putExtra("Animation", true);
                             SplashScreen.this.startActivity(loginIntent);
                             finish();
 
