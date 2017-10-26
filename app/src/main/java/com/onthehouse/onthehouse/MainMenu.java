@@ -114,7 +114,7 @@ public class MainMenu extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         Fragment fragment = null;
-        Class fragmentClass;
+        Class fragmentClass = null;
 
         switch (item.getItemId()) {
             case R.id.offers:
@@ -160,6 +160,9 @@ public class MainMenu extends AppCompatActivity
                 Intent loginIntent = new Intent(MainMenu.this, OnTheMain.class);
                 startActivity(loginIntent);
                 finish();
+                break;
+
+
             default:
                 fragmentClass = OffersList.class;
                 offerListFragment = true;

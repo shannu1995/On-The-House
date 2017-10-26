@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
@@ -55,6 +56,9 @@ public class OffersInfo extends Fragment {
     //ConstraintLayout showsLayout;
     ArrayAdapter adapter;
     TextView shows;
+    Spinner spinner;
+    Button button;
+    TextView showMore;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -62,7 +66,6 @@ public class OffersInfo extends Fragment {
         final Context context = container.getContext();
 
         int pos = getArguments().getInt("position");
-        Context mContext = container.getContext();
 
 
         offerTitle = view.findViewById(R.id.offer_title);
@@ -73,6 +76,7 @@ public class OffersInfo extends Fragment {
         offerImage = view.findViewById(R.id.offer_image);
         shows = view.findViewById(R.id.shows);
         ratingBar = view.findViewById(R.id.rb_offer_details_rating);
+        showMore = view.findViewById(R.id.show_more);
         //showsLayout = view.findViewById(R.id.show_details);
         //offerVenue = view.findViewById(R.id.venue_details);
         //offerShowHeading = view.findViewById(R.id.shows);
@@ -80,12 +84,24 @@ public class OffersInfo extends Fragment {
         //spinner = view.findViewById(R.id.quantity_list);
         //button = view.findViewById(R.id.book_button);
 
+        showMore.setMaxLines(3);
 
+        showMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (showMore.getText().toString().equals(getString(R.string.show_more))) {
+                    offerAbout.setMaxLines(Integer.MAX_VALUE);
+                    showMore.setText(R.string.show_less);
+                } else {
+                    offerAbout.setMaxLines(3);
+                    showMore.setText(R.string.show_more);
+                }
+            }
+        });
 
         layout = (ConstraintLayout) view.findViewById(R.id.offer_info);
 
         final OfferDetail offerDet = OfferDetail.getInstance().get(pos);
-        System.out.println(offerDet.toString());
         /*
         adapter = new ArrayAdapter<Integer>(view.getContext(),
                 R.layout.spinner_item,
@@ -94,9 +110,9 @@ public class OffersInfo extends Fragment {
 
         //spinner.setAdapter(adapter);
         //spinner.setSelection(0);
-        spinner.setAdapter(adapter);
-        spinner.setSelection(0);
-        spinner.setPrompt("Tickets / Qty");
+//        spinner.setAdapter(adapter);
+        //      spinner.setSelection(0);
+        //    spinner.setPrompt("Tickets / Qty");
 
 
         offerTitle.setText(offerDet.getName());
@@ -276,13 +292,14 @@ public class OffersInfo extends Fragment {
             */
         }
 
+
         String imageUrl = offerDet.getImageURL();
         if(imageUrl.isEmpty())
         {
             imageUrl = "http://vollrath.com/ClientCss/images/VollrathImages/No_Image_Available.jpg";
         }
 
-        Glide.with(mContext).load(imageUrl).into(offerImage);
+        Glide.with(context).load(imageUrl).into(offerImage);
 
         /*
         offerShowTimes.setOnClickListener(new View.OnClickListener(){
@@ -314,6 +331,7 @@ public class OffersInfo extends Fragment {
                 }
             }
         });
+
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -331,11 +349,10 @@ public class OffersInfo extends Fragment {
                 buyIntent.putExtras(purchase_details);
                 startActivity(buyIntent);
             }
-        });
+        });*/
 
 
         return view;
     }
-
 
 }

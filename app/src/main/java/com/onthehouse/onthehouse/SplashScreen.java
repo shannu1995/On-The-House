@@ -4,51 +4,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.daimajia.androidanimations.library.Techniques;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
 import com.onthehouse.details.UtilMethods;
-import com.viksaa.sssplash.lib.activity.AwesomeSplash;
-import com.viksaa.sssplash.lib.cnst.Flags;
-import com.viksaa.sssplash.lib.model.ConfigSplash;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class SplashScreen extends AwesomeSplash {
+public class SplashScreen extends AppCompatActivity {
+
     @Override
-    public void initSplash(ConfigSplash configSplash) {
-        configSplash.setBackgroundColor(R.color.backgroundColorFirstHalf); //any color you want form colors.xml
-        configSplash.setAnimCircularRevealDuration(2000); //int ms
-        configSplash.setRevealFlagX(Flags.REVEAL_RIGHT);  //or Flags.REVEAL_LEFT
-        configSplash.setRevealFlagY(Flags.REVEAL_BOTTOM); //or Flags.REVEAL_TOP
-
-        //Choose LOGO OR PATH; if you don't provide String value for path it's logo by default
-
-        //Customize Logo
-        configSplash.setLogoSplash(R.drawable.oth_logo_lightbkgd_lowres); //or any other drawable
-        configSplash.setAnimLogoSplashDuration(2000); //int ms
-
-        configSplash.setAnimLogoSplashTechnique(Techniques.Bounce); //choose one form Techniques (ref: https://github.com/daimajia/AndroidViewAnimations)
-
-
-        //Customize Path
-        //configSplash.setPathSplash(Constants.DROID_LOGO); //set path String
-        configSplash.setOriginalHeight(400); //in relation to your svg (path) resource
-        configSplash.setOriginalWidth(400); //in relation to your svg (path) resource
-        configSplash.setAnimPathStrokeDrawingDuration(3000);
-        configSplash.setPathSplashStrokeSize(3); //I advise value be <5
-        configSplash.setPathSplashStrokeColor(R.color.colorPrimary); //any color you want form colors.xml
-        configSplash.setAnimPathFillingDuration(3000);
-        configSplash.setPathSplashFillColor(R.color.backgroundColorFirstHalf); //path object filling color
-
-        configSplash.setTitleSplash(null);
-
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash_screen);
 
         SharedPreferences sharedPreferences = getSharedPreferences("memberInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -76,10 +51,6 @@ public class SplashScreen extends AwesomeSplash {
         }
     }
 
-    @Override
-    public void animationsFinished() {
-
-    }
 
     public void setData(Member member, JSONObject jsonArray) {
         try

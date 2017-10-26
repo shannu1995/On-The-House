@@ -155,4 +155,6 @@
     <string name="frequently_asked_questions">Frequently Asked Questions</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="terms_and_conditions">Terms And Conditions</string>
+    <string name="show_more">...show more</string>
+    <string name="show_less">...show less</string>
 </resources>
