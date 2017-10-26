@@ -10,9 +10,11 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
@@ -55,6 +57,9 @@ public class PaymentPortal extends AppCompatActivity {
         result = (TextView) findViewById(R.id.result);
 
         button.setVisibility(View.VISIBLE);
+        //add back button
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         extras = getIntent().getExtras();
         details.setText("Number of Tickets: "+extras.getString("tickets"));
@@ -81,6 +86,14 @@ public class PaymentPortal extends AppCompatActivity {
         service.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
         startService(service);
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     public void onBackPressed(){
         Intent mainMenuIntent = new Intent(this, MainMenu.class);
@@ -176,6 +189,7 @@ public class PaymentPortal extends AppCompatActivity {
             textView.setVisibility(View.VISIBLE);
             if(result == 1)
             {
+                Toast.makeText(context, "Reservation Successful", Toast.LENGTH_LONG).show();
                 Log.w("COMPLETED!", "SUCCESS!!");
                 textView.setText("Reservation Successful!\n Please check \'My Account\' or your email for the reservation details");
                 button.setVisibility(View.INVISIBLE);
