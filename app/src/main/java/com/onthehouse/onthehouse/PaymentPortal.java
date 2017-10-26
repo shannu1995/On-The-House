@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,11 +16,13 @@ import android.widget.TextView;
 
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
-import com.onthehouse.fragments.*;
-import com.paypal.android.sdk.payments.*;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
@@ -176,6 +178,7 @@ public class PaymentPortal extends AppCompatActivity {
             {
                 Log.w("COMPLETED!", "SUCCESS!!");
                 textView.setText("Reservation Successful!\n Please check \'My Account\' or your email for the reservation details");
+                finish();
             }
 
             else if(result == 2)

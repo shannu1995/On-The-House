@@ -2,6 +2,7 @@ package com.onthehouse.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -62,6 +63,13 @@ public class OffersList extends Fragment
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+
+        //if not guest
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("GuestMember", Context.MODE_PRIVATE);
+        boolean guestMember = sharedPreferences.getBoolean("GuestCheck", false);
+        if (!guestMember) {
+            ((MainMenu) container.getContext()).setChecked(R.id.offers, true);
+        }
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

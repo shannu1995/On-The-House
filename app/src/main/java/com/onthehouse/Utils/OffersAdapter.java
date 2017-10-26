@@ -124,9 +124,10 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
                         if (fragment != null) {
                             FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
                             fragmentManager.beginTransaction()
-                                    .replace(R.id.frame_container, fragment).addToBackStack("On the House").commit();
+                                    .replace(R.id.frame_container, fragment).commit();
 
                         }
+                        ((MainMenu) mContext).setChecked(R.id.offers, false);
                         ((MainMenu) mContext).getSupportActionBar().setSubtitle("");
                     }
                 });
@@ -144,9 +145,10 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
                         if (fragment != null) {
                             FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
                             fragmentManager.beginTransaction()
-                                    .replace(R.id.frame_container, fragment).addToBackStack("On the House").commit();
+                                    .replace(R.id.frame_container, fragment).commit();
 
                         }
+                        ((MainMenu) mContext).setChecked(R.id.offers, false);
                         ((MainMenu) mContext).getSupportActionBar().setSubtitle("");
                     }
                 });
@@ -255,11 +257,13 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
             if (!guestMember) {
                 FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.frame_container, fragment).addToBackStack("On the House").commit();
+                        .replace(R.id.frame_container, fragment).commit();
+                ((MainMenu) mContext).setChecked(R.id.offers, false);
+                ((MainMenu) mContext).getSupportActionBar().setSubtitle("");
             } else {
                 FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.guest_content, fragment).addToBackStack("On the House").commit();
+                        .replace(R.id.guest_content, fragment).commit();
 
             }
 
