@@ -118,7 +118,7 @@ public class OffersInfo extends Fragment {
             }
         });
 
-        layout = (ConstraintLayout) view.findViewById(R.id.offer_info);
+        layout = view.findViewById(R.id.offer_info);
 
         final OfferDetail offerDet = OfferDetail.getInstance().get(pos);
 
