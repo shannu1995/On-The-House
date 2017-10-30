@@ -1,6 +1,7 @@
 package com.onthehouse.onthehouse;
 
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.onthehouse.Utils.ViewPagerAdapter;
 import com.onthehouse.fragments.LoginActivity;
@@ -59,6 +61,13 @@ public class OnTheMain extends AppCompatActivity{
 
 
                 TabLayout mTabLayout = (TabLayout) findViewById(R.id.tabs);
+                LinearLayout linearLayout = (LinearLayout)mTabLayout.getChildAt(0);
+                linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+                GradientDrawable drawable = new GradientDrawable();
+                drawable.setColor(Color.BLACK);
+                drawable.setSize(6, 6);
+                linearLayout.setDividerPadding(0);
+                linearLayout.setDividerDrawable(drawable);
                 mTabLayout.setupWithViewPager(viewPager);
                 mTabLayout.setTabTextColors(Color.BLACK,Color.BLACK);
             }
