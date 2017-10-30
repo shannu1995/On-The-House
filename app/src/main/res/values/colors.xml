@@ -14,4 +14,5 @@
     <color name="red">#ff0000</color>
     <color name="blue">#a3b5d2</color>
     <color name="textColor">#000000</color>
+    <color name="inactive_text">#808080</color>
 </resources>

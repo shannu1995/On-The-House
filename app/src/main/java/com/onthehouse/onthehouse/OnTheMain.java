@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -69,7 +70,6 @@ public class OnTheMain extends AppCompatActivity{
                 linearLayout.setDividerPadding(0);
                 linearLayout.setDividerDrawable(drawable);
                 mTabLayout.setupWithViewPager(viewPager);
-                mTabLayout.setTabTextColors(Color.BLACK,Color.BLACK);
             }
         }, 1000);
 

@@ -39,6 +39,8 @@
                 android:layout_gravity="top"
                 android:paddingBottom="10dp"
                 app:tabIndicatorColor="@color/textColor"
+                app:tabTextColor="@color/inactive_text"
+                app:tabSelectedTextColor="@color/textColor"
                 app:tabGravity="fill" />
         </android.support.v4.view.ViewPager>
 
