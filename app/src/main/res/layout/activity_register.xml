@@ -29,13 +29,13 @@
             app:layout_constraintTop_toBottomOf="@+id/NickName"
             android:textCursorDrawable="@drawable/cursor_color"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp">
+            android:layout_marginEnd="16dp"
+            android:theme="@style/TextLabel">
 
             <EditText
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:id="@+id/regFirstName"
-                android:backgroundTint="@color/colorAccent"
                 android:hint="@string/registerFirstName"
                 android:drawableLeft="@drawable/firstname"
                 android:drawablePadding="10dp"
@@ -62,13 +62,13 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp">
+            android:layout_marginEnd="16dp"
+            android:theme="@style/TextLabel">
 
             <EditText
                     android:id="@+id/regLastName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/colorAccent"
                     android:hint="@string/registerLastName"
                 android:drawableLeft="@drawable/lastname"
                 android:drawablePadding="10dp"
@@ -90,13 +90,13 @@
             android:textCursorDrawable="@drawable/cursor_color"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            tools:layout_editor_absoluteY="81dp">
+            tools:layout_editor_absoluteY="81dp"
+            android:theme="@style/TextLabel">
 
             <EditText
                 android:id="@+id/regNickName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
                 android:hint="@string/registerNickName"
                 android:drawableLeft="@drawable/nickname"
                 android:drawablePadding="10dp"
@@ -119,13 +119,13 @@
             app:layout_constraintTop_toBottomOf="@+id/LastName"
             android:textCursorDrawable="@drawable/cursor_color"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp">
+            android:layout_marginEnd="16dp"
+            android:theme="@style/TextLabel">
 
             <EditText
                 android:id="@+id/regEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
                 android:hint="@string/registerEmail"
                 android:drawableLeft="@drawable/email"
                 android:drawablePadding="10dp"
@@ -149,12 +149,12 @@
             app:layout_constraintTop_toBottomOf="@+id/Email"
             android:textCursorDrawable="@drawable/cursor_color"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp">
+            android:layout_marginEnd="16dp"
+            android:theme="@style/TextLabel">
             <EditText
                 android:id="@+id/regPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
                 android:hint="@string/registerPassword"
                 android:drawableLeft="@drawable/password"
                 android:drawablePadding="10dp"
@@ -178,13 +178,13 @@
             app:layout_constraintTop_toBottomOf="@+id/Password"
             android:textCursorDrawable="@drawable/cursor_color"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp">
+            android:layout_marginEnd="16dp"
+            android:theme="@style/TextLabel">
 
             <EditText
                 android:id="@+id/regConfirmPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
                 android:hint="@string/registerConfirmPassword"
                 android:drawableLeft="@drawable/cnfrmpass"
                 android:drawablePadding="10dp"
@@ -207,13 +207,13 @@
             app:layout_constraintTop_toBottomOf="@+id/ConfirmPassword"
             android:textCursorDrawable="@drawable/cursor_color"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp">
+            android:layout_marginEnd="16dp"
+            android:theme="@style/TextLabel">
 
             <EditText
                 android:id="@+id/regCountry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
                 android:hint="@string/registerCountry"
                 android:focusable="false"
                 android:drawableLeft="@drawable/country"
@@ -236,8 +236,8 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="16dp"
             android:ems="10"
-            android:textColor="@color/colorAccent"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            />
 
         <Spinner
             android:id="@+id/stateSpinner"
@@ -249,13 +249,14 @@
             android:background="@drawable/gradient_spinner"
             android:popupBackground="@drawable/backgroud_spinner"
             android:textColor="@android:color/black"
-            android:textSize="14dp"
+            android:textSize="14sp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stateText"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginEnd="16dp"
+            android:theme="@style/TextLabel" />
 
 
         <cn.xm.weidongjian.progressbuttonlib.ProgressButton

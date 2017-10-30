@@ -32,6 +32,12 @@
         <item name="android:paddingBottom">5dp</item>
         <item name="android:popupBackground">#DFFFFFFF</item>
     </style>
-
+    <style name="TextLabel">
+        <item name="android:textColorHint">@color/textColor</item>
+        <item name="colorControlNormal">@color/textColor</item>
+        <item name="colorControlActivated">@color/textColor</item>
+        <item name="android:backgroundTint">@color/textColor</item>
+        <item name="android:textSelectHandle">@color/colorAccent</item>
+    </style>
 
 </resources>
