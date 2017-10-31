@@ -66,7 +66,7 @@ public class OffersInfo extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_offer_detail, container, false);
         final Context context = container.getContext();
 
-        book = new ProgressButton(context);
+        //book = new ProgressButton(context);
 
         boolean guest = getArguments().getBoolean("Guest");
         infoDetail(view, context);
@@ -138,37 +138,7 @@ public class OffersInfo extends Fragment {
         offerMemberType.setText(offerDet.getMemberShipLevel());
         offerAbout.setText(offerDet.getDescription());
         ratingBar.setRating(offerDet.getRating());
-        //offerVenue.setText(offerDet.getVenueDetails());
-        //offerShowHeading.setText(offerDet.getShowsHeading());
 
-        ConstraintSet constraintSet = new ConstraintSet();
-
-        if(offerDet.isCompt()){
-            book.setBackground(getResources().getDrawable(R.drawable.selector_button));
-            book.setText("Book Now");
-            book.setTextColor (getResources().getColor(R.color.white));
-            book.setTypeface(null, Typeface.BOLD);
-            book.setId(offerDet.getOfferId());
-            book.setText("Enter Competition");
-            book.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                    ConstraintLayout.LayoutParams.WRAP_CONTENT));
-            layout.addView(book);
-            constraintSet.clone(layout);
-            constraintSet.connect(book.getId(), ConstraintSet.TOP, shows.getId(), ConstraintSet.BOTTOM, 16);
-            constraintSet.connect(book.getId(), ConstraintSet.LEFT, shows.getId(), ConstraintSet.LEFT, 0);
-            constraintSet.applyTo(layout);
-            book.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent competeIntent = new Intent(getActivity(), BookingPageCompetition.class);
-                    Bundle competeDetails = new Bundle();
-                    competeDetails.putString("eventID", Integer.toString(offerDet.getOfferId()));
-                    competeDetails.putString("question", offerDet.getQuestion());
-                    competeIntent.putExtras(competeDetails);
-                    startActivity(competeIntent);
-                }
-            });
-        }else{
             try {
                 JSONArray showsArray = offerDet.getShowsArray();
                 //JSONArray showsArray = new JSONArray(offerDet.getShowsArray());
@@ -193,31 +163,40 @@ public class OffersInfo extends Fragment {
                     }
 
                     offerVenue.setText(offerDet.getVenueDetails());
-
-
+                    if(offerDet.isCompt())
+                        book_now.setText("Enter Competition");
                     book_now.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v){
-                            int tickets = (int)spinner.getSelectedItem();
-                            Intent buyIntent;
-                            Bundle purchase_details = new Bundle();
-                            purchase_details.putString("tickets", Integer.toString(tickets));
-                            purchase_details.putString("show_id", offerDet.getShow_id());
-                            if(offerDet.isDelivery()){
-                                buyIntent = new Intent(getActivity(), BookingPageDeliveryPurchase.class);
+                            if(offerDet.isCompt()){
+                                Intent competeIntent = new Intent(getActivity(), BookingPageCompetition.class);
+                                Bundle competeDetails = new Bundle();
+                                competeDetails.putString("eventID", Integer.toString(offerDet.getOfferId()));
+                                competeDetails.putString("question", offerDet.getQuestion());
+                                competeIntent.putExtras(competeDetails);
+                                startActivity(competeIntent);
+                            }else{
+                                int tickets = (int)spinner.getSelectedItem();
+                                Intent buyIntent;
+                                Bundle purchase_details = new Bundle();
+                                purchase_details.putString("tickets", Integer.toString(tickets));
+                                purchase_details.putString("show_id", offerDet.getShow_id());
+                                if(offerDet.isDelivery()){
+                                    buyIntent = new Intent(getActivity(), BookingPageDeliveryPurchase.class);
+                                }
+                                else {
+                                    buyIntent = new Intent(getActivity(), BookingPageNoDeliveryPurchase.class);
+                                }
+                                buyIntent.putExtras(purchase_details);
+                                startActivity(buyIntent);
                             }
-                            else {
-                                buyIntent = new Intent(getActivity(), BookingPageNoDeliveryPurchase.class);
-                            }
-                            buyIntent.putExtras(purchase_details);
-                            startActivity(buyIntent);
                         }
                     });
                 }
             }catch(Exception e){
                 Log.w("Error JSONArray:",e);
             }
-        }
+
 
 
         String imageUrl = offerDet.getImageURL();

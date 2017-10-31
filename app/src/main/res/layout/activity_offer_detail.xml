@@ -202,7 +202,7 @@
             android:id="@+id/book_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Book now"
+            android:text="View Shows"
             android:textColor="@color/text"
             android:textSize="18sp"
             android:textStyle="bold"
