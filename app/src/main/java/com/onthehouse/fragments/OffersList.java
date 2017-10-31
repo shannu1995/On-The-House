@@ -191,13 +191,15 @@ public class OffersList extends Fragment
                                     detail.setQuestion(competitionDetails.getString("question"));
                                 }
                                 JSONArray showsArray = indEventObj.getJSONArray("show_data");
+
                                 Log.w("Show Details: ",showsArray.toString());
 
                                 JSONObject showsObject = showsArray.getJSONObject(0);
                                 JSONObject venueObject = showsObject.getJSONObject("venue");
                                 String showsHeadingObject = showsObject.getString("shows_heading");
                                 JSONArray shows = showsObject.getJSONArray("shows");
-                                detail.setShowsArray(shows);
+                                detail.setWrongShowsArray(shows);
+                                detail.setShowsArray(showsArray);
 
                                 JSONObject showsDetailsObject = shows.getJSONObject(0);
 

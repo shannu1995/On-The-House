@@ -31,6 +31,7 @@ public class OfferDetail
     private String question;
     private ArrayList<Integer> quantities;
     private String show_id;
+    private JSONArray wrongShowsArray;
     private JSONArray showsArray;
 
     public OfferDetail()
@@ -203,12 +204,15 @@ public class OfferDetail
     public void setShow_id(String show_id){this.show_id = show_id;}
     public String getShow_id(){return this.show_id;}
 
-    public void setShowsArray(JSONArray showsArray){
-        this.showsArray = showsArray;
+    public void setWrongShowsArray(JSONArray wrongShowsArray){
+        this.wrongShowsArray = wrongShowsArray;
     }
-    public JSONArray getShowsArray(){
-        return this.showsArray;
+    public JSONArray getWrongShowsArray(){
+        return this.wrongShowsArray;
     }
+
+    public void setShowsArray(JSONArray showsArray){this.showsArray = showsArray;}
+    public JSONArray getShowsArray(){return  this.showsArray;}
 
     @Override
     public String toString() {
@@ -235,7 +239,7 @@ public class OfferDetail
                 ", question='" + question + '\'' +
                 ", quantities=" + quantities +
                 ", show_id='" + show_id + '\'' +
-                ", showsArray=" + showsArray +
+                ", wrongShowsArray=" + wrongShowsArray +
                 '}';
     }
 }

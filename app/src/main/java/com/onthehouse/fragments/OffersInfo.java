@@ -3,10 +3,8 @@ package com.onthehouse.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -140,8 +138,8 @@ public class OffersInfo extends Fragment {
         ratingBar.setRating(offerDet.getRating());
 
             try {
-                JSONArray showsArray = offerDet.getShowsArray();
-                //JSONArray showsArray = new JSONArray(offerDet.getShowsArray());
+                JSONArray showsArray = offerDet.getWrongShowsArray();
+                //JSONArray showsArray = new JSONArray(offerDet.getWrongShowsArray());
                 for(int i = 0; i < showsArray.length(); i++){
                     JSONObject eachShow = showsArray.getJSONObject(i);
                     long startDateL = UtilMethods.tryParseInt(eachShow.getString("show_date"));
