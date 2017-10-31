@@ -206,57 +206,6 @@ public class OffersInfo extends Fragment {
         }
 
         Glide.with(context).load(imageUrl).into(offerImage);
-
-        /*
-        offerShowTimes.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                if(offerDet.isCompt()){
-                    Intent competeIntent = new Intent(getActivity(), BookingPageCompetition.class);
-
-                    Bundle competeDetails = new Bundle();
-                    competeDetails.putString("eventID", Integer.toString(offerDet.getOfferId()));
-                    competeDetails.putString("question", offerDet.getQuestion());
-                    competeIntent.putExtras(competeDetails);
-                    startActivity(competeIntent);
-                }else{
-                    int tickets = (int)spinner.getSelectedItem();
-                    Bundle purchase_details = new Bundle();
-                    purchase_details.putString("tickets", Integer.toString(tickets));
-                    purchase_details.putString("show_id", offerDet.getShow_id());
-                    Intent buyIntent;
-                    Log.w("Printing Show ID:", Integer.toString(tickets));
-                    if(offerDet.isDelivery()){
-                        buyIntent = new Intent(getActivity(), BookingPageDeliveryPurchase.class);
-                    }
-                    else {
-                        buyIntent = new Intent(getActivity(), BookingPageNoDeliveryPurchase.class);
-                    }
-                    buyIntent.putExtras(purchase_details);
-                    startActivity(buyIntent);
-                }
-            }
-        });
-
-        button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                int tickets = (int)spinner.getSelectedItem();
-                Intent buyIntent;
-                Bundle purchase_details = new Bundle();
-                purchase_details.putString("tickets", Integer.toString(tickets));
-                purchase_details.putString("show_id", offerDet.getShow_id());
-                    if(offerDet.isDelivery()){
-                        buyIntent = new Intent(getActivity(), BookingPageDeliveryPurchase.class);
-                    }
-                    else {
-                        buyIntent = new Intent(getActivity(), BookingPageNoDeliveryPurchase.class);
-                    }
-                buyIntent.putExtras(purchase_details);
-                startActivity(buyIntent);
-            }
-        });*/
-
     }
 
 }
