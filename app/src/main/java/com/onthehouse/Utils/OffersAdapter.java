@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -42,17 +43,19 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
         public TextView offersInfoText;
         public TextView offersShareText;
         public TextView offersUpgradeText;
+        public RatingBar ratingBar;
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.title);
-            thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
-            offersInfo = (ImageView) view.findViewById(R.id.offers_info);
-            offersShare = (ImageView) view.findViewById(R.id.offers_share);
-            offersUpgrade = (ImageView) view.findViewById(R.id.offers_upgrade);
-            offersInfoText = (TextView) view.findViewById(R.id.offers_info_text);
-            offersShareText = (TextView) view.findViewById(R.id.offers_share_text);
-            offersUpgradeText = (TextView) view.findViewById(R.id.offers_upgrade_text);
+            title = view.findViewById(R.id.title);
+            thumbnail = view.findViewById(R.id.thumbnail);
+            offersInfo = view.findViewById(R.id.offers_info);
+            offersShare = view.findViewById(R.id.offers_share);
+            offersUpgrade = view.findViewById(R.id.offers_upgrade);
+            offersInfoText = view.findViewById(R.id.offers_info_text);
+            offersShareText = view.findViewById(R.id.offers_share_text);
+            offersUpgradeText = view.findViewById(R.id.offers_upgrade_text);
+            ratingBar = view.findViewById(R.id.rb_offer_list);
         }
     }
 
@@ -73,6 +76,7 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Offers offers = offersList.get(position);
         holder.title.setText(offers.getName());
+        holder.ratingBar.setRating(offers.getRating());
 
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("GuestMember", Context.MODE_PRIVATE);
         boolean guestMember = sharedPreferences.getBoolean("GuestCheck", false);

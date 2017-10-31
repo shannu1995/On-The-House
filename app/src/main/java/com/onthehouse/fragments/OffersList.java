@@ -292,7 +292,8 @@ public class OffersList extends Fragment
                     {
                         imageUrl = "http://vollrath.com/ClientCss/images/VollrathImages/No_Image_Available.jpg";
                     }
-                    a = new Offers(offerDetails.get(i).getName(), imageUrl, Integer.toString(offerDetails.get(i).getOfferId()));
+
+                    a = new Offers(offerDetails.get(i).getName(), imageUrl, Integer.toString(offerDetails.get(i).getOfferId()), offerDetails.get(i).getRating());
                     offersList.add(a);
                 }
             }
