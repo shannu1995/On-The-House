@@ -125,8 +125,6 @@
             android:id="@+id/offer_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-
             <TextView
                 android:id="@+id/offer_about"
                 android:layout_width="0dp"
@@ -155,95 +153,86 @@
                 app:layout_constraintTop_toBottomOf="@+id/offer_about"
                 app:layout_constraintHorizontal_bias="0.051" />
 
-            <TextView
-                android:id="@+id/shows"
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/shows"
-                android:textColor="@color/textColor"
-                android:textSize="14sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/show_more"
-                android:layout_marginStart="16dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/shows"
+                android:padding="16dp"
                 android:id="@+id/show_details"
-                android:textColor="@color/textColor"
-                android:textSize="14sp"
-                android:layout_marginLeft="16dp" />
+                android:orientation="vertical"
+                android:weightSum="1">
+                <!--
+                <TextView
+                    android:id="@+id/shows"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/shows"
+                    android:textColor="@color/textColor"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColor"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="8dp" />
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/show_details"
-                android:text="@string/venue"
-                android:id="@+id/venue"
-                android:textColor="@color/textColor"
-                android:textSize="22sp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="15dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/venue"
+                    android:id="@+id/venue"
+                    android:textColor="@color/textColor"
+                    android:textSize="22sp"
+                    android:layout_marginTop="15dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/venue"
-                android:id="@+id/venue_details"
-                android:textColor="@color/textColor"
-                android:textSize="14sp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="15dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/venue"
+                    android:id="@+id/venue_details"
+                    android:textColor="@color/textColor"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="15dp" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/show_more"
+                    android:padding="15dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+                    <Button
+                        android:id="@+id/book_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Book Now"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:background="@drawable/rectangle_button"
+                        android:layout_weight="1" />
+                    <Spinner
+                        android:id="@+id/quantity_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="49dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginBottom="0dp"
+                        android:textStyle="bold"
+                        android:background="@drawable/gradient_spinner2"
+                        android:popupBackground="@drawable/spinner_edit_profile"
+                        android:layout_marginLeft="2dp"
+                        android:gravity="center"
+                        android:textAlignment="center" />
+                </LinearLayout>
+                -->
+            </LinearLayout>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:orientation="horizontal"
-        android:weightSum="1"
-        android:background="@drawable/spinner_edit_profile">
-
-        <Button
-            android:id="@+id/book_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="View Shows"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:background="@drawable/rectangle_button"
-            android:layout_weight="1" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="0">
-
-            <Spinner
-                android:id="@+id/quantity_list"
-                android:layout_width="wrap_content"
-                android:layout_height="49dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
-                android:textStyle="bold"
-                android:background="@drawable/gradient_spinner2"
-                android:popupBackground="@drawable/spinner_edit_profile"
-                android:layout_marginLeft="2dp"
-                android:gravity="center"
-                android:textAlignment="center" />
-
-        </LinearLayout>
-
-    </LinearLayout>
 </LinearLayout>
