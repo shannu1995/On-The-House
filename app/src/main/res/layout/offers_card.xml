@@ -46,8 +46,9 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/offer_image_border"
             android:clickable="true"
-            android:scaleType="centerCrop"
             android:cropToPadding="true"
+            android:scaleType="centerCrop"
+            android:tint="@color/colorAccent"
             card_view:layout_constraintHorizontal_bias="0.5"
             card_view:layout_constraintLeft_toLeftOf="parent"
             card_view:layout_constraintRight_toRightOf="parent"
@@ -60,11 +61,12 @@
             android:layout_height="35dp"
             android:layout_marginLeft="32dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/icon_more_info"
             android:clickable="true"
             android:scaleType="fitXY"
+            android:tint="@color/colorAccent"
             card_view:layout_constraintLeft_toLeftOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/thumbnail" />
+            card_view:layout_constraintTop_toBottomOf="@+id/thumbnail"
+            card_view:srcCompat="@drawable/icon_more_info" />
 
         <TextView
             android:id="@+id/offers_info_text"
@@ -95,11 +97,12 @@
             android:layout_marginTop="8dp"
             android:clickable="true"
             android:scaleType="fitXY"
+            android:tint="@color/colorAccent"
+            card_view:layout_constraintHorizontal_bias="0.502"
             card_view:layout_constraintLeft_toRightOf="@+id/offers_info"
             card_view:layout_constraintRight_toLeftOf="@+id/offers_share"
             card_view:layout_constraintTop_toBottomOf="@+id/thumbnail"
-            card_view:srcCompat="@drawable/icon_upgrade_to_gold"
-            card_view:layout_constraintHorizontal_bias="0.502" />
+            card_view:srcCompat="@drawable/icon_upgrade_to_gold" />
 
         <TextView
             android:id="@+id/offers_upgrade_text"
@@ -126,11 +129,12 @@
             android:layout_height="35dp"
             android:layout_marginRight="32dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/icon_share"
             android:clickable="true"
             android:scaleType="fitXY"
+            android:tint="@color/colorAccent"
             card_view:layout_constraintRight_toRightOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/thumbnail" />
+            card_view:layout_constraintTop_toBottomOf="@+id/thumbnail"
+            card_view:srcCompat="@drawable/icon_share" />
 
         <TextView
             android:id="@+id/offers_share_text"
@@ -139,17 +143,17 @@
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="0dp"
             android:layout_marginRight="0dp"
+            android:layout_marginTop="4dp"
             android:text="@string/offers_share"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/textColor"
             android:textStyle="bold"
             card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.461"
             card_view:layout_constraintLeft_toLeftOf="@+id/offers_share"
             card_view:layout_constraintRight_toRightOf="@+id/offers_share"
-            android:layout_marginTop="4dp"
-            card_view:layout_constraintTop_toBottomOf="@+id/offers_share"
-            card_view:layout_constraintHorizontal_bias="0.461" />
+            card_view:layout_constraintTop_toBottomOf="@+id/offers_share" />
 
 
     </android.support.constraint.ConstraintLayout>
