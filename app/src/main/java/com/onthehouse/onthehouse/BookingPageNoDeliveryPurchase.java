@@ -33,6 +33,9 @@ public class BookingPageNoDeliveryPurchase extends AppCompatActivity {
     public TextView paymentView;
     private String show_id;
     private String tickets;
+    private String is_admin_fee;
+    private String shipping_price = "none";
+    private String price;
     public String errorText = "";
     public ConstraintLayout layout;
     public ArrayList<String> inputList = new ArrayList<String>();
@@ -54,6 +57,8 @@ public class BookingPageNoDeliveryPurchase extends AppCompatActivity {
 
 
         Bundle extras = getIntent().getExtras();
+        this.setIs_admin_fee(extras.getString("admin_fee"));
+        this.setPrice(extras.getString("price"));
         this.setShow_id(extras.getString("show_id"));
         this.setTickets(extras.getString("tickets"));
 
@@ -116,9 +121,13 @@ public class BookingPageNoDeliveryPurchase extends AppCompatActivity {
 
     public void setShow_id(String show_id){this.show_id = show_id;}
     public String getShow_id(){return this.show_id;}
-
     public void setTickets(String tickets){this.tickets = tickets;}
     public String getTickets(){return this.tickets;}
+    public void setIs_admin_fee(String is_admin_fee){this.is_admin_fee = is_admin_fee;}
+    public String getIs_admin_fee(){return  this.is_admin_fee;}
+
+    public void setPrice(String price){this.price = price;}
+    public String getPrice(){return this.price;}
 
     public class pickUpAsyncData extends AsyncTask<ArrayList<String>, Void, Integer> {
         Context context;
@@ -196,28 +205,12 @@ public class BookingPageNoDeliveryPurchase extends AppCompatActivity {
 
                     }
                 }
+                extras.putString("is_admin_fee", getIs_admin_fee());
+                extras.putString("shipping_fee", shipping_price);
+                extras.putString("price", getPrice());
                 paymentActivity.putExtras(extras);
                 paymentActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(paymentActivity);
-//                try{
-//                    if(object.getString("paypal").equals("1")){
-//                        Bundle extras = new Bundle();
-//                        extras.putString("item_name",object.getString("item_name"));
-//                        extras.putString("item_sku",object.getString("item_sku"));
-//                        extras.putString("item_quantity",getTickets());
-//                        extras.putString("item_price", object.getString("item_price"));
-//                        extras.putString("reservation_id", object.getString("reservation_id"));
-//                        extras.putString("show_id", getShow_id());
-//                        extras.putString("tickets", getTickets());
-//                        paymentActivity.putExtras(extras);
-//                        paymentActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        context.startActivity(paymentActivity);
-//                    }
-//                    else{
-//                    }
-//                }catch(JSONException e){
-//                    Log.w("Error: JSON Exception", e);
-//                }
             }
 
             else if(result == 2)

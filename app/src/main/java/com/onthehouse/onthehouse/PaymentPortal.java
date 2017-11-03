@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
+import com.onthehouse.details.UtilMethods;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -45,6 +46,9 @@ public class PaymentPortal extends AppCompatActivity {
     TextView heading;
     TextView details;
     TextView result;
+    String shipping_price;
+    String is_admin_fee;
+    float price;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +66,9 @@ public class PaymentPortal extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         extras = getIntent().getExtras();
+        shipping_price = extras.getString("shipping_fee");
+        is_admin_fee = extras.getString("is_admin_fee");
+
         details.setText("Number of Tickets: "+extras.getString("tickets"));
         if(extras.getString("payment").equals("affiliate")){
             button.setVisibility(View.GONE);
@@ -80,7 +87,19 @@ public class PaymentPortal extends AppCompatActivity {
             inputList.add("&tickets="+extras.getString("tickets"));
             new reserveAsyncData(getApplicationContext(), result).execute(inputList);
         } else{
-
+            if(is_admin_fee.equals("true")) {
+                price = UtilMethods.tryParseFloat(extras.getString("price"));
+                details.append("\nAdmin Fee: "+Float.toString(price));
+            }else{
+                int number = UtilMethods.tryParseInt(extras.getString("tickets"));
+                price = UtilMethods.tryParseFloat(extras.getString("item_price")) * (float) number;
+                details.append("\nPrice for Each Ticket: "+extras.getString("item_price"));
+            }
+            if(!(shipping_price.equals("none"))){
+                details.append("\nDelivery Price: "+extras.getString("shipping_fee"));
+                price += UtilMethods.tryParseFloat(extras.getString("shipping_fee"));
+            }
+            details.append("\nTotal Price: "+ Float.toString(price));
         }
         service = new Intent(this, PayPalService.class);
         service.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
@@ -102,7 +121,7 @@ public class PaymentPortal extends AppCompatActivity {
     public void pay(View view){
         if(extras.getString("payment").equals("paypal")){
             PayPalPayment payment =
-                    new PayPalPayment(new BigDecimal(10), "AUD", "Paypal testing", PayPalPayment.PAYMENT_INTENT_SALE);
+                    new PayPalPayment(new BigDecimal(price), "AUD", "Reserving Tickets", PayPalPayment.PAYMENT_INTENT_SALE);
             Intent intent = new Intent(this, PaymentActivity.class);
             intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, configuration);
             intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);

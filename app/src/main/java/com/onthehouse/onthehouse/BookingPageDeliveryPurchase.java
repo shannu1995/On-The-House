@@ -41,6 +41,9 @@ public class BookingPageDeliveryPurchase extends AppCompatActivity {
 
     private String showId;
     private String tickets;
+    private String price;
+    private String is_admin_fee;
+    private String shipping_price;
     public String errorText = "";
 
     @Override
@@ -66,9 +69,11 @@ public class BookingPageDeliveryPurchase extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle extras = getIntent().getExtras();
-
-         this.setShowId(extras.getString("show_id"));
+        this.setIs_admin_fee(extras.getString("admin_fee"));
+        this.setShipping_price(extras.getString("shipping_fee"));
+        this.setShowId(extras.getString("show_id"));
         this.setTickets(extras.getString("tickets"));
+        this.setPrice(extras.getString("price"));
 
         final Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.show_source_array,
@@ -139,9 +144,14 @@ public class BookingPageDeliveryPurchase extends AppCompatActivity {
 
     public void setShowId(String showId){this.showId = showId;}
     public String getShowId(){return this.showId;}
-
+    public void setIs_admin_fee(String is_admin_fee){this.is_admin_fee = is_admin_fee;}
+    public String getIs_admin_fee(){return  this.is_admin_fee;}
+    public void setShipping_price(String shipping_price){this.shipping_price = shipping_price;}
+    public String getShipping_price(){return  this.shipping_price;}
     public void setTickets(String tickets){this.tickets = tickets;}
     public String getTickets(){return this.tickets;}
+    public void setPrice(String price){this.price = price;}
+    public String getPrice(){return this.price;}
 
     public class deliverAsyncData extends AsyncTask<ArrayList<String>, Void, Integer>{
         Context context;
@@ -219,6 +229,9 @@ public class BookingPageDeliveryPurchase extends AppCompatActivity {
 
                     }
                 }
+                extras.putString("is_admin_fee", getIs_admin_fee());
+                extras.putString("price", getPrice());
+                extras.putString("shipping_fee", getShipping_price());
                 paymentActivity.putExtras(extras);
                 paymentActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(paymentActivity);

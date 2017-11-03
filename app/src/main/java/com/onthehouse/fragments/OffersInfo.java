@@ -32,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -63,7 +64,9 @@ public class OffersInfo extends Fragment {
     ProgressButton book;
     LinearLayout showDetailsLayout;
     boolean admin_fee;
-    boolean is_shipping;
+    Button book_now;
+    String shipping_fee;
+    String price;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -140,6 +143,7 @@ public class OffersInfo extends Fragment {
                 JSONArray wrongShowsArray = offerDet.getWrongShowsArray();
                 JSONArray showsArray = offerDet.getShowsArray();
                 for(int i = 0; i < showsArray.length(); i++){
+                    admin_fee = false;
                     ArrayAdapter adapter;
                     JSONObject eachShow = showsArray.getJSONObject(i);
                     JSONObject venue = eachShow.getJSONObject("venue");
@@ -157,12 +161,16 @@ public class OffersInfo extends Fragment {
                     show_details_array = eachShow.getJSONArray("shows");
 
                     final JSONObject show_details_object = show_details_array.getJSONObject(0);
-                    String is_admin_fee = show_details_object.getString("is_admin_fee");
+                    final String is_admin_fee = show_details_object.getString("is_admin_fee");
                     if(is_admin_fee.equals("1")){
+                        Log.w("REGISTERED????", "Yes, there is admin fee");
                         admin_fee = true;
-                    }else {
+                    }else if(is_admin_fee.equals("0")) {
+                        Log.w("UN_REGISTERED????", "NO, there is no admin fee");
                         admin_fee = false;
                     }
+                    price = show_details_object.getString("price");
+                    shipping_fee = show_details_object.getString("shipping_price");
                     long startDateL = UtilMethods.tryParseInt(show_details_object.getString("show_date"));
                     Date startDate = new Date(startDateL * 1000);
                     long endDateL = UtilMethods.tryParseInt(show_details_object.getString("show_date2"));
@@ -177,10 +185,11 @@ public class OffersInfo extends Fragment {
                     showsHeading.setText("Shows");
                     showsHeading.setTextColor(Color.BLACK);
                     showsHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+                    showsHeading.setPadding(0,16,0,16);
                     showDetailsLayout.addView(showsHeading);
 
                     TextView offerShowTimes = new TextView(context);
-                    offerShowTimes.setText("From " +startDateStr + " to " + endDateStr);
+                    offerShowTimes.setText(startDateStr + " until " + endDateStr);
                     offerShowTimes.setTextColor(Color.BLACK);
                     showDetailsLayout.addView(offerShowTimes);
 
@@ -188,51 +197,69 @@ public class OffersInfo extends Fragment {
                     venueHeading.setText("Venue");
                     venueHeading.setTextColor(Color.BLACK);
                     venueHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+                    venueHeading.setPadding(0,16,0,16);
                     showDetailsLayout.addView(venueHeading);
 
                     TextView venueDetails = new TextView(context);
                     venueDetails.setText(venueAddress);
                     venueDetails.setTextColor(Color.BLACK);
+                    venueDetails.setPadding(0,0,0,16);
                     showDetailsLayout.addView(venueDetails);
 
                     LinearLayout booking_layout = new LinearLayout(context);
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
-                    booking_layout.setOrientation(LinearLayout.HORIZONTAL);;
-                    final Button book_now = new Button(context);
-                    book_now.setText("Book Now");
-                    book_now.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-                    book_now.setTextColor(Color.WHITE);
-                    book_now.setBackground(getResources().getDrawable(R.drawable.rectangle_button));
-                    book_now.setId(UtilMethods.tryParseInt(show_details_object.getString("id")));
-                    book_now.setLayoutParams(layoutParams);
-                    booking_layout.addView(book_now);
-                    booking_layout.setLayoutParams(layoutParams);
+                    booking_layout.setOrientation(LinearLayout.HORIZONTAL);
+                    book_now = view.findViewById(R.id.book_button);
+                    if(!offerDet.isCompt()){
+                        book_now.setVisibility(Button.GONE);
+                        book_now = new Button(context);
+                        book_now.setText("Book Now");
+                        book_now.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+                        book_now.setTextColor(Color.WHITE);
+                        book_now.setBackground(getResources().getDrawable(R.drawable.rectangle_button));
+                        book_now.setId(UtilMethods.tryParseInt(show_details_object.getString("id")));
+                        book_now.setLayoutParams(layoutParams);
+                        book_now.setPadding(0,16,0,16);
+                        booking_layout.addView(book_now);
+                        booking_layout.setLayoutParams(layoutParams);
 
-
-                    final Spinner spinner = new Spinner(context);
-                    spinner.setBackground(getResources().getDrawable(R.drawable.gradient_spinner2));
-                    spinner.setId(book_now.getId());
-                    spinner.setTag(book_now.getId());
-                    int spinnerHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 49, getResources().getDisplayMetrics());
-                    LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                            spinnerHeight, 1.0f);
-                    final ArrayList<Integer> quantities = new ArrayList<Integer>();
-                    JSONArray quantitiesArray = show_details_object.getJSONArray("quantities");
-                    if(quantitiesArray != null) {
-                        for (int j = 0; j < quantitiesArray.length(); j++) {
-                            quantities.add(quantitiesArray.getInt(j));
-                            Log.w("qty: ", Integer.toString(quantitiesArray.getInt(j)));
+                        final Spinner spinner = new Spinner(context);
+                        spinner.setBackground(getResources().getDrawable(R.drawable.gradient_spinner2));
+                        spinner.setId(book_now.getId());
+                        float tag = admin_fee ? 1 : 0;
+                        spinner.setTag(tag);
+                        spinner.setMinimumHeight((int)(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 49, getResources().getDisplayMetrics())));
+                        int spinnerHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 49, getResources().getDisplayMetrics());
+                        LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                                spinnerHeight, 1.0f);
+                        final ArrayList<Integer> quantities = new ArrayList<Integer>();
+                        JSONArray quantitiesArray = show_details_object.getJSONArray("quantities");
+                        if(quantitiesArray != null) {
+                            for (int j = 0; j < quantitiesArray.length(); j++) {
+                                quantities.add(quantitiesArray.getInt(j));
+                                Log.w("qty: ", Integer.toString(quantitiesArray.getInt(j)));
+                            }
                         }
+                        adapter = new ArrayAdapter<Integer>(view.getContext(),
+                                R.layout.spinner_item,
+                                quantities);
+                        spinner.setAdapter(adapter);
+                        spinner.setSelection(0);
+                        spinner.setPrompt("Tickets / Qty");
+                        booking_layout.addView(spinner);
+                        showDetailsLayout.addView(booking_layout, layoutParams);
                     }
-                    adapter = new ArrayAdapter<Integer>(view.getContext(),
-                            R.layout.spinner_item,
-                            quantities);
-                    spinner.setAdapter(adapter);
-                    spinner.setSelection(0);
-                    spinner.setPrompt("Tickets / Qty");
-                    booking_layout.addView(spinner);
-                    showDetailsLayout.addView(booking_layout, layoutParams);
+                    if(show_details_object.getString("date_hide").equals("1")){
+                        offerShowTimes.setVisibility(TextView.GONE);
+                        showsHeading.setVisibility(TextView.GONE);
+                    }
+                    if(show_details_object.getString("time_hide").equals("1")){
+                        SimpleDateFormat dateFormatWithoutTime = new SimpleDateFormat("dd/MM/yyyy");
+                        startDateStr = dateFormatWithoutTime.format(startDate);
+                        endDateStr = dateFormatWithoutTime.format(endDate);
+                        offerShowTimes.setText(startDateStr + " until " + endDateStr);
+                    }
                     book_now.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v){
@@ -246,16 +273,26 @@ public class OffersInfo extends Fragment {
                             }else{
                                 Spinner selected_spinner = (Spinner)((LinearLayout)book_now.getParent()).getChildAt(1);
                                 int tickets = (int)selected_spinner.getSelectedItem();
+                                float tag = (float)selected_spinner.getTag();
+                                Log.w("AdminFeeInStringForm", Float.toString(tag));
                                 Intent buyIntent;
                                 Bundle purchase_details = new Bundle();
                                 purchase_details.putString("tickets", Integer.toString(tickets));
                                 purchase_details.putString("show_id", Integer.toString(book_now.getId()));
+                                if(tag == 1.0){
+                                    purchase_details.putString("admin_fee", "true");
+                                }else{
+                                    purchase_details.putString("admin_fee", "false");
+                                }
                                 if(offerDet.isDelivery()){
+                                    purchase_details.putString("shipping_fee", shipping_fee);
                                     buyIntent = new Intent(getActivity(), BookingPageDeliveryPurchase.class);
                                 }
                                 else {
+                                    purchase_details.putString("shipping_fee", "0");
                                     buyIntent = new Intent(getActivity(), BookingPageNoDeliveryPurchase.class);
                                 }
+                                purchase_details.putString("price", price);
                                 buyIntent.putExtras(purchase_details);
                                 startActivity(buyIntent);
                             }
