@@ -157,4 +157,9 @@
     <string name="terms_and_conditions">Terms And Conditions</string>
     <string name="show_more">...show more</string>
     <string name="show_less">...show less</string>
+    <string name="title_activity_event_details">EventDetails</string>
+    <string name="action_settings">Settings</string>
+    <string name="about_event">About this event</string>
+    <string name="view_more">View More</string>
+    <string name="view_less">View Less</string>
 </resources>

@@ -46,6 +46,7 @@ import java.util.ArrayList;
 public class MembershipFragment extends Fragment {
 
     private static final String TAG = "MembershipFragment";
+    int requestCode = 999;
     private RadioGroup membershipLevel;
     private RadioButton gold_radio, bronze_radio;
     private Button btn_change_membership;
@@ -60,7 +61,6 @@ public class MembershipFragment extends Fragment {
     private MembershipLevels bronze_level;
     //Pay pal
     private PayPalConfiguration configuration;
-    int requestCode = 999;
 
     public MembershipFragment() {
         // Required empty public constructor
@@ -306,7 +306,6 @@ public class MembershipFragment extends Fragment {
                     String result = obj.getString("status");
 
                     if (result.equals("success")) {
-                        System.out.println(output);
                         try {
                             JSONArray memArray = obj.getJSONArray("membership_levels");
                             for (int i = 0; i < memArray.length(); i++) {

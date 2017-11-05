@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.onthehouse.Utils.DrawerLocker;
 import com.onthehouse.details.Member;
-import com.onthehouse.fragments.AboutFragment;
 import com.onthehouse.fragments.AccountFragment;
 import com.onthehouse.fragments.ChangePasswordFragment;
 import com.onthehouse.fragments.EditMemberFragment;
@@ -28,6 +27,7 @@ import com.onthehouse.fragments.MembershipFragment;
 import com.onthehouse.fragments.MyPastOfferings;
 import com.onthehouse.fragments.OffersList;
 import com.onthehouse.fragments.PastOffersList;
+import com.onthehouse.newUI.OfferListRedesign;
 
 public class MainMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DrawerLocker {
@@ -149,7 +149,9 @@ public class MainMenu extends AppCompatActivity
                 offerListFragment = false;
                 break;
             case R.id.nav_about:
-                fragmentClass = AboutFragment.class;
+
+                //fragmentClass = AboutFragment.class;
+                fragmentClass = OfferListRedesign.class;
                 offerListFragment = false;
                 break;
             case R.id.nav_logout:

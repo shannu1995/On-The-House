@@ -13,11 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".SplashScreen"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/LoginTheme"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,11 +27,12 @@
         <activity
             android:name=".OnTheMain"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/LoginTheme"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".ResetPassword"
             android:screenOrientation="portrait"
+            android:theme="@style/ResetTheme"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".MainMenu"
@@ -53,8 +53,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.onthehouse.guest.GuestMain"
+            android:label="@string/title_activity_guest_main"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.onthehouse.newUI.EventDetails"
+            android:label="@string/title_activity_event_details"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_guest_main" />
+            android:theme="@style/MyTheme.Detail" />
     </application>
 
 </manifest>
