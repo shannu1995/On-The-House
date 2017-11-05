@@ -38,14 +38,13 @@ public class OfferListAdapter extends RecyclerView.Adapter<OfferListAdapter.MyVi
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        //Make title scrollable
         holder.title.setText(events.get(position).getName());
 
         holder.ratingBar.setRating(events.get(position).getRating());
         holder.desc.setText(events.get(position).getDescription());
 
         int colorRes = 0;
-        switch (position % 7) {
+        switch (position % 6) {
             case 0:
                 colorRes = R.color.tile_1;
                 break;
@@ -64,13 +63,11 @@ public class OfferListAdapter extends RecyclerView.Adapter<OfferListAdapter.MyVi
             case 5:
                 colorRes = R.color.tile_6;
                 break;
-            case 6:
-                colorRes = R.color.tile_7;
-                break;
             default:
-                colorRes = R.color.tile_7;
+                colorRes = R.color.tile_1;
                 break;
         }
+
         holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, colorRes));
 
         Glide.with(context).load(events.get(position).getImage_url()).into(holder.thumbnail);
