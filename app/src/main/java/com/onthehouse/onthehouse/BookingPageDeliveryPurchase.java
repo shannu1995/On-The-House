@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,6 +46,7 @@ public class BookingPageDeliveryPurchase extends AppCompatActivity {
     private String is_admin_fee;
     private String shipping_price;
     public String errorText = "";
+    private MaterialEditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class BookingPageDeliveryPurchase extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_page_delivery_purchase);
 
-        final EditText editText = (EditText) findViewById(R.id.editText2);
+        editText = (MaterialEditText) findViewById(R.id.elaborate);
         layout = (ConstraintLayout) findViewById(R.id.deliveryLayout);
         firstName = (MaterialEditText) findViewById(R.id.first_name);
         lastName = (MaterialEditText) findViewById(R.id.last_name);
@@ -106,12 +108,22 @@ public class BookingPageDeliveryPurchase extends AppCompatActivity {
                 inputList.add("&shipping_phone="+phone.getText().toString());
                 inputList.add("&shipping_save_info=1");
                 inputList.add("&question_id="+Integer.toString(spinner.getSelectedItemPosition()));
-                inputList.add("&question_text="+((EditText) findViewById(R.id.editText2)).getText().toString());
+                inputList.add("&question_text="+(editText.getText().toString()));
                 for (int i = 0; i < inputList.size(); i ++){
                     Log.w("Info: ", inputList.get(i));
                     Log.w("","\n");
                 }
-                new deliverAsyncData(getApplicationContext()).execute(inputList);
+                int size = editText.getText().toString().length();
+                Log.w("SHOULDBEEMPTY!", Integer.toString(size) + "why?");
+                if(editText.getVisibility() != EditText.GONE && size == 0){
+                    Snackbar.make(layout, "Please Elaborate.", Snackbar.LENGTH_LONG).show();
+                }else{
+                    if(spinner.getSelectedItemPosition() == 0){
+                        Snackbar.make(layout, "Please choose how you've discovered this event.", Snackbar.LENGTH_LONG).show();
+                    }else{
+                        new deliverAsyncData(getApplicationContext()).execute(inputList);
+                    }
+                }
             }
         });
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
@@ -121,10 +133,10 @@ public class BookingPageDeliveryPurchase extends AppCompatActivity {
                 if(parent.getItemAtPosition(pos).equals("Which website?") ||
                         parent.getItemAtPosition(pos).equals("If Google search, what did you search for?") ||
                         parent.getItemAtPosition(pos).equals("Please provide details of how you heard of this show?")){
-                    findViewById(R.id.editText2).setVisibility(View.VISIBLE);
+                    findViewById(R.id.elaborate).setVisibility(View.VISIBLE);
                 }
                 else{
-                    findViewById(R.id.editText2).setVisibility(View.GONE);
+                    findViewById(R.id.elaborate).setVisibility(View.GONE);
                 }
             }
             @Override

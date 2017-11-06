@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Member;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -38,6 +40,7 @@ public class BookingPageNoDeliveryPurchase extends AppCompatActivity {
     private String price;
     public String errorText = "";
     public ConstraintLayout layout;
+    public MaterialEditText editText;
     public ArrayList<String> inputList = new ArrayList<String>();
 
 
@@ -49,7 +52,7 @@ public class BookingPageNoDeliveryPurchase extends AppCompatActivity {
 
 
         layout = (ConstraintLayout) findViewById(R.id.pickUpLayout);
-        final EditText editText = (EditText) findViewById(R.id.editText2);
+        editText = (MaterialEditText) findViewById(R.id.elaborate);
         confirmButton = (ProgressButton) findViewById(R.id.confirm_delivery);
 
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -83,12 +86,21 @@ public class BookingPageNoDeliveryPurchase extends AppCompatActivity {
                 inputList.add("&shipping_phone=null");
                 inputList.add("&shipping_save_info=1");
                 inputList.add("&question_id="+Integer.toString(spinner.getSelectedItemPosition()));
-                inputList.add("&question_text="+((EditText) findViewById(R.id.editText2)).getText().toString());
+                inputList.add("&question_text="+((EditText) findViewById(R.id.elaborate)).getText().toString());
                 for (int i = 0; i < inputList.size(); i ++){
                     Log.w("Info: ", inputList.get(i));
                     Log.w("","\n");
                 }
-                new pickUpAsyncData(getApplicationContext()).execute(inputList);
+                int size = editText.getText().toString().length();
+                if(editText.getVisibility() != EditText.GONE && size == 0) {
+                    Snackbar.make(layout, "Please Elaborate.", Snackbar.LENGTH_LONG).show();
+                }else{
+                    if(spinner.getSelectedItemPosition() == 0){
+                        Snackbar.make(layout, "Please choose how you've discovered this event.", Snackbar.LENGTH_LONG).show();
+                    }else{
+                        new pickUpAsyncData(getApplicationContext()).execute(inputList);
+                    }
+                }
             }
         });
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
@@ -98,10 +110,10 @@ public class BookingPageNoDeliveryPurchase extends AppCompatActivity {
                 if(parent.getItemAtPosition(pos).equals("Which website?") ||
                         parent.getItemAtPosition(pos).equals("If Google search, what did you search for?") ||
                         parent.getItemAtPosition(pos).equals("Please provide details of how you heard of this show?")){
-                    findViewById(R.id.editText2).setVisibility(View.VISIBLE);
+                    findViewById(R.id.elaborate).setVisibility(View.VISIBLE);
                 }
                 else{
-                    findViewById(R.id.editText2).setVisibility(View.GONE);
+                    findViewById(R.id.elaborate).setVisibility(View.GONE);
                 }
             }
             @Override

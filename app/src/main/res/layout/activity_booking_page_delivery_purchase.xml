@@ -246,7 +246,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/editText2"
+            android:id="@+id/elaborate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/black"
@@ -280,7 +280,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText2" />
+            app:layout_constraintTop_toBottomOf="@+id/elaborate" />
 
         <android.support.constraint.Guideline
             android:layout_width="wrap_content"
