@@ -4,24 +4,30 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.onthehouse.Utils.DrawerLocker;
+import com.onthehouse.connection.APIConnection;
+import com.onthehouse.details.Category;
 import com.onthehouse.details.Member;
 import com.onthehouse.fragments.AboutFragment;
 import com.onthehouse.fragments.AccountFragment;
@@ -32,6 +38,12 @@ import com.onthehouse.fragments.MyPastOfferings;
 import com.onthehouse.fragments.OffersList;
 import com.onthehouse.fragments.PastOffersList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.security.acl.Group;
+import java.util.ArrayList;
+
 public class MainMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DrawerLocker {
 
@@ -41,12 +53,18 @@ public class MainMenu extends AppCompatActivity
     boolean offerListFragment;
     Toolbar toolbar;
     NavigationView navigationView;
+    private Menu options_menu;
+    private ArrayList<Category> categoriesArrayList;
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        categoriesArrayList = new ArrayList<Category>();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("On The House");
@@ -58,6 +76,9 @@ public class MainMenu extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        Drawable filter = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_filter_white);
+        toolbar.setOverflowIcon(filter);
+
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.offers);
@@ -68,12 +89,12 @@ public class MainMenu extends AppCompatActivity
 
         navName.setText(Member.getInstance().getFirst_name() + " " + Member.getInstance().getLast_name());
         navEmail.setText(Member.getInstance().getEmail());
-
-        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-        tx.replace(R.id.frame_container, new OffersList());
-        tx.commit();
+            FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+            tx.replace(R.id.frame_container, new OffersList());
+            tx.commit();
         offerListFragment = true;
 
+        new getCategoriesAsyncData().execute();
     }
 
     @Override
@@ -114,11 +135,35 @@ public class MainMenu extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.filter, menu);
+        options_menu = menu;
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        menu.clear();
+        getMenuInflater().inflate(R.menu.filter, menu);
+        MenuItem category_item = menu.findItem(R.id.category_item);
+        SubMenu category_submenu = category_item.getSubMenu();
+        for(int i = 0; i < categoriesArrayList.size(); i ++){
+            category_submenu.add(R.id.category_group, i, i, categoriesArrayList.get(i).getName());
+            MenuItem tempItem = category_submenu.getItem(i);
+            tempItem.setCheckable(true);
+            category_submenu.setGroupCheckable(R.id.category_group, true, false);
+        }
+        /*
+        for(int i = 0; i < 4; i ++){
+            category_submenu.add(R.id.category_group, i, i, "category " + Integer.toString(i));
+            MenuItem tempItem = category_submenu.getItem(i);
+            tempItem.setCheckable(true);
+            category_submenu.setGroupCheckable(R.id.category_group, true, false);
+        }
+        */
+        options_menu = menu;
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -197,5 +242,53 @@ public class MainMenu extends AppCompatActivity
         return true;
     }
 
+    private class getCategoriesAsyncData extends AsyncTask<Void, Void, Integer> {
 
+        @Override
+        protected void onPreExecute() {
+            //Lock Drawer While Loading
+        }
+        @Override
+        protected Integer doInBackground(Void... params) {
+            int status = 0;
+            APIConnection connection = new APIConnection();
+            try {
+                String output = connection.sendGet("/api/v1/categories");
+                if(output.length() > 0){
+                    JSONObject obj = new JSONObject(output);
+                    String result = obj.getString("status");
+                    if (result.equals("success")) {
+                        Log.w("CATRESULTS", obj.toString());
+                        JSONArray category_array = new JSONArray();
+                        category_array = obj.getJSONArray("categories");
+                        for(int i = 0; i < category_array.length(); i++){
+                            Log.w("FUCKINGHELL!!", Integer.toString(i));
+                            JSONObject ind_category_json = new JSONObject();
+                            ind_category_json = category_array.getJSONObject(i);
+                            Category ind_category = new Category();
+                            ind_category.setId(ind_category_json.getString("id"));
+                            ind_category.setParent_id(ind_category_json.getString("parent_id"));
+                            ind_category.setName(ind_category_json.getString("name"));
+                            ind_category.setDescription(ind_category_json.getString("description"));
+                            ind_category.setImage(ind_category_json.getString("image"));
+                            ind_category.setType(ind_category_json.getString("type"));
+                            categoriesArrayList.add(ind_category);
+                            invalidateOptionsMenu();
+                        }
+                        status = 1;
+                    }else{
+                        status = 2;
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                status = 3;
+            }
+            return status;
+        }
+        @Override
+        protected void onPostExecute(Integer integer) {
+
+        }
+    }
 }
