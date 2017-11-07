@@ -16,6 +16,13 @@
     <item
         android:id="@+id/state_item"
         android:title="State">
+        <menu
+            android:id="@+id/state_sub_menu">
+            <group
+                android:id="@+id/state_group"
+                android:checkableBehavior="all">
+            </group>
+        </menu>
     </item>
     <item
         android:id="@+id/date_item"

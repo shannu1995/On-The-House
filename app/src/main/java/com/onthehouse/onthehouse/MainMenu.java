@@ -29,6 +29,8 @@ import com.onthehouse.Utils.DrawerLocker;
 import com.onthehouse.connection.APIConnection;
 import com.onthehouse.details.Category;
 import com.onthehouse.details.Member;
+import com.onthehouse.details.UtilMethods;
+import com.onthehouse.details.Zone;
 import com.onthehouse.fragments.AboutFragment;
 import com.onthehouse.fragments.AccountFragment;
 import com.onthehouse.fragments.ChangePasswordFragment;
@@ -48,16 +50,13 @@ public class MainMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DrawerLocker {
 
     DrawerLayout drawer;
-    DrawerLayout filter;
     ActionBarDrawerToggle toggle;
     boolean offerListFragment;
     Toolbar toolbar;
     NavigationView navigationView;
     private Menu options_menu;
     private ArrayList<Category> categoriesArrayList;
-
-
-
+    private ArrayList<Zone> zoneArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +64,7 @@ public class MainMenu extends AppCompatActivity
         setContentView(R.layout.activity_main_menu);
 
         categoriesArrayList = new ArrayList<Category>();
+        zoneArrayList = new ArrayList<Zone>();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("On The House");
@@ -95,6 +95,7 @@ public class MainMenu extends AppCompatActivity
         offerListFragment = true;
 
         new getCategoriesAsyncData().execute();
+        new getStatesAsyncData().execute();
     }
 
     @Override
@@ -146,6 +147,7 @@ public class MainMenu extends AppCompatActivity
     public boolean onPrepareOptionsMenu(Menu menu){
         menu.clear();
         getMenuInflater().inflate(R.menu.filter, menu);
+
         MenuItem category_item = menu.findItem(R.id.category_item);
         SubMenu category_submenu = category_item.getSubMenu();
         for(int i = 0; i < categoriesArrayList.size(); i ++){
@@ -154,14 +156,15 @@ public class MainMenu extends AppCompatActivity
             tempItem.setCheckable(true);
             category_submenu.setGroupCheckable(R.id.category_group, true, false);
         }
-        /*
-        for(int i = 0; i < 4; i ++){
-            category_submenu.add(R.id.category_group, i, i, "category " + Integer.toString(i));
-            MenuItem tempItem = category_submenu.getItem(i);
+
+        MenuItem state_item = menu.findItem(R.id.state_item);
+        SubMenu state_itemSubMenu = state_item.getSubMenu();
+        for(int i = 0; i < zoneArrayList.size(); i ++){
+            state_itemSubMenu.add(R.id.state_group, i, i, zoneArrayList.get(i).getName());
+            MenuItem tempItem = state_itemSubMenu.getItem(i);
             tempItem.setCheckable(true);
-            category_submenu.setGroupCheckable(R.id.category_group, true, false);
+            state_itemSubMenu.setGroupCheckable(R.id.state_group, true, false);
         }
-        */
         options_menu = menu;
         return super.onPrepareOptionsMenu(menu);
     }
@@ -289,6 +292,54 @@ public class MainMenu extends AppCompatActivity
         @Override
         protected void onPostExecute(Integer integer) {
 
+        }
+    }
+
+    private class getStatesAsyncData extends AsyncTask<Void, Void, Integer>{
+        @Override
+        protected void onPreExecute() {
+            //Lock Drawer While Loading
+        }
+        @Override
+        protected Integer doInBackground(Void... params) {
+            int status = 0;
+            APIConnection connection = new APIConnection();
+            try {
+                String output = connection.sendGet("/api/v1/zones/"+Integer.toString(Member.getInstance().getCountry_id()));
+                if (output.length() > 0) {
+                    JSONObject obj = new JSONObject(output);
+                    Log.w("FUCKSUCKDICK", obj.toString());
+                    String result = obj.getString("status");
+                    if (result.equals("success")) {
+                        try{
+                            JSONArray zones = obj.getJSONArray("zones");
+                            for (int i = 0; i <zones.length(); i++)
+                            {
+                                Zone zone = new Zone();
+                                JSONObject jObj = zones.getJSONObject(i);
+                                zone.setId(UtilMethods.tryParseInt(jObj.getString("id")));
+                                zone.setCountry_id(UtilMethods.tryParseInt(jObj.getString("country_id")));
+                                zone.setCode(jObj.getString("code"));
+                                zone.setName(jObj.getString("name"));
+                                System.out.println(zone);
+                                zoneArrayList.add(zone);
+                                invalidateOptionsMenu();
+                            }
+                            status = 1;
+                        }catch (Exception e){
+                            status = 3;
+                        }
+                    }else{
+                        status = 2;
+                    }
+                }
+            }catch (Exception e){
+                status = 3;
+            }
+            return status;
+        }
+        @Override
+        protected void onPostExecute(Integer integer) {
         }
     }
 }
