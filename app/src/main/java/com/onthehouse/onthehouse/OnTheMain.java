@@ -1,6 +1,7 @@
 package com.onthehouse.onthehouse;
 
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
@@ -10,22 +11,28 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.onthehouse.Utils.ViewPagerAdapter;
 import com.onthehouse.fragments.LoginActivity;
 import com.onthehouse.fragments.RegisterActivity;
 
-/**
- * Created by anashanifm on 11/9/17.
- */
-
 public class OnTheMain extends AppCompatActivity{
+
     ImageView imageView;
     Boolean anim = false;
+    AnimationDrawable animationDrawable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        LinearLayout layout = (LinearLayout) findViewById(R.id.onthemain);
+        animationDrawable = (AnimationDrawable) layout.getBackground();
+        animationDrawable.setEnterFadeDuration(4000);
+        animationDrawable.setExitFadeDuration(1000);
+
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setVisibility(View.INVISIBLE);
@@ -64,6 +71,20 @@ public class OnTheMain extends AppCompatActivity{
             }
         }, 1000);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (animationDrawable != null && !animationDrawable.isRunning())
+            animationDrawable.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (animationDrawable != null && animationDrawable.isRunning())
+            animationDrawable.stop();
     }
 
     @Override
