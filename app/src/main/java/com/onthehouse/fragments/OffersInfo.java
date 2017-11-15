@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.TypedValue;
@@ -21,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.onthehouse.details.Member;
 import com.onthehouse.details.OfferDetail;
 import com.onthehouse.details.UtilMethods;
 import com.onthehouse.onthehouse.BookingPageCompetition;
@@ -32,10 +34,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.TimeZone;
 
 import cn.xm.weidongjian.progressbuttonlib.ProgressButton;
@@ -140,8 +144,9 @@ public class OffersInfo extends Fragment {
         ratingBar.setRating(offerDet.getRating());
 
             try {
-                JSONArray wrongShowsArray = offerDet.getWrongShowsArray();
                 JSONArray showsArray = offerDet.getShowsArray();
+                final ArrayList<Button> buttons = new ArrayList<Button>();
+                final HashMap<Integer, String> delivery_map = new HashMap<>();
                 for(int i = 0; i < showsArray.length(); i++){
                     admin_fee = false;
                     ArrayAdapter adapter;
@@ -163,10 +168,8 @@ public class OffersInfo extends Fragment {
                     final JSONObject show_details_object = show_details_array.getJSONObject(0);
                     final String is_admin_fee = show_details_object.getString("is_admin_fee");
                     if(is_admin_fee.equals("1")){
-                        Log.w("REGISTERED????", "Yes, there is admin fee");
                         admin_fee = true;
                     }else if(is_admin_fee.equals("0")) {
-                        Log.w("UN_REGISTERED????", "NO, there is no admin fee");
                         admin_fee = false;
                     }
                     price = show_details_object.getString("price");
@@ -182,7 +185,11 @@ public class OffersInfo extends Fragment {
                     String endDateStr = dateFormat.format(endDate);
 
                     TextView showsHeading = new TextView(context);
-                    showsHeading.setText("Shows");
+                    String heading = eachShow.getString("shows_heading");
+                    if(heading.contains("amp;")){
+                        heading = heading.replace("amp;","");
+                    }
+                    showsHeading.setText(heading);
                     showsHeading.setTextColor(Color.BLACK);
                     showsHeading.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
                     showsHeading.setPadding(0,16,0,16);
@@ -219,8 +226,11 @@ public class OffersInfo extends Fragment {
                         book_now.setTextColor(Color.WHITE);
                         book_now.setBackground(getResources().getDrawable(R.drawable.rectangle_button));
                         book_now.setId(UtilMethods.tryParseInt(show_details_object.getString("id")));
+                        book_now.setTag(show_details_object.getString("membership_level_id"));
                         book_now.setLayoutParams(layoutParams);
                         book_now.setPadding(0,16,0,16);
+                        delivery_map.put(book_now.getId(), show_details_object.getString("shipping"));
+                        buttons.add(book_now);
                         booking_layout.addView(book_now);
                         booking_layout.setLayoutParams(layoutParams);
 
@@ -271,30 +281,40 @@ public class OffersInfo extends Fragment {
                                 competeIntent.putExtras(competeDetails);
                                 startActivity(competeIntent);
                             }else{
-                                Spinner selected_spinner = (Spinner)((LinearLayout)book_now.getParent()).getChildAt(1);
-                                int tickets = (int)selected_spinner.getSelectedItem();
-                                float tag = (float)selected_spinner.getTag();
-                                Log.w("AdminFeeInStringForm", Float.toString(tag));
-                                Intent buyIntent;
-                                Bundle purchase_details = new Bundle();
-                                purchase_details.putString("tickets", Integer.toString(tickets));
-                                purchase_details.putString("show_id", Integer.toString(book_now.getId()));
-                                if(tag == 1.0){
-                                    purchase_details.putString("admin_fee", "true");
-                                }else{
-                                    purchase_details.putString("admin_fee", "false");
+                                for(int j = 0; j < buttons.size(); j++ ){
+                                    Log.w("Tag of all events", buttons.get(j).getTag().toString());
+                                    if(v.getId() == buttons.get(j).getId()){
+                                        if (buttons.get(j).getTag().equals("3") && Member.getInstance().getMembership_level_id() == 3){;
+                                            Snackbar.make(layout, "You must be a gold member to reserve tickets to this show." +
+                                                    " Please update your membership", Snackbar.LENGTH_LONG).show();
+                                        }else{
+                                            Spinner selected_spinner = (Spinner)((LinearLayout)v.getParent()).getChildAt(1);
+                                            int tickets = (int)selected_spinner.getSelectedItem();
+                                            float tag = (float)selected_spinner.getTag();
+                                            Log.w("AdminFeeInStringForm", Float.toString(tag));
+                                            Intent buyIntent;
+                                            Bundle purchase_details = new Bundle();
+                                            purchase_details.putString("tickets", Integer.toString(tickets));
+                                            purchase_details.putString("show_id", Integer.toString(v.getId()));
+                                            if(tag == 1.0){
+                                                purchase_details.putString("admin_fee", "true");
+                                            }else{
+                                                purchase_details.putString("admin_fee", "false");
+                                            }
+                                            if(delivery_map.get(v.getId()).equals("1")){
+                                                purchase_details.putString("shipping_fee", shipping_fee);
+                                                buyIntent = new Intent(getActivity(), BookingPageDeliveryPurchase.class);
+                                            }
+                                            else {
+                                                purchase_details.putString("shipping_fee", "0");
+                                                buyIntent = new Intent(getActivity(), BookingPageNoDeliveryPurchase.class);
+                                            }
+                                            purchase_details.putString("price", price);
+                                            buyIntent.putExtras(purchase_details);
+                                            startActivity(buyIntent);
+                                        }
+                                    }
                                 }
-                                if(offerDet.isDelivery()){
-                                    purchase_details.putString("shipping_fee", shipping_fee);
-                                    buyIntent = new Intent(getActivity(), BookingPageDeliveryPurchase.class);
-                                }
-                                else {
-                                    purchase_details.putString("shipping_fee", "0");
-                                    buyIntent = new Intent(getActivity(), BookingPageNoDeliveryPurchase.class);
-                                }
-                                purchase_details.putString("price", price);
-                                buyIntent.putExtras(purchase_details);
-                                startActivity(buyIntent);
                             }
                         }
                     });

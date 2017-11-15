@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.onthehouse.Utils.DrawerLocker;
 import com.onthehouse.Utils.OffersAdapter;
 import com.onthehouse.connection.APIConnection;
+import com.onthehouse.details.Category;
 import com.onthehouse.details.OfferDetail;
 import com.onthehouse.details.Offers;
 import com.onthehouse.details.UtilMethods;
@@ -33,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class OffersList extends Fragment
@@ -82,9 +84,17 @@ public class OffersList extends Fragment
 
         ArrayList<String> inputList = new ArrayList<>();
         inputList.clear();
-
-        new inputAsyncData(mContext).execute(inputList);
-
+        Bundle bundle = this.getArguments();
+        if(bundle == null){
+            new inputAsyncData(mContext).execute(inputList);
+        }else{
+            if(bundle.getSerializable("categories") != null){
+                HashMap<Category, Boolean> map = new HashMap<Category, Boolean>();
+                map = (HashMap<Category, Boolean>)bundle.getSerializable("categories");
+                String[] categories = {"","2"};
+                inputList.add("category_id=");
+            }
+        }
         return view;
     }
 
@@ -295,6 +305,7 @@ public class OffersList extends Fragment
                         imageUrl = "http://vollrath.com/ClientCss/images/VollrathImages/No_Image_Available.jpg";
                     }
                     a = new Offers(offerDetails.get(i).getName(), imageUrl, Integer.toString(offerDetails.get(i).getOfferId()));
+                    a.setMembership_levels(offerDetails.get(i).getMemberShipLevel());
                     offersList.add(a);
                 }
             }

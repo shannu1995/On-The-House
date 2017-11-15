@@ -148,8 +148,10 @@
     <string name="no_past_reservations_available">You don\'t have any past reservations</string>
     <string name="downgrade_message">Are you sure you want to change to Bronze membership?
         \nGold members keep our service alive.</string>
-    <string name="gold_paypal_message">You would be taken to Paypal.
-        \nPress the button to proceed.</string>
+    <string name="gold_paypal_message">Thanks for choosing to upgrade to Gold Membership.
+        \nYou can either pay with your redit card or a PayPal account.
+        \nSelect Proceed to PayPal to continue.
+    </string>
     <string name="paypal_client_id">ASYJ58EM8uChSD_3fil3tG4cBtlhfAkCNBsqyqynS6NY0qqCfBLz7uE4yu1x3s4caImMq9JBESwQ8w1U</string>
     <string name="paymentSummary">Payment Summary</string>
     <string name="frequently_asked_questions">Frequently Asked Questions</string>

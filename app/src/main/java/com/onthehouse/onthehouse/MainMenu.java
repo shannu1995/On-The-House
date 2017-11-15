@@ -45,6 +45,8 @@ import org.json.JSONObject;
 
 import java.security.acl.Group;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainMenu extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DrawerLocker {
@@ -58,6 +60,9 @@ public class MainMenu extends AppCompatActivity
     private ArrayList<Category> categoriesArrayList;
     private ArrayList<Zone> zoneArrayList;
 
+    private HashMap<Category, Boolean> category_selected;
+    private HashMap<Zone, Boolean> state_selected;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +70,17 @@ public class MainMenu extends AppCompatActivity
 
         categoriesArrayList = new ArrayList<Category>();
         zoneArrayList = new ArrayList<Zone>();
+        if(category_selected == null){
+            category_selected = new HashMap<Category, Boolean>();
+            Log.w("Starting over", "Empty array of selected categories");
+        }
+        else {
+            Log.w("Categories Selected:","");
+            for (Map.Entry<Category, Boolean> entry : category_selected.entrySet()){
+                Log.w("",entry.getKey().getName());
+            }
+        }
+        state_selected = new HashMap<Zone, Boolean>();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("On The House");
@@ -150,10 +166,59 @@ public class MainMenu extends AppCompatActivity
 
         MenuItem category_item = menu.findItem(R.id.category_item);
         SubMenu category_submenu = category_item.getSubMenu();
+
         for(int i = 0; i < categoriesArrayList.size(); i ++){
-            category_submenu.add(R.id.category_group, i, i, categoriesArrayList.get(i).getName());
-            MenuItem tempItem = category_submenu.getItem(i);
+            category_submenu.add(R.id.category_group, UtilMethods.tryParseInt(categoriesArrayList.get(i).getId()), i, categoriesArrayList.get(i).getName());
+            final MenuItem tempItem = category_submenu.getItem(i);
             tempItem.setCheckable(true);
+            if(!category_selected.isEmpty()){
+                for (Map.Entry<Category, Boolean> entry : category_selected.entrySet()){
+                    if(tempItem.getItemId() == UtilMethods.tryParseInt(entry.getKey().getId())){
+                        tempItem.setChecked(true);
+                    }
+                }
+            }
+            tempItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    tempItem.setChecked(!tempItem.isChecked());
+                    if(tempItem.isChecked()){
+                        int j = tempItem.getItemId();
+                        for (int k = 0; k < categoriesArrayList.size(); k++){
+                            if(categoriesArrayList.get(k).getId().equals(Integer.toString(j))){
+                                category_selected.put(categoriesArrayList.get(k), true);
+                            }
+                        }
+                        for (Map.Entry<Category, Boolean> entry : category_selected.entrySet()){
+                            Log.w("Category Selected:",entry.getKey().getName());
+                        }
+                    }else{
+                        int j = tempItem.getItemId();
+                        for (int k = 0; k < categoriesArrayList.size(); k++){
+                            if(categoriesArrayList.get(k).getId().equals(Integer.toString(j))){
+                                category_selected.remove(categoriesArrayList.get(k));
+                            }
+                        }
+                        for (Map.Entry<Category, Boolean> entry : category_selected.entrySet()){
+                            Log.w("Category Selected:",entry.getKey().getName());
+                        }
+                    }
+                    Class fragmentClass = OffersList.class;
+                    Fragment fragment = null;
+                    try {
+                        fragment = (Fragment) fragmentClass.newInstance();
+                        Bundle category_offers_bundle = new Bundle();
+                        category_offers_bundle.putSerializable("categories",category_selected);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    if (fragment != null) {
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
+                    }
+                    return false;
+                }
+            });
             category_submenu.setGroupCheckable(R.id.category_group, true, false);
         }
 
@@ -161,8 +226,15 @@ public class MainMenu extends AppCompatActivity
         SubMenu state_itemSubMenu = state_item.getSubMenu();
         for(int i = 0; i < zoneArrayList.size(); i ++){
             state_itemSubMenu.add(R.id.state_group, i, i, zoneArrayList.get(i).getName());
-            MenuItem tempItem = state_itemSubMenu.getItem(i);
+            final MenuItem tempItem = state_itemSubMenu.getItem(i);
             tempItem.setCheckable(true);
+            tempItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    tempItem.setChecked(!tempItem.isChecked());
+                    return false;
+                }
+            });
             state_itemSubMenu.setGroupCheckable(R.id.state_group, true, false);
         }
         options_menu = menu;
@@ -261,11 +333,9 @@ public class MainMenu extends AppCompatActivity
                     JSONObject obj = new JSONObject(output);
                     String result = obj.getString("status");
                     if (result.equals("success")) {
-                        Log.w("CATRESULTS", obj.toString());
                         JSONArray category_array = new JSONArray();
                         category_array = obj.getJSONArray("categories");
                         for(int i = 0; i < category_array.length(); i++){
-                            Log.w("FUCKINGHELL!!", Integer.toString(i));
                             JSONObject ind_category_json = new JSONObject();
                             ind_category_json = category_array.getJSONObject(i);
                             Category ind_category = new Category();
@@ -308,7 +378,6 @@ public class MainMenu extends AppCompatActivity
                 String output = connection.sendGet("/api/v1/zones/"+Integer.toString(Member.getInstance().getCountry_id()));
                 if (output.length() > 0) {
                     JSONObject obj = new JSONObject(output);
-                    Log.w("FUCKSUCKDICK", obj.toString());
                     String result = obj.getString("status");
                     if (result.equals("success")) {
                         try{

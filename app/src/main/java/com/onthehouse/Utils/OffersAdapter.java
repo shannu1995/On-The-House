@@ -80,8 +80,14 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.MyViewHold
         if (!guestMember) {
             if (Member.getInstance().getMembership_level_id() == 3) {
                 //Update text and button icon for Upgrade
-                holder.offersUpgradeText.setText("Upgrade to Gold");
-                holder.offersUpgrade.setImageResource(R.drawable.icon_upgrade_to_gold);
+                if(offers.getMembership_levels().equals("Gold Member Event")){
+                    holder.offersUpgradeText.setText("Upgrade to Gold");
+                    holder.offersUpgrade.setImageResource(R.drawable.icon_upgrade_to_gold);
+                }else{
+                    holder.offersUpgradeText.setText("Book Now");
+                    holder.offersUpgrade.setImageResource(R.drawable.icon_book_now);
+                }
+
                 //Update Listener
                 holder.offersUpgrade.setOnClickListener(new View.OnClickListener() {
                     @Override

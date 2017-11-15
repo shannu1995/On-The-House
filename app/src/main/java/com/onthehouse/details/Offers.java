@@ -4,6 +4,7 @@ public class Offers {
     private String name;
     private String thumbnail;
     private String id;
+    private String membership_levels;
 
     public Offers(String name, String thumbnail, String id) {
         this.name = name;
@@ -35,4 +36,7 @@ public class Offers {
     {
         this.thumbnail = thumbnail;
     }
+
+    public String getMembership_levels(){return this.membership_levels;}
+    public void setMembership_levels(String membership_levels){this.membership_levels = membership_levels;}
 }
